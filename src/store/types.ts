@@ -50,6 +50,7 @@ export interface InfoData {
 export interface ChainDataProps extends PayloadProps {
   data: {
     scriptAddress: string
+    tokens: []
   }
 }
 
@@ -82,7 +83,8 @@ export const enum TransactionActionTypes {
 }
 
 export const enum ChainDataActionTypes {
-  ADD_CONTRACT = '@@ChainDataActionTypes/ADD_DATA'
+  ADD_CONTRACT = '@@ChainDataActionTypes/ADD_DATA',
+  ADD_TOKENS = '@@ChainDataActionTypes/ADD_TOKENS'
 }
 
 export const enum GetActionTypes {

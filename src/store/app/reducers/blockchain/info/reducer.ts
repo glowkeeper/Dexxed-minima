@@ -2,7 +2,8 @@ import { ActionProps, ChainDataActionTypes, ChainDataProps } from '../../../../t
 
 const initialInfoState: ChainDataProps = {
   data: {
-      scriptAddress: ''
+      scriptAddress: '',
+      tokens: []
   }
 }
 

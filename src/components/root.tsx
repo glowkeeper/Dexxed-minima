@@ -6,17 +6,20 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/styles'
 
 import { theme } from '../styles'
+
+import { ChainInit } from './blockchain/blockchain'
 import { Main } from './pages/main'
 
 const Root = ({ store }: any) => (
-    <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <HashRouter>
-            <Main />
-          </HashRouter>
-        </ThemeProvider>
-    </Provider>
+  <Provider store={store}>  
+    <ChainInit />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <HashRouter>
+        <Main />
+      </HashRouter>
+    </ThemeProvider>
+  </Provider>
 );
 
 export default Root

@@ -23,6 +23,7 @@ export const initDexxed = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
     const state = getState()
+    const tokens = state.chainInfo.data.tokens
     const dexContract  = "LET owner = PREVSTATE ( 0 ) IF SIGNEDBY ( owner ) THEN RETURN TRUE ENDIF LET address = PREVSTATE ( 1 ) LET token = PREVSTATE ( 2 ) LET amount = PREVSTATE ( 3 ) RETURN VERIFYOUT ( @INPUT address amount token )";
 
     //Tell Minima about this contract.. This allows you to spend it when the time comes
@@ -32,7 +33,8 @@ export const initDexxed = () => {
 
        const chainData: ChainDataProps = {
          data: {
-           scriptAddress: respJSON[0].response.address.hexaddress
+           scriptAddress: respJSON[0].response.address.hexaddress,
+           tokens: tokens
          }
        }
 
@@ -70,6 +72,33 @@ export const initDexxed = () => {
 
   		//Run it once..
   		dexPollFunction();*/
+  	})
+  }
+}
+
+export const getTokens = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
+    const scriptAddress = state.chainInfo.data.scriptAddress
+    //Tell Minima about this contract.. This allows you to spend it when the time comes
+  	Minima.cmd("tokens;", function(respJSON: any) {
+
+      if( Minima.util.checkAllResponses(respJSON) ) {
+
+        const chainData: ChainDataProps = {
+           data: {
+             scriptAddress: scriptAddress,
+             tokens: respJSON[0].response.tokens
+           }
+        }
+
+        dispatch(write({ data: chainData.data })(ChainDataActionTypes.ADD_TOKENS))
+
+      } else {
+
+        Minima.log("tokens failed")
+      }
   	})
   }
 }

@@ -1,24 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { initBlockchain, initDexxed } from '../../store/app/blockchain/actions'
+import { initBlockchain, initDexxed, getTokens } from '../../store/app/blockchain/actions'
 
 import { ApplicationState, AppDispatch } from '../../store/types'
 
 interface ChainInitDispatchProps {
     initBlockchain: () => void
     initDexxed: () => void
+    getTokens: () => void
 }
 
 const defaultProps: ChainInitDispatchProps = {
     initBlockchain: () => {},
-    initDexxed: () => {}
+    initDexxed: () => {},
+    getTokens: () => {}
 }
 
 const chainSet = ( props: ChainInitDispatchProps = defaultProps ) => {
 
     props.initBlockchain()
     props.initDexxed()
+    props.getTokens()
+
     return null
  }
 
@@ -26,6 +30,7 @@ const chainSet = ( props: ChainInitDispatchProps = defaultProps ) => {
    return {
      initBlockchain: () => dispatch(initBlockchain()),
      initDexxed: () => dispatch(initDexxed()),
+     getTokens: () => dispatch(getTokens())
    }
  }
 
