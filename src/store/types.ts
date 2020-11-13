@@ -4,6 +4,7 @@ import { ThunkDispatch } from 'redux-thunk'
 // Store stuff
 export interface ApplicationState {
   info: InfoPageProps
+  chainInfo: ChainDataProps,
   tx: TransactionProps
   data: GetProps
 }
@@ -45,6 +46,13 @@ export interface InfoData {
   contact: InfoProps
 }
 
+// Blockchain info
+export interface ChainDataProps extends PayloadProps {
+  data: {
+    scriptAddress: string
+  }
+}
+
 // Get stuff
 export interface Data {
   info: string
@@ -71,6 +79,10 @@ export const enum TransactionActionTypes {
   TRANSACTION_PENDING = '@@TransactionActionTypes/TRANSACTION_PENDING',
   TRANSACTION_SUCCESS = '@@TransactionActionTypes/TRANSACTION_SUCCESS',
   TRANSACTION_FAILURE = '@@TransactionActionTypes/TRANSACTION_FAILURE'
+}
+
+export const enum ChainDataActionTypes {
+  ADD_CONTRACT = '@@ChainDataActionTypes/ADD_DATA'
 }
 
 export const enum GetActionTypes {
