@@ -11,7 +11,7 @@ import { ChainInit } from './blockchain/blockchain'
 import { Main } from './pages/main'
 
 const Root = ({ store }: any) => (
-  <Provider store={store}>  
+  <Provider store={store}>
     <ChainInit />
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -20,6 +20,6 @@ const Root = ({ store }: any) => (
       </HashRouter>
     </ThemeProvider>
   </Provider>
-);
+)
 
 export default Root
