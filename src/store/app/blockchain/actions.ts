@@ -27,15 +27,17 @@ export const init = () => {
 
       Minima.init( function( msg: any ) {
 
+        //console.log(msg)
+
         if ( msg.event == "connected" ) {
 
-          initDexxed()
+          dispatch(initDexxed())
 
   	 		} else if ( msg.event == "newblock" ) {
 
           //Call the Poll Function.. no need for a new thread polling..
-          getTokens()
-          getMyOrders()
+          dispatch(getTokens())
+          dispatch(getMyOrders())
 
   		 		/*
           UpdateBlockTime();
@@ -47,7 +49,7 @@ export const init = () => {
 
   	 		} else if ( msg.event == "newbalance" ) {
 
-  		 		getBalance()
+  		 		dispatch(getBalance())
   	 		}
   		})
   }
@@ -61,6 +63,7 @@ const initDexxed = () => {
     //Tell Minima about this contract.. This allows you to spend it when the time comes
   	Minima.cmd("extrascript \"" + dexContract + "\";", function(respJSON: any) {
 
+      //console.log("extrascript: ", respJSON)
       if( Minima.util.checkAllResponses(respJSON) ) {
 
        const scriptData: ScriptProps = {
@@ -69,7 +72,13 @@ const initDexxed = () => {
          }
        }
 
+       //console.log("script: ", scriptData)
+
        dispatch(write({ data: scriptData.data })(ScriptActionTypes.ADD_CONTRACT))
+       
+       dispatch(getBalance())
+       dispatch(getTokens())
+       dispatch(getMyOrders())
 
      } else {
 
@@ -106,6 +115,8 @@ export const getTokens = () => {
           tokenData.data.push(thisToken)
         }
 
+        //console.log("tokens: ", tokenData)
+
         dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
 
       } else {
@@ -132,6 +143,7 @@ const getBalance = () => {
   	for( let i = 0; i < Minima.balance.length; i++ ) {
 
       const thisBalance: Balance = {
+        token: Minima.balance[i].token,
         confirmed: Minima.balance[i].confirmed,
         uncomfirmed: Minima.balance[i].unconfirmed,
         mempool: Minima.balance[i].mempool
@@ -140,6 +152,7 @@ const getBalance = () => {
       balanceData.data.push(thisBalance)
     }
 
+    //console.log("balance: ", balanceData)
     dispatch(write({ data: balanceData.data })(BalanceActionTypes.GET_BALANCES))
   }
 }
@@ -207,18 +220,17 @@ const getMyOrders = () => {
   			const coinId = coinProof.coin.coinid
   			const coinAmount = new Decimal(coinProof.coin.amount)
   			const coinToken  = coinProof.coin.tokenid
+        const tradeToken = getTokenName(coinToken, allTokens)
 
   			//Calculate the price..
   			let decAmount = new Decimal(0)
   			let decPrice  = new Decimal(0)
   			let decTotal  = new Decimal(0)
-        let tradeToken = ''
         let isBuy = true
 
   			//BUY OR SELL
   			if(coinToken == "0x00"){
   				//Token is Minima - BUY
-  				tradeToken = getTokenName(coinToken, allTokens)
   				decAmount = amount
   				decPrice = coinAmount.div(decAmount)
 
@@ -268,6 +280,8 @@ const getMyOrders = () => {
   				cashtable+="<td>waiting..</td></tr>";
   			}*/
   		}
+
+      //console.log("my orders: ", myOrdersData)
 
       dispatch(write({ data: myOrdersData.data })(MyOrdersActionTypes.ADD_MYORDERS))
   	})
