@@ -8,11 +8,14 @@
     "url": "git+https://github.com/glowkeeper/MiFi"
   },
   "scripts": {
-    "compile": "./node_modules/.bin/webpack --config ./webpack.dev.js --mode development",
+    "compile": "./node_modules/.bin/webpack --config ./webpack.dev.js --mode development && rm ./build/app.js && rm ./build/app.js.map && mkdir ./build/images && cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/minidapp.conf ./build",
     "watch": "./node_modules/.bin/webpack --config ./webpack.dev.js --watch --mode development",
-    "prod": "./node_modules/.bin/webpack --config ./webpack.prod.js --mode production",
+    "prodWatch": "./node_modules/.bin/webpack --config ./webpack.dev.js --watch --mode production",
+    "prod": "./node_modules/.bin/webpack --config ./webpack.prod.js --mode production && rm ./build/app.js && mkdir ./build/images && cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/minidapp.conf ./build && cd ./build && zip -r ../miniDapp/dist/dexxed.minidapp *",
+    "prodClean": "rm ./build/app.js && mkdir ./build/images",
+    "prodCopy": "cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/minidapp.conf ./build && cd ./build && zip -r ../miniDapp/dist/dexxed.minidapp *",
     "test": "./node_modules/.bin/mocha",
-    "start": "./node_modules/.bin/http-server -p 8080 build/"
+    "start": "./node_modules/.bin/http-server -p 8081 build/"
   },
   "author": "Steve Huckle",
   "license": "LGPL-3.0",
