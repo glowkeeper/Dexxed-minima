@@ -72,6 +72,13 @@ class Contact {
   static readonly info = `${App.email}`
 }
 
+class MyOrders {
+
+  static readonly statusLive = 'Live'
+  static readonly statusOld = 'Too Old'
+  static readonly statusWaiting = 'Waiting'
+}
+
 
 export { App,
          Paths,
@@ -81,5 +88,6 @@ export { App,
          About,
          Help,
          Faq,
-         Contact
+         Contact,
+         MyOrders
        }

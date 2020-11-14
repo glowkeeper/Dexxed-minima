@@ -18,7 +18,7 @@ import {
   MyOrder
 } from '../../types'
 
-import { Config } from '../../../config'
+import { Misc, Config, MyOrders } from '../../../config'
 
 import { write } from '../../actions'
 
@@ -75,7 +75,7 @@ const initDexxed = () => {
        //console.log("script: ", scriptData)
 
        dispatch(write({ data: scriptData.data })(ScriptActionTypes.ADD_CONTRACT))
-       
+
        dispatch(getBalance())
        dispatch(getTokens())
        dispatch(getMyOrders())
@@ -245,6 +245,20 @@ const getMyOrders = () => {
   			//The total
   			decTotal = decAmount.mul(decPrice)
 
+        //Are we deep enough...
+        let status = MyOrders.statusWaiting
+        const currBlk = new Decimal(Minima.block)
+  			const inBlk =  new Decimal(coinProof.inblock)
+  			const diff =  currBlk.sub(inBlk)
+
+  			if( diff.gte(Misc.MAX_ORDER_AGE) ) {
+
+          status =  MyOrders.statusOld
+        } else if( diff.gte(Misc.MIN_ORDER_AGE) ) {
+
+  				status =  MyOrders.statusLive
+  			}
+
         let myOrder: MyOrder = {
           isBuy: isBuy,
           coinId: coinId,
@@ -255,33 +269,14 @@ const getMyOrders = () => {
           tradeToken: tradeToken,
           decAmount: decAmount,
           decPrice: decPrice,
-          decTotal: decTotal
+          decTotal: decTotal,
+          status: status
         }
 
         myOrdersData.data.push(myOrder)
-
-  			//Build it
-  			/*cashtable+="<tr class='"+buysellclass+"'><td>"+buysellword+"</td>"
-  			+" <td style='text-align:left'>"+tradetoken+"</td>"
-  			+" <td style='text-align:left'>"+dec_amount+"</td>"
-  			+"<td style='text-align:left'>"+dec_price+"</td> "
-  			+"<td style='text-align:left'>"+dec_total+"</td> ";*/
-
-  			//Are we deep enough..
-        //Current block height
-        /*const currBlk = new Decimal(Minima.block)
-  			var inblk =  new Decimal(coinproof.inblock);
-  			var diff  =  currblk.sub(inblk);
-  			if(diff.gte(MAX_ORDER_AGE)){
-  				cashtable+="<td><button id=\""+coin_id+"\" onclick='cancelOrder(\""+coin_id+"\",\""+owner+"\",\""+address+"\",\""+coin_amount+"\",\""+coin_token+"\");' class='cancelbutton'>TOO OLD</button> </td></tr>";
-  			}else if(diff.gte(MIN_ORDER_AGE)){
-  				cashtable+="<td><button id=\""+coin_id+"\" onclick='cancelOrder(\""+coin_id+"\",\""+owner+"\",\""+address+"\",\""+coin_amount+"\",\""+coin_token+"\");' class='cancelbutton'>CANCEL</button> </td></tr>";
-  			}else{
-  				cashtable+="<td>waiting..</td></tr>";
-  			}*/
   		}
 
-      //console.log("my orders: ", myOrdersData)
+      console.log("my orders: ", myOrdersData)
 
       dispatch(write({ data: myOrdersData.data })(MyOrdersActionTypes.ADD_MYORDERS))
   	})

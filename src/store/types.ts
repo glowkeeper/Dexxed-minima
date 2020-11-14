@@ -103,6 +103,7 @@ export interface MyOrder {
   decAmount: Decimal
   decPrice: Decimal
   decTotal: Decimal
+  status: string
 }
 
 export interface MyOrdersProps extends PayloadProps {
