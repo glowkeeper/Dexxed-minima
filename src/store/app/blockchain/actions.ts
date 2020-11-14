@@ -3,23 +3,48 @@ import { Minima } from './minima'
 
 import {
   AppDispatch,
-  ChainDataProps,
-  ChainDataActionTypes
+  ScriptProps,
+  ScriptActionTypes
+  TokenProps,
+  TokenActionTypes,
+  BalanceActionTypes,
+  BalanceProps,
+  Balance
 } from '../../types'
 
 import { Config } from '../../../config'
 
 import { write } from '../../actions'
 
-export const initBlockchain = () => {
+export const init = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
-      Minima.init()
-      //Minima.logging = true
+      Minima.init( function( msg: any ) {
+
+        if ( msg.event == "connected" ) {
+
+          initDexxed()
+
+  	 		} else if (msg.event == "newblock" ) {
+
+          //Call the Poll Function.. no need for a new thread polling..
+          getTokens()
+  		 		/*
+          UpdateBlockTime();
+        	UpdateMyOrders();
+        	UpdateOrderBook();
+        	UpdateAllTrades();
+          */
+
+  	 		} else if (msg.event == "newbalance"){
+
+  		 		getBalance()
+  	 		}
+  		})
   }
 }
 
-export const initDexxed = () => {
+const initDexxed = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
     const state = getState()
@@ -31,7 +56,7 @@ export const initDexxed = () => {
 
       if( Minima.util.checkAllResponses(respJSON) ) {
 
-       const chainData: ChainDataProps = {
+       const chainData: ScriptProps = {
          data: {
            scriptAddress: respJSON[0].response.address.hexaddress,
            tokens: tokens
@@ -45,60 +70,65 @@ export const initDexxed = () => {
        Minima.log("extrascript failed")
      }
 
-  		//Sort tokens..
-  		/*alltokens = resp[1].response.tokens;
-  		var len = alltokens.length;
-  		if(len<2){
-  			//No Tokens.. since Minima is first
-  			document.getElementById("minima_tokenlist").innerHTML = "NO TOKENS FOUND.. &nbsp;&nbsp;<button onclick='window.location.href=\"\";' class=cancelbutton>REFRESH</button>";
-  		}else{
-  			//Create the Select Box
-  			var toktext = "<b>TOKEN : </b> <select onchange='tokenSelectChange();' id='select_tokenlist'>"
-  			for(var loop=1;loop<len;loop++){
-  				var json = alltokens[loop];
-  					toktext += "<option value='"+json.tokenid+"'>"+json.token+" ( "+json.total+" ) "+json.tokenid.substr(0,40)+"..</option>";
-  			}
-  			toktext += "</select> &nbsp;&nbsp;<button onclick='window.location.href=\"\";' class=cancelbutton>REFRESH</button>";
-
-  			//And set it..
-  			document.getElementById("minima_tokenlist").innerHTML = toktext;
-
-  			//Set the Token..
-  			tokenSelectChange();
-  		}
-
-  		//Basics
-  		UpdateBalance()
-
-  		//Run it once..
-  		dexPollFunction();*/
   	})
   }
 }
 
 export const getTokens = () => {
-  return async (dispatch: AppDispatch, getState: Function) => {
+  return async (dispatch: AppDispatch) => {
 
-    const state = getState()
-    const scriptAddress = state.chainInfo.data.scriptAddress
     //Tell Minima about this contract.. This allows you to spend it when the time comes
   	Minima.cmd("tokens;", function(respJSON: any) {
 
       if( Minima.util.checkAllResponses(respJSON) ) {
 
-        const chainData: ChainDataProps = {
-           data: {
-             scriptAddress: scriptAddress,
-             tokens: respJSON[0].response.tokens
-           }
+        const tokenData: TokenProps = []
+        const tokens = respJSON[0].response.tokens
+
+        // since Minima is first, we ignore that
+        for( let i=1; i < tokens.length; i++ ) {
+
+          const thisToken: Token = {
+            tokenId: tokens[i].tokenid,
+            token: tokens[i].token,
+            total:  tokens[i].total
+          }
+
+          tokenData.push(thisToken)
         }
 
-        dispatch(write({ data: chainData.data })(ChainDataActionTypes.ADD_TOKENS))
+        dispatch(write({ data: tokenData })(TokenActionTypes.ADD_TOKENS))
 
       } else {
 
         Minima.log("tokens failed")
       }
   	})
+  }
+}
+
+export const getBlock = () => {
+
+  return Minima.block
+
+}
+
+const getBalance = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    let balanceData: Balance[] = []
+
+  	for( let i = 0; i < Minima.balance.length; i++ ) {
+
+      const thisBalance: Balance = {
+        confirmed: Minima.balance[i].confirmed,
+        uncomfirmed: Minima.balance[i].unconfirmed,
+        mempool: Minima.balance[i].mempool
+      }
+
+      balanceData.push(thisBalance)
+    }
+
+    dispatch(write({ data: balanceData })(BalanceActionTypes.GET_BALANCES))
   }
 }

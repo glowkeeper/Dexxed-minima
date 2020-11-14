@@ -4,9 +4,13 @@ import { ThunkDispatch } from 'redux-thunk'
 // Store stuff
 export interface ApplicationState {
   info: InfoPageProps
-  chainInfo: ChainDataProps,
+  script: ScriptProps,
+  balance: BalanceProps,
+  myOrders: MyOrdersProps,
+  orderBook: OrderBookProps,
+  tokens: TokenProps,
+  trades: TradeProps,
   tx: TransactionProps
-  data: GetProps
 }
 
 export interface PayloadProps {
@@ -46,12 +50,58 @@ export interface InfoData {
   contact: InfoProps
 }
 
-// Blockchain info
-export interface ChainDataProps extends PayloadProps {
+// Scripts
+export interface ScriptProps extends PayloadProps {
   data: {
     scriptAddress: string
-    tokens: []
   }
+}
+
+// Tokens
+export interface Token {
+  tokenId: string
+  token: string
+  //total: number
+  total: string
+}
+
+export interface TokenProps extends PayloadProps {
+  data: Array<Token>
+}
+
+export interface Balance {
+  confirmed: string
+  uncomfirmed: string
+  mempool: string
+}
+
+export interface BalanceProps extends PayloadProps {
+  data: Array<Balance>
+}
+
+// Trades
+export interface Trade {
+  something: string
+}
+
+export interface TradeProps extends PayloadProps {
+  data: Array<Trade>
+}
+
+export interface MyOrder {
+  blah: string
+}
+
+export interface MyOrdersProps extends PayloadProps {
+  data: Array<MyOrder>
+}
+
+export interface OrderBook {
+  blah: string
+}
+
+export interface OrderBookProps extends PayloadProps {
+  data: Array<OrderBook>
 }
 
 // Get stuff
@@ -60,7 +110,7 @@ export interface Data {
 }
 
 export interface GetProps extends PayloadProps {
-    data: Array<Data>
+  data: Array<Data>
 }
 
 //Tx stuff
@@ -82,9 +132,28 @@ export const enum TransactionActionTypes {
   TRANSACTION_FAILURE = '@@TransactionActionTypes/TRANSACTION_FAILURE'
 }
 
-export const enum ChainDataActionTypes {
-  ADD_CONTRACT = '@@ChainDataActionTypes/ADD_DATA',
-  ADD_TOKENS = '@@ChainDataActionTypes/ADD_TOKENS'
+export const enum ScriptActionTypes {
+  ADD_CONTRACT = '@@ScriptActionTypes/ADD_CONTRACT',
+}
+
+export const enum TokenActionTypes {
+  ADD_TOKENS = '@@TokenActionTypes/ADD_TOKENS'
+}
+
+export const enum BalanceActionTypes {
+  GET_BALANCES = '@@BalanceActionTypes/GET_BALANCES'
+}
+
+export const enum OrderBookActionTypes {
+  ADD_ORDERS = '@@OrderBookActionTypes/ADD_ORDERS'
+}
+
+export const enum MyOrdersActionTypes {
+  ADD_MYORDERS = '@@MyOrdersActionTypes/ADD_MYORDERS'
+}
+
+export const enum TradeActionTypes {
+  ADD_TRADES = '@@TradeActionTypes/ADD_TRADES'
 }
 
 export const enum GetActionTypes {
