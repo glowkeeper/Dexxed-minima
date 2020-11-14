@@ -193,30 +193,40 @@ const getMyOrders = () => {
 
     const state = getState()
     const dexContract = state.script.data.scriptAddress
+    const myOrders = state.myOrders.data
     const allTokens = state.tokens
 
     Minima.cmd("coins relevant address:"+dexContract, function( coinsJSON: any ){
-  		//Get the details..
-  		/*var cashtable="<table width=100% border=0>"+
-  		"<tr> <th>TYPE</th> <th>TOKEN</th> <th>AMOUNT</th> <th>PRICE</th> <th>TOTAL</th> <th>&nbsp;</th> </tr>";*/
 
       let myOrdersData: MyOrdersProps = {
         data: []
       }
 
-  		for( let i=0; i < coinsJSON.response.coins.length; i++ ) {
+      for( let i=0; i < coinsJSON.response.coins.length; i++ ) {
 
-  			const coinProof  = coinsJSON.response.coins[i].data
+        const coinProof  = coinsJSON.response.coins[i].data
   			const cPrevState = coinProof.prevstate
 
-  			//get the PREVSTATE details that define the trade
-  			const owner = Minima.util.getStateVariable( cPrevState, 0 )
+        const owner = Minima.util.getStateVariable( cPrevState, 0 )
   			const address = Minima.util.getStateVariable( cPrevState, 1 )
-        //dex.js doesn't appear to use this
-  			//const token = Minima.util.getStateVariable( cPrevState, 2 )
-  			const amount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
+        //dex.js doesn't appear to use this here
+        //const token = Minima.util.getStateVariable( cPrevState, 2 )
+        const amount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
 
-  			//The Order
+        let status = MyOrders.statusWaiting
+        const currBlk = new Decimal(Minima.block)
+        const inBlk =  new Decimal(coinProof.inblock)
+        const diff =  currBlk.sub(inBlk)
+
+        if( diff.gte(Misc.MAX_ORDER_AGE) ) {
+
+          status =  MyOrders.statusOld
+        } else if( diff.gte(Misc.MIN_ORDER_AGE) ) {
+
+          status =  MyOrders.statusLive
+        }
+
+        //The Order
   			const coinId = coinProof.coin.coinid
   			const coinAmount = new Decimal(coinProof.coin.amount)
   			const coinToken  = coinProof.coin.tokenid
@@ -229,7 +239,7 @@ const getMyOrders = () => {
         let isBuy = true
 
   			//BUY OR SELL
-  			if(coinToken == "0x00"){
+  			if(coinToken == "0x00") {
   				//Token is Minima - BUY
   				decAmount = amount
   				decPrice = coinAmount.div(decAmount)
@@ -244,20 +254,6 @@ const getMyOrders = () => {
 
   			//The total
   			decTotal = decAmount.mul(decPrice)
-
-        //Are we deep enough...
-        let status = MyOrders.statusWaiting
-        const currBlk = new Decimal(Minima.block)
-  			const inBlk =  new Decimal(coinProof.inblock)
-  			const diff =  currBlk.sub(inBlk)
-
-  			if( diff.gte(Misc.MAX_ORDER_AGE) ) {
-
-          status =  MyOrders.statusOld
-        } else if( diff.gte(Misc.MIN_ORDER_AGE) ) {
-
-  				status =  MyOrders.statusLive
-  			}
 
         let myOrder: MyOrder = {
           isBuy: isBuy,
@@ -276,9 +272,9 @@ const getMyOrders = () => {
         myOrdersData.data.push(myOrder)
   		}
 
-      console.log("my orders: ", myOrdersData)
-
       dispatch(write({ data: myOrdersData.data })(MyOrdersActionTypes.ADD_MYORDERS))
+
+      //console.log("my orders: ", myOrdersData)
   	})
   }
 }
