@@ -1,15 +1,21 @@
 // @ts-ignore
 import { Minima } from './minima'
 
+import { Decimal } from 'decimal.js'
+
 import {
   AppDispatch,
   ScriptProps,
-  ScriptActionTypes
+  ScriptActionTypes,
   TokenProps,
+  Token,
   TokenActionTypes,
   BalanceActionTypes,
   BalanceProps,
-  Balance
+  Balance,
+  MyOrdersActionTypes,
+  MyOrdersProps,
+  MyOrder
 } from '../../types'
 
 import { Config } from '../../../config'
@@ -25,18 +31,21 @@ export const init = () => {
 
           initDexxed()
 
-  	 		} else if (msg.event == "newblock" ) {
+  	 		} else if ( msg.event == "newblock" ) {
 
           //Call the Poll Function.. no need for a new thread polling..
           getTokens()
+          getMyOrders()
+
   		 		/*
           UpdateBlockTime();
-        	UpdateMyOrders();
-        	UpdateOrderBook();
-        	UpdateAllTrades();
+          UpdateMyOrders();
           */
 
-  	 		} else if (msg.event == "newbalance"){
+        	/*UpdateOrderBook();
+        	UpdateAllTrades();*/
+
+  	 		} else if ( msg.event == "newbalance" ) {
 
   		 		getBalance()
   	 		}
@@ -45,25 +54,22 @@ export const init = () => {
 }
 
 const initDexxed = () => {
-  return async (dispatch: AppDispatch, getState: Function) => {
+  return async (dispatch: AppDispatch) => {
 
-    const state = getState()
-    const tokens = state.chainInfo.data.tokens
-    const dexContract  = "LET owner = PREVSTATE ( 0 ) IF SIGNEDBY ( owner ) THEN RETURN TRUE ENDIF LET address = PREVSTATE ( 1 ) LET token = PREVSTATE ( 2 ) LET amount = PREVSTATE ( 3 ) RETURN VERIFYOUT ( @INPUT address amount token )";
+    const dexContract = "LET owner = PREVSTATE ( 0 ) IF SIGNEDBY ( owner ) THEN RETURN TRUE ENDIF LET address = PREVSTATE ( 1 ) LET token = PREVSTATE ( 2 ) LET amount = PREVSTATE ( 3 ) RETURN VERIFYOUT ( @INPUT address amount token )";
 
     //Tell Minima about this contract.. This allows you to spend it when the time comes
   	Minima.cmd("extrascript \"" + dexContract + "\";", function(respJSON: any) {
 
       if( Minima.util.checkAllResponses(respJSON) ) {
 
-       const chainData: ScriptProps = {
+       const scriptData: ScriptProps = {
          data: {
-           scriptAddress: respJSON[0].response.address.hexaddress,
-           tokens: tokens
+           scriptAddress: respJSON[0].response.address.hexaddress
          }
        }
 
-       dispatch(write({ data: chainData.data })(ChainDataActionTypes.ADD_CONTRACT))
+       dispatch(write({ data: scriptData.data })(ScriptActionTypes.ADD_CONTRACT))
 
      } else {
 
@@ -82,7 +88,9 @@ export const getTokens = () => {
 
       if( Minima.util.checkAllResponses(respJSON) ) {
 
-        const tokenData: TokenProps = []
+        const tokenData: TokenProps = {
+          data: []
+        }
         const tokens = respJSON[0].response.tokens
 
         // since Minima is first, we ignore that
@@ -91,13 +99,14 @@ export const getTokens = () => {
           const thisToken: Token = {
             tokenId: tokens[i].tokenid,
             token: tokens[i].token,
+            scale: tokens[i].scale,
             total:  tokens[i].total
           }
 
-          tokenData.push(thisToken)
+          tokenData.data.push(thisToken)
         }
 
-        dispatch(write({ data: tokenData })(TokenActionTypes.ADD_TOKENS))
+        dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
 
       } else {
 
@@ -114,9 +123,11 @@ export const getBlock = () => {
 }
 
 const getBalance = () => {
-  return async (dispatch: AppDispatch, getState: Function) => {
+  return async (dispatch: AppDispatch) => {
 
-    let balanceData: Balance[] = []
+    let balanceData: BalanceProps = {
+      data: []
+    }
 
   	for( let i = 0; i < Minima.balance.length; i++ ) {
 
@@ -126,9 +137,139 @@ const getBalance = () => {
         mempool: Minima.balance[i].mempool
       }
 
-      balanceData.push(thisBalance)
+      balanceData.data.push(thisBalance)
     }
 
-    dispatch(write({ data: balanceData })(BalanceActionTypes.GET_BALANCES))
+    dispatch(write({ data: balanceData.data })(BalanceActionTypes.GET_BALANCES))
+  }
+}
+
+const getTokenName = ( tokenId: string, tokens: TokenProps ): string => {
+
+  if( tokenId == "0x00" ) {
+		return "Minima"
+	}
+
+	for ( let i = 0; i < tokens.data.length; i++) {
+		//check it
+		if( tokens.data[i].tokenId == tokenId ) {
+			return tokens.data[i].token
+		}
+	}
+
+	return "";
+}
+
+const getTokenScale = ( tokenId: string, tokens: TokenProps ): Decimal => {
+
+  for ( let i = 0; i < tokens.data.length; i++) {
+
+    if(tokens.data[i].tokenId == tokenId ) {
+
+      const tempTokenScale = new Decimal(tokens.data[i].scale)
+			const tempTokenScaleFactor = new Decimal(10).pow(tempTokenScale);
+			return tempTokenScaleFactor
+		}
+	}
+
+	return new Decimal(1)
+}
+
+const getMyOrders = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
+    const dexContract = state.script.data.scriptAddress
+    const allTokens = state.tokens
+
+    Minima.cmd("coins relevant address:"+dexContract, function( coinsJSON: any ){
+  		//Get the details..
+  		/*var cashtable="<table width=100% border=0>"+
+  		"<tr> <th>TYPE</th> <th>TOKEN</th> <th>AMOUNT</th> <th>PRICE</th> <th>TOTAL</th> <th>&nbsp;</th> </tr>";*/
+
+      let myOrdersData: MyOrdersProps = {
+        data: []
+      }
+
+  		for( let i=0; i < coinsJSON.response.coins.length; i++ ) {
+
+  			const coinProof  = coinsJSON.response.coins[i].data
+  			const cPrevState = coinProof.prevstate
+
+  			//get the PREVSTATE details that define the trade
+  			const owner = Minima.util.getStateVariable( cPrevState, 0 )
+  			const address = Minima.util.getStateVariable( cPrevState, 1 )
+        //dex.js doesn't appear to use this
+  			//const token = Minima.util.getStateVariable( cPrevState, 2 )
+  			const amount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
+
+  			//The Order
+  			const coinId = coinProof.coin.coinid
+  			const coinAmount = new Decimal(coinProof.coin.amount)
+  			const coinToken  = coinProof.coin.tokenid
+
+  			//Calculate the price..
+  			let decAmount = new Decimal(0)
+  			let decPrice  = new Decimal(0)
+  			let decTotal  = new Decimal(0)
+        let tradeToken = ''
+        let isBuy = true
+
+  			//BUY OR SELL
+  			if(coinToken == "0x00"){
+  				//Token is Minima - BUY
+  				tradeToken = getTokenName(coinToken, allTokens)
+  				decAmount = amount
+  				decPrice = coinAmount.div(decAmount)
+
+  			} else {
+  				//SELL
+          isBuy = false
+  				const scale = getTokenScale(coinToken, allTokens)
+  				decAmount = coinAmount.mul(scale)
+  				decPrice = amount.div(decAmount)
+  			}
+
+  			//The total
+  			decTotal = decAmount.mul(decPrice)
+
+        let myOrder: MyOrder = {
+          isBuy: isBuy,
+          coinId: coinId,
+          owner: owner,
+          address: address,
+          coinAmount: coinAmount,
+          coinToken: coinToken,
+          tradeToken: tradeToken,
+          decAmount: decAmount,
+          decPrice: decPrice,
+          decTotal: decTotal
+        }
+
+        myOrdersData.data.push(myOrder)
+
+  			//Build it
+  			/*cashtable+="<tr class='"+buysellclass+"'><td>"+buysellword+"</td>"
+  			+" <td style='text-align:left'>"+tradetoken+"</td>"
+  			+" <td style='text-align:left'>"+dec_amount+"</td>"
+  			+"<td style='text-align:left'>"+dec_price+"</td> "
+  			+"<td style='text-align:left'>"+dec_total+"</td> ";*/
+
+  			//Are we deep enough..
+        //Current block height
+        /*const currBlk = new Decimal(Minima.block)
+  			var inblk =  new Decimal(coinproof.inblock);
+  			var diff  =  currblk.sub(inblk);
+  			if(diff.gte(MAX_ORDER_AGE)){
+  				cashtable+="<td><button id=\""+coin_id+"\" onclick='cancelOrder(\""+coin_id+"\",\""+owner+"\",\""+address+"\",\""+coin_amount+"\",\""+coin_token+"\");' class='cancelbutton'>TOO OLD</button> </td></tr>";
+  			}else if(diff.gte(MIN_ORDER_AGE)){
+  				cashtable+="<td><button id=\""+coin_id+"\" onclick='cancelOrder(\""+coin_id+"\",\""+owner+"\",\""+address+"\",\""+coin_amount+"\",\""+coin_token+"\");' class='cancelbutton'>CANCEL</button> </td></tr>";
+  			}else{
+  				cashtable+="<td>waiting..</td></tr>";
+  			}*/
+  		}
+
+      dispatch(write({ data: myOrdersData.data })(MyOrdersActionTypes.ADD_MYORDERS))
+  	})
   }
 }

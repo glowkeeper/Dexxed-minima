@@ -1,6 +1,8 @@
 import { Action } from 'redux'
 import { ThunkDispatch } from 'redux-thunk'
 
+import { Decimal } from 'decimal.js'
+
 // Store stuff
 export interface ApplicationState {
   info: InfoPageProps
@@ -62,7 +64,8 @@ export interface Token {
   tokenId: string
   token: string
   //total: number
-  total: string
+  scale: number
+  total: number
 }
 
 export interface TokenProps extends PayloadProps {
@@ -89,7 +92,16 @@ export interface TradeProps extends PayloadProps {
 }
 
 export interface MyOrder {
-  blah: string
+  isBuy: boolean
+  coinId: string
+  owner: string
+  address: string
+  coinAmount: Decimal
+  coinToken: string
+  tradeToken: string
+  decAmount: Decimal
+  decPrice: Decimal
+  decTotal: Decimal
 }
 
 export interface MyOrdersProps extends PayloadProps {
