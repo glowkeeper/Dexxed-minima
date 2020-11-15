@@ -7,6 +7,8 @@ import {
   AppDispatch,
   ScriptProps,
   ScriptActionTypes,
+  ChainInfoActionTypes,
+  ChainInfoProps,
   TokenProps,
   Token,
   TokenActionTypes,
@@ -38,6 +40,7 @@ export const init = () => {
           //Call the Poll Function.. no need for a new thread polling..
           dispatch(getTokens())
           dispatch(getMyOrders())
+          dispatch(getBlock())
 
   		 		/*
           UpdateBlockTime();
@@ -127,10 +130,17 @@ export const getTokens = () => {
   }
 }
 
-export const getBlock = () => {
+const getBlock = () => {
+  return async (dispatch: AppDispatch) => {
 
-  return Minima.block
+    const chainInfo: ChainInfoProps = {
+      data: {
+        block: Minima.block
+      }
+    }
 
+    dispatch(write({ data: chainInfo.data })(ChainInfoActionTypes.ADD_BLOCK))
+  }
 }
 
 const getBalance = () => {

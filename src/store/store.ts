@@ -4,6 +4,7 @@ import ReduxThunk from 'redux-thunk'
 import { ApplicationState, ActionProps } from './types'
 
 import { reducer as infoReducer } from './app/reducers/info/reducer'
+import { reducer as chainReducer } from './app/reducers/blockchain/info/reducer'
 import { reducer as scriptReducer } from './app/reducers/blockchain/script/reducer'
 import { reducer as balanceReducer } from './app/reducers/blockchain/balance/reducer'
 import { reducer as myOrdersReducer } from './app/reducers/blockchain/myOrders/reducer'
@@ -14,6 +15,7 @@ import { reducer as txReducer } from './app/reducers/tx/reducer'
 
 export const rootReducer: Reducer<ApplicationState, ActionProps> = combineReducers<ApplicationState, ActionProps>({
   info: infoReducer,
+  chainInfo: chainReducer,
   script: scriptReducer,
   balance: balanceReducer,
   myOrders: myOrdersReducer,

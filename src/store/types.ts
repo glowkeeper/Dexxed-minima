@@ -6,12 +6,13 @@ import { Decimal } from 'decimal.js'
 // Store stuff
 export interface ApplicationState {
   info: InfoPageProps
-  script: ScriptProps,
-  balance: BalanceProps,
-  myOrders: MyOrdersProps,
-  orderBook: OrderBookProps,
-  tokens: TokenProps,
-  trades: TradeProps,
+  chainInfo: ChainInfoProps
+  script: ScriptProps
+  balance: BalanceProps
+  myOrders: MyOrdersProps
+  orderBook: OrderBookProps
+  tokens: TokenProps
+  trades: TradeProps
   tx: TransactionProps
 }
 
@@ -35,6 +36,7 @@ export const enum InfoTypes {
   CONTACT = "contact"
 }
 
+// Static info
 export interface InfoPageProps extends PayloadProps {
   data: InfoData
 }
@@ -50,6 +52,13 @@ export interface InfoData {
   help: InfoProps
   faq: InfoProps
   contact: InfoProps
+}
+
+// Blockchain info
+export interface ChainInfoProps extends PayloadProps {
+  data: {
+    block: string
+  }
 }
 
 // Scripts
@@ -145,6 +154,11 @@ export const enum TransactionActionTypes {
   TRANSACTION_SUCCESS = '@@TransactionActionTypes/TRANSACTION_SUCCESS',
   TRANSACTION_FAILURE = '@@TransactionActionTypes/TRANSACTION_FAILURE'
 }
+
+export const enum ChainInfoActionTypes {
+  ADD_BLOCK = '@@ChainDataActionTypes/ADD_BLOCK'
+}
+
 
 export const enum ScriptActionTypes {
   ADD_CONTRACT = '@@ScriptActionTypes/ADD_CONTRACT',
