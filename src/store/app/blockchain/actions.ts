@@ -42,11 +42,6 @@ export const init = () => {
           dispatch(getMyOrders())
           dispatch(getBlock())
 
-  		 		/*
-          UpdateBlockTime();
-          UpdateMyOrders();
-          */
-
         	/*UpdateOrderBook();
         	UpdateAllTrades();*/
 
@@ -243,15 +238,13 @@ const getMyOrders = () => {
         const tradeToken = getTokenName(coinToken, allTokens)
 
   			//Calculate the price..
-  			let decAmount = new Decimal(0)
+  			let decAmount = amount
   			let decPrice  = new Decimal(0)
-  			let decTotal  = new Decimal(0)
         let isBuy = true
 
   			//BUY OR SELL
   			if(coinToken == "0x00") {
   				//Token is Minima - BUY
-  				decAmount = amount
   				decPrice = coinAmount.div(decAmount)
 
   			} else {
@@ -259,11 +252,11 @@ const getMyOrders = () => {
           isBuy = false
   				const scale = getTokenScale(coinToken, allTokens)
   				decAmount = coinAmount.mul(scale)
-  				decPrice = amount.div(decAmount)
+  				decPrice = new Decimal(amount.div(decAmount))
   			}
 
   			//The total
-  			decTotal = decAmount.mul(decPrice)
+  			const decTotal = decAmount.mul(decPrice)
 
         let myOrder: MyOrder = {
           isBuy: isBuy,
