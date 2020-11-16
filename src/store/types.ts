@@ -108,11 +108,12 @@ export interface Order {
   owner: string
   address: string
   coinAmount: Decimal
-  coinToken: string
-  tradeToken: string
-  decAmount: Decimal
-  decPrice: Decimal
-  decTotal: Decimal
+  tokenId: string
+  tokenName: string
+  swapTokenId: string
+  amount: Decimal
+  price: Decimal
+  total: Decimal
   status: string
 }
 
