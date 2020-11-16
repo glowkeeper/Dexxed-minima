@@ -11,8 +11,8 @@ export interface ApplicationState {
   balance: BalanceProps
   myOrders: MyOrdersProps
   orderBook: OrderBookProps
-  tokens: TokenProps
   trades: TradeProps
+  tokens: TokenProps
   tx: TransactionProps
 }
 
@@ -93,15 +93,7 @@ export interface BalanceProps extends PayloadProps {
   data: Array<Balance>
 }
 
-// Trades
-export interface Trade {
-  something: string
-}
-
-export interface TradeProps extends PayloadProps {
-  data: Array<Trade>
-}
-
+// Orders
 export interface Order {
   isBuy: boolean
   coinId: string
@@ -123,6 +115,22 @@ export interface MyOrdersProps extends PayloadProps {
 
 export interface OrderBookProps extends PayloadProps {
   data: Array<Order>
+}
+
+// trades
+
+export interface Trade {
+  isBuy: boolean
+  coinAmount: Decimal
+  tokenName: string
+  amount: Decimal
+  price: Decimal
+  total: Decimal
+  block: string
+}
+
+export interface TradeProps extends PayloadProps {
+  data: Array<Trade>
 }
 
 // Get stuff

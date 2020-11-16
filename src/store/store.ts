@@ -9,8 +9,8 @@ import { reducer as scriptReducer } from './app/reducers/blockchain/script/reduc
 import { reducer as balanceReducer } from './app/reducers/blockchain/balance/reducer'
 import { reducer as myOrdersReducer } from './app/reducers/blockchain/myOrders/reducer'
 import { reducer as orderBookReducer } from './app/reducers/blockchain/orderBook/reducer'
-import { reducer as tokensReducer } from './app/reducers/blockchain/tokens/reducer'
 import { reducer as tradesReducer } from './app/reducers/blockchain/trades/reducer'
+import { reducer as tokensReducer } from './app/reducers/blockchain/tokens/reducer'
 import { reducer as txReducer } from './app/reducers/tx/reducer'
 
 export const rootReducer: Reducer<ApplicationState, ActionProps> = combineReducers<ApplicationState, ActionProps>({
@@ -20,8 +20,8 @@ export const rootReducer: Reducer<ApplicationState, ActionProps> = combineReduce
   balance: balanceReducer,
   myOrders: myOrdersReducer,
   orderBook: orderBookReducer,
-  tokens: tokensReducer,
   trades: tradesReducer,
+  tokens: tokensReducer,
   tx: txReducer,
 })
 

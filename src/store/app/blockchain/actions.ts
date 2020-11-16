@@ -19,7 +19,10 @@ import {
   MyOrdersProps,
   OrderBookActionTypes,
   OrderBookProps,
-  Order
+  Order,
+  TradeActionTypes,
+  TradeProps,
+  Trade
 } from '../../types'
 
 import { Misc, Config, MyOrders } from '../../../config'
@@ -36,18 +39,21 @@ export const init = () => {
         if ( msg.event == "connected" ) {
 
           dispatch(initDexxed())
+          dispatch(getBalance())
+          dispatch(getTokens())
+          dispatch(getBlock())
 
   	 		} else if ( msg.event == "newblock" ) {
 
-          dispatch(getBlock())
           dispatch(getTokens())
+          dispatch(getBlock())
 
           const justMyOrders = true
           dispatch(getOrders(justMyOrders))
           // All orders (including mine)
           dispatch(getOrders(!justMyOrders))
 
-        	/*UpdateAllTrades();*/
+          dispatch(getAllTrades())
 
   	 		} else if ( msg.event == "newbalance" ) {
 
@@ -74,17 +80,7 @@ const initDexxed = () => {
          }
        }
 
-       //console.log("script: ", scriptData)
-
        dispatch(write({ data: scriptData.data })(ScriptActionTypes.ADD_CONTRACT))
-
-       dispatch(getBalance())
-       dispatch(getTokens())
-
-       const justMyOrders = true
-       dispatch(getOrders(justMyOrders))
-       // All orders (including mine)
-       dispatch(getOrders(!justMyOrders))
 
      } else {
 
@@ -326,7 +322,7 @@ const getOrders = (justMyOrders: boolean) => {
     			const decTotal = decAmount.mul(decPrice)
 
           // Complete order
-          let thisOrder: Order = {
+          const thisOrder: Order = {
             isBuy: isBuy,
             coinId: coinId,
             owner: owner,
@@ -346,7 +342,7 @@ const getOrders = (justMyOrders: boolean) => {
 
         dispatch(write({ data: ordersData.data })(actionType))
 
-        justMyOrders ? console.log("my orders: ", ordersData, actionType) : console.log("all orders: ", ordersData, actionType)
+        //justMyOrders ? console.log("my orders: ", ordersData, actionType) : console.log("all orders: ", ordersData, actionType)
       } else {
 
         Minima.log("Get orders failed")
@@ -355,97 +351,105 @@ const getOrders = (justMyOrders: boolean) => {
   }
 }
 
-/*
-const getAllOrders = () => {
+const getAllTrades = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
     const state = getState()
     const dexContract = state.script.data.scriptAddress
-    const allOrders = state.orderBook.data
     const allTokens = state.tokens
 
-    const currentTokenId = getCurrentToken( allTokens )
+    Minima.cmd("txpowsearch input:" + dexContract + ";", function( tradesJSON: any ) {
 
-    Minima.cmd("coins address:"+dexContract, function( coinsJSON: any ) {
+      if( Minima.util.checkAllResponses(tradesJSON) ) {
 
-      let allOrdersData: OrderBookProps = {
-        data: []
-      }
-
-      for( let i=0; i < coinsJSON.response.coins.length; i++ ) {
-
-        //The Order
-        const coinProof = coinsJSON.response.coins[i].data
-        const coinId = coinProof.coin.coinid
-        const coinAmount = new Decimal(coinProof.coin.amount)
-        const tokenId = coinProof.coin.tokenid
-        const tokenName = getTokenName(tokenId, allTokens)
-
-        // Get state
-        const cPrevState = coinProof.prevstate
-        const owner = Minima.util.getStateVariable( cPrevState, 0 )
-  			const address = Minima.util.getStateVariable( cPrevState, 1 )
-        const swapTokenId  = Minima.util.getStateVariable( cPrevState, 2 )
-        let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
-
-        // Status
-        let status = MyOrders.statusWaiting
-        const currBlk = new Decimal(Minima.block)
-        const inBlk =  new Decimal(coinProof.inblock)
-        const diff =  currBlk.sub(inBlk)
-
-        if( diff.gte(Misc.MAX_ORDER_AGE) ) {
-
-          status =  MyOrders.statusOld
-        } else if( diff.gte(Misc.MIN_ORDER_AGE) ) {
-
-          status =  MyOrders.statusLive
+        let tradesData: TradeProps = {
+          data: []
         }
 
-        // Calculate the (buy or sell) price..
-      	var decPrice  = new Decimal(0)
-        let isBuy = true
+        const txPowList = tradesJSON[0].response.txpowlist
+        for ( let i=0; i < txPowList.length; i++ ) {
 
-      	if ( tokenId == "0x00" ) {
+          const txpItem = txPowList[i]
 
-          //BUY
-      		decPrice  = coinAmount.div(decAmount)
-      	} else {
+    			//check has more than 1 input..
+    			const txPow = txPowList[i].txpow
+    			if ( txPow.body.txn.inputs.length >1 && txpItem.isinblock ) {
 
-          //SELL
-          isBuy = false
-          const scale = getTokenScale(tokenId, allTokens)
-  				const scaledAmount = coinAmount.mul(scale)
-  				decPrice = new Decimal(decAmount.div(scaledAmount))
-      	}
+            const coinProof = txPow.body.witness.mmrproofs[0].data
+    				const coinId = coinProof.coin.coinid
+      			const coinAmount = new Decimal(coinProof.coin.amount)
+    				let tokenId = coinProof.coin.tokenid
+            let tokenName = getTokenName(tokenId, allTokens)
 
-        //The total
-  			const decTotal = decAmount.mul(decPrice)
+            // Get the state we need
+            const cPrevState = coinProof.prevstate
+            const swapTokenId = Minima.util.getStateVariable( cPrevState, 2 )
+            let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
 
-        // Complete order
-        let thisOrder: Order = {
-          isBuy: isBuy,
-          coinId: coinId,
-          owner: owner,
-          address: address,
-          coinAmount: coinAmount,
-          tokenId: tokenId,
-          tokenName: tokenName,
-          swapTokenId: swapTokenId,
-          amount: decAmount,
-          price: decPrice,
-          total: decTotal,
-          status: status
+            // Calculate the (buy or sell) price..
+      			let decPrice  = new Decimal(0)
+
+            // To get this to match dexxed, I seem to have to reverse this from orders
+            let isBuy = false
+      			if( tokenId == "0x00" ) {
+
+              decPrice = coinAmount.div(decAmount)
+              tokenName = getTokenName(swapTokenId, allTokens)
+      			} else {
+
+      				isBuy = true
+      				const scale = getTokenScale(tokenId, allTokens)
+      				const scaledAmount = coinAmount.mul(scale)
+      				decPrice = new Decimal(decAmount.div(scaledAmount))
+      			}
+
+            //The total
+      			const decTotal = decAmount.mul(decPrice)
+            const blockTime   = txpItem.inblock
+
+            //Is this a BUY or a SELL for YOU? We can tell from the values..
+            // Hmmm - Steve - couldn't get this to match original dexxed
+    				/*if ( txpItem.relevant ) {
+
+    					const value = new Decimal(txpItem.values[0].value)
+    					if( txpItem.values[0].token=="0x00" ) {
+
+                if( value.gte(0) ) {
+
+                  isBuy = false
+    						}
+    					} else {
+
+    						if( value.lt(0) ) {
+
+    							isBuy = false
+    						}
+    					}
+            }*/
+
+            // Complete order
+            const thisTrade: Trade = {
+              isBuy: isBuy,
+              coinAmount: coinAmount,
+              tokenName: tokenName,
+              amount: decAmount,
+              price: decPrice,
+              total: decTotal,
+              block: blockTime
+            }
+
+            tradesData.data.push(thisTrade)
+          }
         }
 
-        allOrdersData.data.push(thisOrder)
+        dispatch(write({ data: tradesData.data })(TradeActionTypes.ADD_TRADES))
+
+        //console.log("all trades: ", tradesData)
+
+      } else {
+
+        Minima.log("Get orders failed")
       }
-
-      dispatch(write({ data: allOrdersData.data })(OrderBookActionTypes.ADD_ORDERS))
-
-      console.log("all orders: ", allOrdersData)
-
     })
   }
 }
-*/
