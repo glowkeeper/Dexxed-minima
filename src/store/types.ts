@@ -75,6 +75,7 @@ export interface Token {
   //total: number
   scale: number
   total: number
+  isSelected: boolean
 }
 
 export interface TokenProps extends PayloadProps {
@@ -101,7 +102,7 @@ export interface TradeProps extends PayloadProps {
   data: Array<Trade>
 }
 
-export interface MyOrder {
+export interface Order {
   isBuy: boolean
   coinId: string
   owner: string
@@ -116,15 +117,11 @@ export interface MyOrder {
 }
 
 export interface MyOrdersProps extends PayloadProps {
-  data: Array<MyOrder>
-}
-
-export interface OrderBook {
-  blah: string
+  data: Array<Order>
 }
 
 export interface OrderBookProps extends PayloadProps {
-  data: Array<OrderBook>
+  data: Array<Order>
 }
 
 // Get stuff

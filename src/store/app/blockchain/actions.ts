@@ -17,7 +17,9 @@ import {
   Balance,
   MyOrdersActionTypes,
   MyOrdersProps,
-  MyOrder
+  OrderBookActionTypes,
+  OrderBookProps,
+  Order
 } from '../../types'
 
 import { Misc, Config, MyOrders } from '../../../config'
@@ -37,13 +39,12 @@ export const init = () => {
 
   	 		} else if ( msg.event == "newblock" ) {
 
-          //Call the Poll Function.. no need for a new thread polling..
+          dispatch(getBlock())
           dispatch(getTokens())
           dispatch(getMyOrders())
-          dispatch(getBlock())
+          dispatch(getAllOrders())
 
-        	/*UpdateOrderBook();
-        	UpdateAllTrades();*/
+        	/*UpdateAllTrades();*/
 
   	 		} else if ( msg.event == "newbalance" ) {
 
@@ -77,6 +78,7 @@ const initDexxed = () => {
        dispatch(getBalance())
        dispatch(getTokens())
        dispatch(getMyOrders())
+       dispatch(getAllOrders())
 
      } else {
 
@@ -90,8 +92,8 @@ const initDexxed = () => {
 export const getTokens = () => {
   return async (dispatch: AppDispatch) => {
 
-    //Tell Minima about this contract.. This allows you to spend it when the time comes
-  	Minima.cmd("tokens;", function(respJSON: any) {
+    // Find all known tokens
+    Minima.cmd("tokens;", function(respJSON: any) {
 
       if( Minima.util.checkAllResponses(respJSON) ) {
 
@@ -107,7 +109,8 @@ export const getTokens = () => {
             tokenId: tokens[i].tokenid,
             token: tokens[i].token,
             scale: tokens[i].scale,
-            total:  tokens[i].total
+            total:  tokens[i].total,
+            isSelected: false
           }
 
           tokenData.data.push(thisToken)
@@ -122,6 +125,37 @@ export const getTokens = () => {
         Minima.log("tokens failed")
       }
   	})
+  }
+}
+
+export const setToken = (tokenid: string) => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
+    const dexContract = state.script.data.scriptAddress
+    const myOrders = state.myOrders.data
+    const tokens = state.tokens
+
+    const tokenData: TokenProps = {
+      data: []
+    }
+
+    for( let i=1; i < tokens.length; i++ ) {
+
+      const isSelected = tokens[i].tokenid === tokenid ? true : false
+
+      const thisToken: Token = {
+        tokenId: tokens[i].tokenid,
+        token: tokens[i].token,
+        scale: tokens[i].scale,
+        total:  tokens[i].total,
+        isSelected: isSelected
+      }
+
+      tokenData.data.push(thisToken)
+    }
+
+    dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
   }
 }
 
@@ -193,6 +227,22 @@ const getTokenScale = ( tokenId: string, tokens: TokenProps ): Decimal => {
 	return new Decimal(1)
 }
 
+const getCurrentToken = ( tokens: TokenProps ): string => {
+
+  let tokenId = ""
+
+  for ( let i = 0; i < tokens.data.length; i++) {
+
+    if(tokens.data[i].isSelected ) {
+
+      tokenId = tokens.data[i].tokenId
+      break;
+		}
+	}
+
+	return tokenId
+}
+
 const getMyOrders = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
@@ -258,7 +308,7 @@ const getMyOrders = () => {
   			//The total
   			const decTotal = decAmount.mul(decPrice)
 
-        let myOrder: MyOrder = {
+        let myOrder: Order = {
           isBuy: isBuy,
           coinId: coinId,
           owner: owner,
@@ -281,3 +331,144 @@ const getMyOrders = () => {
   	})
   }
 }
+
+const getAllOrders = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
+    const dexContract = state.script.data.scriptAddress
+    const allOrders = state.orderBook.data
+    const allTokens = state.tokens
+
+    const currentToken = getCurrentToken( allTokens )
+
+    Minima.cmd("coins address:"+dexContract, function( coinsJSON: any ) {
+
+      let allOrdersData: OrderBookProps = {
+        data: []
+      }
+
+      for( let i=0; i < coinsJSON.response.coins.length; i++ ) {
+      }
+
+    })
+  }
+}
+
+/*
+//Search for all the coins of this address
+Minima.cmd("coins address:"+dexaddress, function(coinsjson){
+  //Cycle through the results..
+  var tokenorders_buy  = [];
+  var tokenorders_sell = [];
+  var coinlen = coinsjson.response.coins.length;
+  for(i=0;i<coinlen;i++){
+    var coindata = coinsjson.response.coins[i].data;
+
+    var token      = coindata.coin.tokenid;
+    var swaptoken  = Minima.util.getStateVariable(coindata.prevstate,2);//getCoinPrevState(coindata,2);
+
+    if(token == currentToken.tokenid){
+      tokenorders_sell.push(coindata);
+    }else if(swaptoken==currentToken.tokenid){
+      tokenorders_buy.push(coindata);
+    }
+  }
+
+  //Now ORDER the list..
+  tokenorders_sell.sort(comparePrice);
+  tokenorders_buy.sort(comparePrice);
+
+  //Make the Orderbook
+  var cashtable="<table width=100%>";
+
+  //Current block height
+  var currblk = new Decimal(Minima.block);
+
+  //Reset These..
+  MIN_TOTAL    = new Decimal(0);
+  MAX_TOTAL    = new Decimal(0);
+
+  //Sell Orders
+  for(i=0;i<tokenorders_sell.length;i++){
+    //Trade details..
+    var amount  = getOrderAmount(tokenorders_sell[i]);
+    var price   = getOrderPrice(tokenorders_sell[i]);
+    var total   = amount.mul(price);
+
+    if(total.lt(MIN_TOTAL)){MIN_TOTAL=total;}
+    if(total.gt(MAX_TOTAL)){MAX_TOTAL=total;}
+
+    //Check within range..
+    if(total.gte(SLIDER_VALUE)){
+      var coinid     = tokenorders_sell[i].coin.coinid;
+      var coinamount = tokenorders_sell[i].coin.amount;
+      var cointoken  = tokenorders_sell[i].coin.tokenid;
+
+      var reqaddress = Minima.util.getStateVariable(tokenorders_sell[i].prevstate,1);//getCoinPrevState(tokenorders_sell[i],1);
+      var reqtokenid = Minima.util.getStateVariable(tokenorders_sell[i].prevstate,2);//getCoinPrevState(tokenorders_sell[i],2);
+      var reqamount  = Minima.util.getStateVariable(tokenorders_sell[i].prevstate,3);//getCoinPrevState(tokenorders_sell[i],3);
+
+      //Are we deep enough..
+      var inblk =  new Decimal(tokenorders_sell[i].inblock);
+      var diff  =  currblk.sub(inblk);
+      if(diff.gte(MAX_ORDER_AGE)){
+        //Too OLD! = no one but you can see it..
+//					cashtable+="<tr class='infoboxpurple'><td width=33%>"+amount+"</td> <td width=34%>"+price+"</td> <td width=33%>"+total+"</td> </tr>";
+      }else if(diff.gte(MIN_ORDER_AGE)){
+        //Create the order function
+        var tkorder = "takeOrder('BUY', '"+coinid+"', '"+coinamount+"', '"+cointoken+"', '"+reqaddress+"', '"+reqamount+"', '"+reqtokenid+"', '"+price+"', '"+amount+"', '"+total+"' );";
+        cashtable+="<tr style='cursor: pointer;' class='infoboxred' onclick=\""+tkorder+"\">"
+              +"<td width=33%>"+amount+"</td> <td width=34%>"+price+"</td> <td width=33%>"+total+"</td> </tr>";
+      }else{
+        cashtable+="<tr class='infoboxgrey'><td width=33%>"+amount+"</td> <td width=34%>"+price+"</td> <td width=33%>"+total+"</td> </tr>";
+      }
+    }
+  }
+
+  //Then the middle..
+  cashtable+="<tr class='infoboxblue'><td colspan=3>-------</td></tr>"
+
+  //Buy orders
+  for(i=0;i<tokenorders_buy.length;i++){
+    //Trade details..
+    var amount  = getOrderAmount(tokenorders_buy[i]);
+    var price   = getOrderPrice(tokenorders_buy[i]);
+    var total   = amount.mul(price);
+
+    if(total.lt(MIN_TOTAL)){MIN_TOTAL=total;}
+    if(total.gt(MAX_TOTAL)){MAX_TOTAL=total;}
+
+    //Check within range..
+    if(total.gte(SLIDER_VALUE)){
+      var coinid     = tokenorders_buy[i].coin.coinid;
+      var coinamount = tokenorders_buy[i].coin.amount;
+      var cointoken  = tokenorders_buy[i].coin.tokenid;
+
+      var reqaddress = Minima.util.getStateVariable(tokenorders_buy[i].prevstate,1);//getCoinPrevState(tokenorders_buy[i],1);
+      var reqtokenid = Minima.util.getStateVariable(tokenorders_buy[i].prevstate,2);//getCoinPrevState(tokenorders_buy[i],2);
+      var reqamount  = Minima.util.getStateVariable(tokenorders_buy[i].prevstate,3);//getCoinPrevState(tokenorders_buy[i],3);
+
+      //Are we deep enough..
+      var inblk =  new Decimal(tokenorders_buy[i].inblock);
+      var diff  =  currblk.sub(inblk);
+      if(diff.gte(MAX_ORDER_AGE)){
+        //Too OLD! = no one but you can see it..
+//					cashtable+="<tr class='infoboxpurple'> <td width=33%>"+amount+"</td> <td width=34%>"+price+"</td> <td width=33%>"+total+"</td> </tr>";
+      }else if(diff.gte(MIN_ORDER_AGE)){
+        //Create the order function
+        var tkorder = "takeOrder('SELL', '"+coinid+"', '"+coinamount+"', '"+cointoken+"', '"+reqaddress+"', '"+reqamount+"', '"+reqtokenid+"', '"+price+"', '"+amount+"', '"+total+"' );";
+        cashtable+="<tr style='cursor: pointer;' class='infoboxgreen' onclick=\""+tkorder+"\">"
+              +"<td width=33%>"+amount+"</td> <td width=34%>"+price+"</td> <td width=33%>"+total+"</td> </tr>";
+      }else{
+        cashtable+="<tr class='infoboxgrey'> <td width=33%>"+amount+"</td> <td width=34%>"+price+"</td> <td width=33%>"+total+"</td> </tr>";
+      }
+    }
+  }
+
+  //Finish up..
+  cashtable+="</table>";
+
+  //Set it..
+  document.getElementById("dexxed_orderbook").innerHTML = cashtable;
+});*/
