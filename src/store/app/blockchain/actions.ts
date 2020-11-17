@@ -110,9 +110,11 @@ export const getTokens = () => {
         // since Minima is first, we ignore that
         for( let i=1; i < tokens.length; i++ ) {
 
+          //console.log("this token: ", tokens[i])
+
           const thisToken: Token = {
             tokenId: tokens[i].tokenid,
-            token: tokens[i].token,
+            tokenName: tokens[i].token,
             scale: tokens[i].scale,
             total:  tokens[i].total,
             isSelected: false
@@ -121,9 +123,9 @@ export const getTokens = () => {
           tokenData.data.push(thisToken)
         }
 
-        //console.log("tokens: ", tokenData)
-
         dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
+
+        console.log("tokens: ", tokenData)
 
       } else {
 
@@ -149,9 +151,11 @@ export const setToken = (tokenid: string) => {
 
       const isSelected = tokens[i].tokenid === tokenid ? true : false
 
+      //console.log("tokens: ",  tokens[i])
+
       const thisToken: Token = {
         tokenId: tokens[i].tokenid,
-        token: tokens[i].token,
+        tokenName: tokens[i].token,
         scale: tokens[i].scale,
         total:  tokens[i].total,
         isSelected: isSelected
@@ -161,6 +165,8 @@ export const setToken = (tokenid: string) => {
     }
 
     dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
+
+    console.log("Set tokens: ", tokenData)
   }
 }
 
@@ -196,8 +202,9 @@ const getBalance = () => {
       balanceData.data.push(thisBalance)
     }
 
-    //console.log("balance: ", balanceData)
     dispatch(write({ data: balanceData.data })(BalanceActionTypes.GET_BALANCES))
+
+    console.log("balances: ", balanceData)
   }
 }
 
@@ -210,7 +217,7 @@ const getTokenName = ( tokenId: string, tokens: TokenProps ): string => {
 	for ( let i = 0; i < tokens.data.length; i++) {
 		//check it
 		if( tokens.data[i].tokenId == tokenId ) {
-			return tokens.data[i].token
+			return tokens.data[i].tokenName
 		}
 	}
 

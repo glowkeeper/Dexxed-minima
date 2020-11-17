@@ -72,9 +72,9 @@ export interface ScriptProps extends PayloadProps {
 // Tokens
 export interface Token {
   tokenId: string
-  token: string
-  scale: Decimal
-  total: Decimal
+  tokenName: string
+  scale: string
+  total: string
   isSelected: boolean
 }
 
