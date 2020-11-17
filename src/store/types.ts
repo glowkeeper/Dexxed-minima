@@ -11,7 +11,8 @@ export interface ApplicationState {
   balance: BalanceProps
   myOrders: MyOrdersProps
   orderBook: OrderBookProps
-  trades: TradeProps
+  allTrades: AllTradesProps
+  myTrades: MyTradesProps
   tokens: TokenProps
   tx: TransactionProps
 }
@@ -103,6 +104,7 @@ export interface Order {
   tokenId: string
   tokenName: string
   swapTokenId: string
+  swapTokenName: string
   amount: Decimal
   price: Decimal
   total: Decimal
@@ -117,8 +119,7 @@ export interface OrderBookProps extends PayloadProps {
   data: Array<Order>
 }
 
-// trades
-
+// Trades
 export interface Trade {
   isBuy: boolean
   coinAmount: Decimal
@@ -129,7 +130,11 @@ export interface Trade {
   block: string
 }
 
-export interface TradeProps extends PayloadProps {
+export interface AllTradesProps extends PayloadProps {
+  data: Array<Trade>
+}
+
+export interface MyTradesProps extends PayloadProps {
   data: Array<Trade>
 }
 
@@ -186,8 +191,12 @@ export const enum MyOrdersActionTypes {
   ADD_MYORDERS = '@@MyOrdersActionTypes/ADD_MYORDERS'
 }
 
-export const enum TradeActionTypes {
-  ADD_TRADES = '@@TradeActionTypes/ADD_TRADES'
+export const enum AllTradesActionTypes {
+  ADD_TRADES = '@@AllTradesActionTypes/ADD_TRADES'
+}
+
+export const enum MyTradesActionTypes {
+  ADD_MYTRADES = '@@MyTradesActionTypes/ADD_MYTRADES'
 }
 
 export const enum GetActionTypes {
