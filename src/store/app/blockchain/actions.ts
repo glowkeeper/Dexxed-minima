@@ -388,7 +388,6 @@ const getAllTrades = () => {
 
             // Get the state we need
             const cPrevState = coinProof.prevstate
-            const swapTokenId = Minima.util.getStateVariable( cPrevState, 2 )
             let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
 
             // Calculate the (buy or sell) price..
@@ -400,7 +399,8 @@ const getAllTrades = () => {
 
               isBuy = false
               decPrice = coinAmount.div(decAmount)
-              tokenName = getTokenName(swapTokenId, allTokens)
+              tokenId = Minima.util.getStateVariable( cPrevState, 2 )
+              tokenName = getTokenName(tokenId, allTokens)
       			} else {
 
       				const scale = getTokenScale(tokenId, allTokens)
@@ -415,7 +415,9 @@ const getAllTrades = () => {
             // Complete order
             const thisTrade: Trade = {
               isBuy: isBuy,
+              coindId: coinId,
               coinAmount: coinAmount,
+              tokenId: tokenId,
               tokenName: tokenName,
               amount: decAmount,
               price: decPrice,
@@ -472,22 +474,20 @@ const getMyTrades = () => {
       				let tokenId = coinProof.coin.tokenid
               let tokenName = getTokenName(tokenId, allTokens)
 
-              // Get the state we need
               const cPrevState = coinProof.prevstate
-              const swapTokenId = Minima.util.getStateVariable( cPrevState, 2 )
               let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
-
               // Calculate the (buy or sell) price..
         			let decPrice  = new Decimal(0)
 
               // To get this to match dexxed, you seem to have to reverse this from orders
               let isBuy = true
               const value = new Decimal(txpItem.values[0].value)
+              if( tokenId == "0x00" ) {
 
-              if( txpItem.values[0].token == "0x00" ) {
+                tokenId = Minima.util.getStateVariable( cPrevState, 2 )
+                tokenName = getTokenName(tokenId, allTokens)
 
                 decPrice = coinAmount.div(decAmount)
-                tokenName = getTokenName(swapTokenId, allTokens)
 
                 if( value.gte(0) ) {
 
@@ -495,6 +495,7 @@ const getMyTrades = () => {
                 }
               } else {
 
+                // Get the state we need
                 const scale = getTokenScale(tokenId, allTokens)
         				const scaledAmount = coinAmount.mul(scale)
         				decPrice = new Decimal(decAmount.div(scaledAmount))
@@ -512,7 +513,9 @@ const getMyTrades = () => {
               // Complete trade
               const thisTrade: Trade = {
                 isBuy: isBuy,
+                coindId: coinId,
                 coinAmount: coinAmount,
+                tokenId: tokenId,
                 tokenName: tokenName,
                 amount: decAmount,
                 price: decPrice,

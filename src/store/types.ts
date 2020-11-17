@@ -73,9 +73,8 @@ export interface ScriptProps extends PayloadProps {
 export interface Token {
   tokenId: string
   token: string
-  //total: number
-  scale: number
-  total: number
+  scale: Decimal
+  total: Decimal
   isSelected: boolean
 }
 
@@ -122,7 +121,9 @@ export interface OrderBookProps extends PayloadProps {
 // Trades
 export interface Trade {
   isBuy: boolean
+  coindId: string
   coinAmount: Decimal
+  tokenId: string
   tokenName: string
   amount: Decimal
   price: Decimal
