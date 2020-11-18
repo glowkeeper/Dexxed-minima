@@ -82,6 +82,7 @@ export interface TokenProps extends PayloadProps {
   data: Array<Token>
 }
 
+// Balance
 export interface Balance {
   token: string
   confirmed: string
@@ -94,6 +95,21 @@ export interface BalanceProps extends PayloadProps {
 }
 
 // Orders
+export interface NewOrder {
+  amount: Decimal
+  price: Decimal
+  hasTokenId: string
+  wantsTokenId: string
+}
+
+export interface CancelOrder {
+  coinId: string
+  owner: string
+  address: string
+  coinAmount: Decimal
+  tokenId: string
+}
+
 export interface Order {
   isBuy: boolean
   coinId: string
@@ -150,7 +166,7 @@ export interface GetProps extends PayloadProps {
 
 //Tx stuff
 export interface TxData {
-  txId: string
+  txId: number
   summary: string
   time: string
 }

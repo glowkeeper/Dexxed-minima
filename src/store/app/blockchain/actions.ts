@@ -283,6 +283,8 @@ const getOrders = (justMyOrders: boolean) => {
         const coinData = coinsJSON[0]
         for( let i=0; i < coinData.response.coins.length; i++ ) {
 
+          console.log("This coin: ", coinData.response.coins[i].data)
+
           //The Order
           const coinProof  = coinData.response.coins[i].data
     			const coinId = coinProof.coin.coinid
