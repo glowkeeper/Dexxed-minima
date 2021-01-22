@@ -1,19 +1,21 @@
 {
-  "name": "Provenator",
-  "version": "0.1.0",
-  "description": "Provenator UI",
+  "name": "Dexxed",
+  "version": "0.8.0",
+  "description": "On-chain DEX",
   "main": "index.tsx",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glowkeeper/MiFi"
+    "url": "git+https://github.com/glowkeeper/Dexxed-minima"
   },
   "scripts": {
     "compile": "./node_modules/.bin/webpack --config ./webpack.dev.js --mode development && rm ./build/app.js && rm ./build/app.js.map && mkdir ./build/images && cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/minidapp.conf ./build",
     "watch": "./node_modules/.bin/webpack --config ./webpack.dev.js --watch --mode development",
-    "prodWatch": "./node_modules/.bin/webpack --config ./webpack.dev.js --watch --mode production",
-    "prod": "./node_modules/.bin/webpack --config ./webpack.prod.js --mode production && rm ./build/app.js && mkdir ./build/images && cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/minidapp.conf ./build && cd ./build && zip -r ../miniDapp/dist/dexxed.minidapp *",
+    "prodWatch": "./node_modules/.bin/webpack --config ./webpack.prod.js --watch --mode production",
+    "devel": "./node_modules/.bin/webpack --config ./webpack.prod.js --mode production && rm ./build/app.js && mkdir ./build/images && cp ./miniDapp/images/* /Users/sh601/.minima/webroot/minidapps/0x621A54D48CC4DFFF5A64CBEEF343DDD33D1FFCA2/images && cp ./build/index.html /Users/sh601/.minima/webroot/minidapps/0x621A54D48CC4DFFF5A64CBEEF343DDD33D1FFCA2",
+    "develCopy": "cp ./miniDapp/images/* /Users/sh601/.minima/webroot/minidapps/0x621A54D48CC4DFFF5A64CBEEF343DDD33D1FFCA2/images && cp ./miniDapp/config/* /Users/sh601/.minima/webroot/minidapps/0x621A54D48CC4DFFF5A64CBEEF343DDD33D1FFCA2 && cp ./build/index.html /Users/sh601/.minima/webroot/minidapps/0x621A54D48CC4DFFF5A64CBEEF343DDD33D1FFCA2",
+    "prod": "./node_modules/.bin/webpack --config ./webpack.prod.js --mode production && rm ./build/app.js && mkdir ./build/images && cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/* ./build && cd ./build && zip -r ../miniDapp/dist/dexxed.minidapp *",
     "prodClean": "rm ./build/app.js && mkdir ./build/images",
-    "prodCopy": "cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/minidapp.conf ./build && cd ./build && zip -r ../miniDapp/dist/dexxed.minidapp *",
+    "prodCopy": "cp ./miniDapp/images/* ./build/images && cp ./miniDapp/config/* ./build && cd ./build && zip -r ../miniDapp/dist/storefront.minidapp *",
     "test": "./node_modules/.bin/mocha",
     "start": "./node_modules/.bin/http-server -p 8081 build/"
   },
@@ -119,7 +121,7 @@
     "fsevents": "*"
   },
   "bugs": {
-    "url": "https://github.com/glowkeeper/MiFi/issues"
+    "url": "https://github.com/glowkeeper/Dexxed-minima/issues"
   },
-  "homepage": "https://github.com/glowkeeper/MiFi#readme"
+  "homepage": "https://github.com/glowkeeper/Dexxed-minima#readme"
 }
