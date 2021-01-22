@@ -13,7 +13,7 @@ import indigo from '@material-ui/core/colors/indigo'
 import orange from '@material-ui/core/colors/orange'
 import yellow from '@material-ui/core/colors/yellow'
 
-let theme = createMuiTheme ({
+let themeMobile = createMuiTheme ({
   spacing: 8,
   typography: {
     fontFamily: [
@@ -28,15 +28,15 @@ let theme = createMuiTheme ({
     fontWeightRegular: 400,
     fontWeightMedium: 500,
     h1: {
-      lineHeight: "2.4",
-      fontSize:  "2.2em",
+      lineHeight: "2",
+      fontSize:  "1.8em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#001C32',
     },
     h2: {
-      lineHeight: "2",
-      fontSize: "1.6em",
+      lineHeight: "2.3",
+      fontSize: "1.4em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#001C32'
@@ -50,21 +50,21 @@ let theme = createMuiTheme ({
     },
     h4: {
       lineHeight: '1.2',
-      fontSize: "1em",
+      fontSize: "0.9em",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#317aff'
     },
     h5: {
-      lineHeight: "1.2",
-      fontSize: "1em",
+      lineHeight: "1",
+      fontSize: "0.9em",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#001C32'
     },
     h6: {
-      lineHeight: "2",
-      fontSize: "1em",
+      lineHeight: "1.2",
+      fontSize: "0.9em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#001C32'
@@ -79,7 +79,7 @@ let theme = createMuiTheme ({
     subtitle2: {
       lineHeight: "1",
       fontSize: "1em",
-      fontWeight: 600,
+      fontWeight: 500,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#FF512F'
     },
@@ -92,18 +92,19 @@ let theme = createMuiTheme ({
     },
     body2: {
       lineHeight: '1',
-      fontSize: "1",
+      fontSize: "1em",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32',
+      color: '#001C32'
     },
     caption: {
-      fontSize: "0.9em",
+      fontSize: "1.3em",
       fontWeight: 700,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
     },
     button: {
-      fontSize: "1.8em",
+      lineHeight: "1",
+      fontSize: "1em",
       textTransform: "uppercase",
       fontWeight: 500,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
@@ -113,7 +114,7 @@ let theme = createMuiTheme ({
   palette: {
     type: 'dark',
     background: {
-      default: '#edefef',
+      default: '#FFFFFF',
     },
     text: {
       primary: "#001C32",
@@ -132,10 +133,9 @@ let theme = createMuiTheme ({
   }
 })
 
-theme = responsiveFontSizes(theme)
-"0"
+themeMobile = responsiveFontSizes(themeMobile)
 
-const themeStyles = makeStyles({
+const themeStylesMobile = makeStyles({
   landing: {
     margin: "0",
     padding: "0",
@@ -156,7 +156,7 @@ const themeStyles = makeStyles({
   landingDisplay: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   landingLogoIcon: {
     height: "100px",
@@ -166,57 +166,58 @@ const themeStyles = makeStyles({
     height: "25px",
     width: '168px'
   },
+  landingMinimaIcon: {
+    height: "60px",
+    width: '60px'
+  },
   root: {
-    marginTop: "5vh",
-    marginBottom: "5vh",
-    marginLeft: "auto",
-    marginRight: "auto",
-    height: "90vh",
-    width: "50%",
+    background: 'linear-gradient(#F0F0FA, #F0F0FA)',
+    height: "100vh",
+    width: "100%",
     position: 'relative'
   },
   header: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
-    paddingTop: "30px",
+    paddingRight: themeMobile.spacing(4),
+    paddingLeft: themeMobile.spacing(4),
+    paddingTop: "32px",
     margin: "0",
+    textAlign: 'center',
     background: 'linear-gradient(#001C32, #001C32)',
-    height: "90px",
+    height: "70px",
     width: "100%",
     position: 'absolute',
     top: '0'
   },
   subHeader: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
-    paddingBottom: theme.spacing(1),
-    paddingTop: theme.spacing(1),
+    paddingRight: themeMobile.spacing(4),
+    paddingLeft: themeMobile.spacing(4),
+    paddingBottom: themeMobile.spacing(1),
+    paddingTop: themeMobile.spacing(1),
     margin: "0",
-    textAlign: 'center',
     background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-    height: "60px",
+    height: "55px",
     width: "100%",
     position: 'absolute',
-    top: '90px'
+    top: '70px'
   },
   content: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
+    paddingRight: themeMobile.spacing(4),
+    paddingLeft: themeMobile.spacing(4),
     margin: "0",
     background: 'linear-gradient(#FAFAFF, #FAFAFF)',
     overflow: 'auto',
     width: "100%",
     position: 'absolute',
-    bottom: '100px',
-    top: '150px'
+    bottom: '70px',
+    top: '125px'
   },
   footer: {
-    paddingRight: theme.spacing(5),
-    paddingLeft: theme.spacing(5),
+    paddingRight: themeMobile.spacing(4),
+    paddingLeft: themeMobile.spacing(4),
     paddingTop: "10px",
     margin: "0",
     background: 'linear-gradient(#001C32, #001C32)',
-    height: "100px",
+    height: "70px",
     width: "100%",
     position: 'absolute',
     bottom: '0'
@@ -230,12 +231,12 @@ const themeStyles = makeStyles({
     margin: "0"
   },
   caption: {
-    padding: theme.spacing(1),
+    padding: themeMobile.spacing(1),
     margin: "0"
   },
   details: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingTop: themeMobile.spacing(1),
+    paddingBottom: themeMobile.spacing(1),
     margin: "0",
   },
   footerLinks: {
@@ -243,9 +244,9 @@ const themeStyles = makeStyles({
     fontFamily: "\"Lato\", \"Arial\", \"sans-serif\", \"Roboto\"",
   },
   spinner: {
-     position: 'relative',
-     top: "50%",
-     bottom: "50%"
+   position: 'relative',
+   top: "50%",
+   bottom: "50%"
   },
   deleteModal: {
     display: 'flex',
@@ -253,97 +254,123 @@ const themeStyles = makeStyles({
     justifyContent: 'center',
   },
   deleteModalSub: {
-    backgroundColor: theme.palette.background.default,
-    boxShadow: theme.shadows[3],
-    padding: theme.spacing(1),
+    backgroundColor: themeMobile.palette.background.default,
+    boxShadow: themeMobile.shadows[3],
+    padding: themeMobile.spacing(1),
     outline: "none",
-    width: "10%"
+    width: "40%"
   },
   deleteModalSubIcons: {
     textAlign: "center"
   },
   appIcon: {
-    height: "50px",
-    width: '50px'
+    height: "35px",
+    width: "35px"
   },
   downloadIcon: {
-    height: "25px",
-    width: '20px'
+    height: "20px",
+    width: '17px'
   },
   deleteIcon: {
-    height: "25px",
-    width: '25px'
+    height: "15px",
+    width: '15px'
   },
   tickIcon: {
-    height: "25px",
-    width: '31px'
+    height: "15px",
+    width: '19px'
   },
   subHeaderIconParent: {
     position: "relative",
-    height: "100%"
   },
   helpIcon: {
     display: 'flex',
     justifyContent: 'flex-start',
-    height: "40px",
-    width: '40px'
+    height: "32px",
+    width: '32px'
   },
   contactIcon: {
     display: 'flex',
     justifyContent: 'center',
-    height: "40px",
-    width: '40px'
+    height: "32px",
+    width: '32px'
   },
   aboutIcon: {
     display: 'flex',
     justifyContent: 'flex-end',
-    height: "40px",
-    width: '40px'
+    height: "32px",
+    width: '32px'
   },
   footerIcon: {
-    height: "35px",
-    width: '35px'
+    height: "24px",
+    width: '24px'
   },
   headerIcon: {
-    height: "50px",
-    width: '50px'
+    height: "28px",
+    width: '28px'
   },
   sortIcon: {
-    height: "25px",
-    width: '25px'
+    height: "20px",
+    width: '20px'
   },
   appNameIconContainer: {
     position: "relative",
     top: "0",
     left: "0",
-    height: "50px",
-    width: '208px'
+    height: "28px",
+    width: '104px'
   },
   appNameIcon: {
     position: "absolute",
     bottom: "0",
     left: "0",
-    height: "25px",
-    width: '168px'
+    height: "16px",
+    width: '104px'
+  },
+  storeIconParent: {
+    marginTop: themeMobile.spacing(1),
+    position: "relative",
+    top: "0",
+    left: "0",
+  },
+  storeIconContainer: {
+    position: "relative",
+    top: "0",
+    left: "0",
+    borderRadius: "50%",
+    width: "30px",
+    height: "30px"
   },
   storeIcon: {
-    marginTop: theme.spacing(1),
-    width: "40px",
-    height: "40px",
+    marginTop: themeMobile.spacing(1),
+    width: "30px",
+    height: "30px",
     borderRadius: "50%",
   },
-  storesIcon: {
-    width: "40px",
-    height: "40px",
+  storesIconParent: {
+    position: "relative",
+    top: "0",
+    left: "0",
+  },
+  storesIconContainer: {
+    position: "relative",
+    top: "0",
+    left: "0",
     borderRadius: "50%",
+    width: "35px",
+    height: "35px"
+  },
+  storesIcon: {
+    borderRadius: "50%",
+    width: "35px",
+    height: "35px",
   },
   link: {
     textDecoration: 'none'
   },
   linkIcon: {
     margin: 'auto',
-    height: "30px",
-    width: '30px'
+    height: "15px",
+    width: '15px'
   },
   hr: {
     height: "1px",
@@ -351,4 +378,4 @@ const themeStyles = makeStyles({
   }
 })
 
-export { theme, themeStyles }
+export { themeMobile, themeStylesMobile }

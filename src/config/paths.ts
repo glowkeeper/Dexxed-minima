@@ -8,15 +8,21 @@ class Local {
   static readonly about = '/about'
   static readonly help = '/help'
   static readonly contact = '/contact'
+
+  static readonly orders = '/orders'
+  static readonly balances = '/balance'
+  static readonly trades = '/trades'
+  static readonly allTrades = '/all-trades'
+  static readonly orderBook = '/order-book'
+
+  static readonly orderBookIndex = `${Local.orderBook}/:token`
+  static readonly recentTrades = `${Local.allTrades}/:token`
 }
 
 class Remote {
 
     static readonly secure = 'https://'
     static readonly insecure = 'http://'
-
-    static readonly server = 'localhost'
-    static readonly port = '9004'
 }
 
 export { Config, Local, Remote }

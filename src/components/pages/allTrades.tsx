@@ -1,7 +1,7 @@
 import React from 'react'
 import { Home as HomeConfig } from '../../config'
 
-export const Home = () => {
+export const AllTrades = () => {
 
   return (
     <p>

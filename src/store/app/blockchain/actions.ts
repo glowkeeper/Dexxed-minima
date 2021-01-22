@@ -1,5 +1,4 @@
-// @ts-ignore
-import { Minima } from './minima'
+import { Minima } from 'minima'
 
 import { Decimal } from 'decimal.js'
 
@@ -27,7 +26,7 @@ import {
   Trade
 } from '../../types'
 
-import { Misc, Config, MyOrders } from '../../../config'
+import { Misc, Config, Orders as OrdersConfig } from '../../../config'
 
 import { write } from '../../actions'
 
@@ -301,17 +300,17 @@ const getOrders = (justMyOrders: boolean) => {
           let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
 
           // Status
-          let status = MyOrders.statusWaiting
+          let status = OrdersConfig.statusWaiting
           const currBlk = new Decimal(Minima.block)
           const inBlk =  new Decimal(coinProof.inblock)
           const diff =  currBlk.sub(inBlk)
 
           if( diff.gte(Misc.MAX_ORDER_AGE) ) {
 
-            status =  MyOrders.statusOld
+            status =  OrdersConfig.statusOld
           } else if( diff.gte(Misc.MIN_ORDER_AGE) ) {
 
-            status =  MyOrders.statusLive
+            status =  OrdersConfig.statusLive
           }
 
     			// Calculate the (buy or sell) price..

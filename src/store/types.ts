@@ -5,7 +5,7 @@ import { Decimal } from 'decimal.js'
 
 // Store stuff
 export interface ApplicationState {
-  info: InfoPageProps
+  appData: AppDataProps
   chainInfo: ChainInfoProps
   script: ScriptProps
   balance: BalanceProps
@@ -28,31 +28,25 @@ export interface ActionProps extends Action {
 
 export type AppDispatch = ThunkDispatch<ApplicationState, any, ActionProps>
 
-// Info (about etc.) stuff
-export const enum InfoTypes {
-  HOME = "home",
-  ABOUT = "about",
-  HELP = "help",
-  FAQ = "faq",
-  CONTACT = "contact"
+// Stuff pertinent to make this app' work
+export interface AppData {
+  activePage: string
 }
 
-// Static info
-export interface InfoPageProps extends PayloadProps {
-  data: InfoData
+export interface AppDataProps extends PayloadProps {
+  data: AppData
+}
+
+// Info (about etc.) stuff
+export const enum InfoTypes {
+  ABOUT = "about",
+  HELP = "help",
+  CONTACT = "contact"
 }
 
 export interface InfoProps {
   title: string
-  data: string
-}
-
-export interface InfoData {
-  home: InfoProps
-  about: InfoProps
-  help: InfoProps
-  faq: InfoProps
-  contact: InfoProps
+  data: string[]
 }
 
 // Blockchain info
@@ -176,6 +170,12 @@ export interface TransactionProps extends PayloadProps {
 }
 
 // Action types
+export const enum AppDataActionTypes {
+  APPDATA_INIT = '@@AppDataActionTypes/APPDATA_INIT',
+  APPDATA_SUCCESS = '@@AppDataActionTypes/APPDATA_SUCCESS',
+  APPDATA_FAILURE = '@@AppDataActionTypes/APPDATA_FAILURE'
+}
+
 export const enum TransactionActionTypes {
   TRANSACTION_INIT = '@@TransactionActionTypes/TRANSACTION_INIT',
   TRANSACTION_PENDING = '@@TransactionActionTypes/TRANSACTION_PENDING',
@@ -186,7 +186,6 @@ export const enum TransactionActionTypes {
 export const enum ChainInfoActionTypes {
   ADD_BLOCK = '@@ChainDataActionTypes/ADD_BLOCK'
 }
-
 
 export const enum ScriptActionTypes {
   ADD_CONTRACT = '@@ScriptActionTypes/ADD_CONTRACT',

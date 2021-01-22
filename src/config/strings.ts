@@ -1,22 +1,31 @@
 class App {
 
-  static readonly title = 'My Company'
-  static readonly appName = 'Storefront'
-  static readonly catchLine = `${App.title} ${App.appName}`
+  static readonly title = 'Minima'
+  static readonly appName = 'Dexxed'
+  static readonly catchLine = `Powered by ${App.title}`
   static readonly tagline = ''
-  static readonly copyright = '© Copyright 2020 Steve Huckle'
-  static readonly author = '[Steve Huckle](https://glowkeeper.github.io/)'
-  static readonly email = 'steve dot huckle at minima dot global'
-  static readonly version = '0.1.0'
+  static readonly copyright = '© Copyright 2021 Minima GmbH'
+  static readonly author = 'Minima'
+  static readonly email = 'info@minima.global'
+  static readonly bugEmail = 'minima-global@fire.fundersclub.com'
+  static readonly version = '0.9.0'
+  static readonly release = 'Testnet'
 }
 
 class Paths {
 
-  // AppBar
   static readonly home = 'Home'
   static readonly about = 'About'
   static readonly help = 'Help'
   static readonly contact = 'Contact'
+
+  static readonly orders = 'My Orders'
+  static readonly balances = 'My Balances'
+  static readonly trades = 'My Trades'
+  static readonly allTrades = 'All Trades'
+  static readonly orderBook = 'Order Book'
+  static readonly orderBookIndex = 'Order Book'
+  static readonly recentTrades = 'Trades'
 }
 
 class GeneralError {
@@ -36,49 +45,76 @@ class Transaction {
 class Home {
 
   static readonly heading = 'Home'
-
-  static readonly info = `<h3>${App.catchLine}</h3>`
 }
 
 class About {
 
   static readonly heading = `About ${App.appName}`
 
-  static readonly info = `**${App.appName}** version ${App.version}<br /><br />Created by _${App.author}_<br /><br />${App.copyright}`
+  static readonly info = [`Version ${App.version}.`,`${App.catchLine}.`,`${App.release}.`,`Created by ${App.author}.`,`${App.copyright}.`]
 }
 
 class Help {
 
   static readonly heading = `${App.appName} Help`
 
-  static readonly info = `Use **${App.appName}** to access ${App.title} MiniDapps.`
+  static readonly info = [`Coming soon.`]
 
   static readonly helpTip = 'Help'
   static readonly contactTip = 'Contact'
   static readonly aboutTip = 'About'
-}
+  static readonly sortTip = "Sort"
 
-class Faq {
+  static readonly ordersTip = 'My Orders'
+  static readonly balanceTip = 'My Balances'
+  static readonly tradesTip = 'My Trades'
+  static readonly allTradesTip = 'All Trades'
+  static readonly orderBookTip = 'Order Book'
+  static readonly recentTradesTip = 'Trades'
 
-  static readonly heading = 'FAQ'
-
-  static readonly info = `Coming soon`
+  static readonly deleteSure = "Are you sure you want to delete"
 }
 
 class Contact {
 
   static readonly heading = 'Contact'
 
-  static readonly info = `${App.email}`
+  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.author} at ${App.email}.`]
 }
 
-class MyOrders {
+class Orders {
+
+  static readonly heading = 'My Orders'
 
   static readonly statusLive = 'Live'
   static readonly statusOld = 'Too Old'
   static readonly statusWaiting = 'Waiting'
 }
 
+class Balances {
+
+  static readonly heading = 'My Balances'
+}
+
+class Trades {
+
+  static readonly heading = 'My Trades'
+}
+
+class OrderBook {
+
+  static readonly heading = 'Order Book'
+}
+
+class RecentTrades {
+
+  static readonly heading = 'Recent Trades'
+}
+
+class AllTrades {
+
+  static readonly heading = 'All Trades'
+}
 
 export { App,
          Paths,
@@ -87,7 +123,11 @@ export { App,
          Home,
          About,
          Help,
-         Faq,
          Contact,
-         MyOrders
+         Orders,
+         Balances,
+         Trades,
+         OrderBook,
+         RecentTrades,
+         AllTrades
        }
