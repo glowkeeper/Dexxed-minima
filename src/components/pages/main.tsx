@@ -48,7 +48,7 @@ import logoIcon from '../../images/logo.svg'
 
 import { themeStyles, themeStylesMobile } from '../../styles'
 
-import { Paths, Local, Help, Settings } from '../../config'
+import { Paths, Local, Help } from '../../config'
 
 interface MainStateProps {
   appData: AppData
@@ -94,17 +94,17 @@ const mobile = (props: Props) => {
     }  else if ( props.appData.activePage === Local.help ) {
 
       setLoading(false)
-      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBook, helpActiveIcon, infoIcon, contactIcon])
+      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpActiveIcon, infoIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.about ) {
 
       setLoading(false)
-      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBook, helpIcon, infoActiveIcon, contactIcon])
+      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoActiveIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.contact ) {
 
       setLoading(false)
-      setIcons([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBook, helpIcon, infoIcon, contactActiveIcon])
+      setIcons([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
 
     }
   }, [props.appData])
@@ -230,14 +230,14 @@ const mobile = (props: Props) => {
                      component="span"
                      size="small">
                      <img
-                      data-for={balancesIcon}
+                      data-for={myBalancesIcon}
                       data-tip
                       src={icons[0]}
                       className={classes.footerIcon}
                     />
                     </IconButton>
                     <ReactTooltip
-                      id={balancesIcon}
+                      id={myBalancesIcon}
                       place="top"
                       effect="solid"
                     >
@@ -399,17 +399,17 @@ const desktop = (props: Props) => {
     }  else if ( props.appData.activePage === Local.help ) {
 
       setLoading(false)
-      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBook, helpActiveIcon, infoIcon, contactIcon])
+      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpActiveIcon, infoIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.about ) {
 
       setLoading(false)
-      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBook, helpIcon, infoActiveIcon, contactIcon])
+      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoActiveIcon, contactIcon])
 
     } else if ( props.appData.activePage === Local.contact ) {
 
       setLoading(false)
-      setIcons([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBook, helpIcon, infoIcon, contactActiveIcon])
+      setIcons([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
 
     }
   }, [props.appData])
@@ -535,14 +535,14 @@ const desktop = (props: Props) => {
                      component="span"
                      size="small">
                      <img
-                      data-for={balancesIcon}
+                      data-for={myBalancesIcon}
                       data-tip
                       src={icons[0]}
                       className={classes.footerIcon}
                     />
                     </IconButton>
                     <ReactTooltip
-                      id={balancesIcon}
+                      id={myBalancesIcon}
                       place="top"
                       effect="solid"
                     >

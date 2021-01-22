@@ -66,7 +66,7 @@ class Help {
   static readonly sortTip = "Sort"
 
   static readonly ordersTip = 'My Orders'
-  static readonly balanceTip = 'My Balances'
+  static readonly balancesTip = 'My Balances'
   static readonly tradesTip = 'My Trades'
   static readonly allTradesTip = 'All Trades'
   static readonly orderBookTip = 'Order Book'

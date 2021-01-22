@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router-dom'
 import { InfoTypes } from '../store/types'
 
 import { Home, Info, Orders, Balances, Trades, AllTrades, OrderBook } from '../components/pages'
-import { Storefront } from '../containers/pages'
 
 import { Paths, Local } from '../config'
 
