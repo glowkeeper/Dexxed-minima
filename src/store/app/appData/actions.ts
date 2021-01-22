@@ -1,6 +1,3 @@
-// @ts-ignore
-import { Minima } from './blockchain/minima'
-
 import {
   AppDispatch,
   AppDataActionTypes,

@@ -52,7 +52,7 @@ export interface InfoProps {
 // Blockchain info
 export interface ChainInfoProps extends PayloadProps {
   data: {
-    block: string
+    block: number
   }
 }
 
