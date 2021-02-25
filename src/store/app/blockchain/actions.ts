@@ -292,12 +292,22 @@ const getOrders = (justMyOrders: boolean) => {
           const tokenName = getTokenName(tokenId, allTokens)
 
           // Get state
+          //State[], port: string):
     			const cPrevState = coinProof.prevstate
-          const owner = Minima.util.getStateVariable( cPrevState, 0 )
-    			const address = Minima.util.getStateVariable( cPrevState, 1 )
-          const swapTokenId = Minima.util.getStateVariable( cPrevState, 2 )
-          const swapTokenName = getTokenName(swapTokenId, allTokens)
-          let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
+          const owner: string = Minima.util.getStateVariable( cPrevState, "0" ) as string
+    			const address = Minima.util.getStateVariable( cPrevState, "1" ) as string
+          const swapTokenId = Minima.util.getStateVariable( cPrevState, "2" ) as string
+
+          let swapTokenName = ""
+          if ( swapTokenId ) {
+            swapTokenName = getTokenName(swapTokenId, allTokens)
+          }
+
+          let decAmount = new Decimal(1)
+          const amount = Minima.util.getStateVariable( cPrevState, "3" )
+          if ( amount ) {
+            decAmount = Decimal.mul(1, amount)
+          }
 
           // Status
           let status = OrdersConfig.statusWaiting
@@ -396,7 +406,12 @@ const getAllTrades = () => {
 
             // Get the state we need
             const cPrevState = coinProof.prevstate
-            let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
+
+            let decAmount = new Decimal(1)
+            const amount = Minima.util.getStateVariable( cPrevState, "3" )
+            if ( amount ) {
+              decAmount = Decimal.mul(1, amount)
+            }
 
             // Calculate the (buy or sell) price..
       			let decPrice  = new Decimal(0)
@@ -407,7 +422,7 @@ const getAllTrades = () => {
 
               isBuy = false
               decPrice = coinAmount.div(decAmount)
-              tokenId = Minima.util.getStateVariable( cPrevState, 2 )
+              tokenId = Minima.util.getStateVariable( cPrevState, "2" )
               tokenName = getTokenName(tokenId, allTokens)
       			} else {
 
@@ -483,7 +498,11 @@ const getMyTrades = () => {
               let tokenName = getTokenName(tokenId, allTokens)
 
               const cPrevState = coinProof.prevstate
-              let decAmount = new Decimal(Minima.util.getStateVariable( cPrevState, 3 ))
+              let decAmount = new Decimal(1)
+              const amount = Minima.util.getStateVariable( cPrevState, "3" )
+              if ( amount ) {
+                decAmount = Decimal.mul(1, amount)
+              }
               // Calculate the (buy or sell) price..
         			let decPrice  = new Decimal(0)
 
@@ -492,7 +511,7 @@ const getMyTrades = () => {
               const value = new Decimal(txpItem.values[0].value)
               if( tokenId == "0x00" ) {
 
-                tokenId = Minima.util.getStateVariable( cPrevState, 2 )
+                tokenId = Minima.util.getStateVariable( cPrevState, "2" )
                 tokenName = getTokenName(tokenId, allTokens)
 
                 decPrice = coinAmount.div(decAmount)

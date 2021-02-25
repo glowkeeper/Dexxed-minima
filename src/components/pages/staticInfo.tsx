@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { isMobile } from "react-device-detect"
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -11,7 +9,7 @@ import { ApplicationState, AppDispatch, InfoProps, InfoTypes } from '../../store
 import hrFirst from '../../images/hrFirst.svg'
 import hrFirstMobile from '../../images/hrFirstMobile.svg'
 
-import { themeStyles, themeStylesMobile } from '../../styles'
+import { themeStyles } from '../../styles'
 
 import { Local } from '../../config'
 import { About, Help, Contact } from '../../config/strings'
@@ -28,18 +26,12 @@ interface DispatchProps {
 
 type Props = StaticInfoProps & DispatchProps
 
-const appInfo = (props: Props) => {
+const display = (props: Props) => {
 
     const [pageData, setPageData] = useState({title: About.heading,
     data: About.info})
 
     let classes = themeStyles()
-    let hr = hrFirst
-    if ( isMobile ) {
-
-      classes = themeStylesMobile()
-      hr = hrFirstMobile
-    }
 
     useEffect(() => {
 
@@ -77,7 +69,7 @@ const appInfo = (props: Props) => {
           </Typography>
         </Grid>
         <Grid item container xs={12} alignItems="flex-start">
-          <img src={hr} className={classes.hr}/>
+          <img src={hrFirst} className={classes.hr}/>
         </Grid>
 
         { pageData.data.map( (data: string, i: number ) => {
@@ -108,4 +100,4 @@ const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
 export const Info = connect<DispatchProps, {}, {}, ApplicationState>(
   null,
   mapDispatchToProps
-)(appInfo)
+)(display)

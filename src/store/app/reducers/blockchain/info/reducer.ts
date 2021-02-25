@@ -2,7 +2,7 @@ import { ActionProps, ChainInfoActionTypes, ChainInfoProps } from '../../../../t
 
 const initialInfoState: ChainInfoProps = {
   data: {
-      block: ''
+      block: 0
   }
 }
 

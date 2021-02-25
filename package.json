@@ -28,12 +28,10 @@
     "@material-ui/styles": "^4.11.2",
     "decimal.js": "^10.2.1",
     "flat": "^5.0.2",
-    "material-ui-chip-input": "^2.0.0-beta.2",
-    "minima": "file:../../minima-0.96.11.tgz",
+    "formik": "^2.2.6",
+    "minima": "file:../minimaJs/minima-0.96.17.tgz",
     "react": "^17.0.1",
-    "react-device-detect": "^1.15.0",
     "react-dom": "^17.0.1",
-    "react-file-reader-input": "^2.0.0",
     "react-google-font-loader": "^1.1.0",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
@@ -46,7 +44,6 @@
     "shortid": "^2.2.16",
     "spark-md5": "^3.0.1",
     "typesafe-actions": "5.1.0",
-    "formik": "^2.2.6",
     "yup": "0.28.5"
   },
   "devDependencies": {
