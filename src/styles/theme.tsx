@@ -158,6 +158,36 @@ let theme = createMuiTheme ({
 theme = responsiveFontSizes(theme)
 
 const themeStyles = makeStyles({
+  landing: {
+    margin: "0",
+    padding: "0",
+    height: "100vh",
+    width: "100vw",
+    background: 'linear-gradient(#001C32, #001C32)'
+  },
+  landingExit: {
+    margin: "0",
+    padding: "0",
+    height: "100vh",
+    width: "100vw",
+    background: 'linear-gradient(#001C32, #001C32)',
+    visibility: "hidden",
+    opacity: "0",
+    transition: "visibility 0s 0.5s, opacity 0.5s linear"
+  },
+  landingDisplay: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  landingLogoIcon: {
+    height: "100px",
+    width: '100px'
+  },
+  landingAppNameIcon: {
+    height: "25px",
+    width: '168px'
+  },
   root: {
     [breakpoints.up('xs')]: {
       background: 'linear-gradient(#000000, #000000)',

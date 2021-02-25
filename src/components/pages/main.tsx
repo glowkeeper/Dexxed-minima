@@ -134,81 +134,83 @@ const display = (props: Props) => {
 
               <Grid item container className={classes.header} xs={12}>
 
-                <Grid item container justify="flex-start" xs={6}>
+                <Grid item container justify="flex-start">
                   <img className={classes.headerIcon} src={logoIcon}/>
                 </Grid>
 
-                <Grid item container justify="center" xs={6}>
-                  <div className={classes.subHeaderIconParent}>
+              </Grid>
 
-                    <NavLink to={Local.help} className={classes.link}>
-                      <IconButton
-                        color="primary"
-                        aria-label="Help"
-                        component="span"
-                        size="small">
-                        <img
-                          data-for={helpIcon}
-                          data-tip
-                          src={icons[2]}
-                          className={classes.helpIcon}
-                        />
-                      </IconButton>
-                      <ReactTooltip
-                        id={helpIcon}
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.helpTip}
-                      </ReactTooltip>
-                    </NavLink>
+              <Grid item container justify="flex-end" className={classes.subHeader} xs={12}>
 
-                    <NavLink to={Local.contact} className={classes.link}>
-                      <IconButton
-                        color="primary"
-                        aria-label="Contact"
-                        component="span"
-                        size="small">
-                        <img
-                          data-for={contactIcon}
-                          data-tip
-                          src={icons[4]}
-                          className={classes.contactIcon}
-                        />
-                      </IconButton>
-                      <ReactTooltip
-                        id={contactIcon}
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.contactTip}
-                      </ReactTooltip>
-                    </NavLink>
+                <div className={classes.subHeaderIconParent}>
 
-                    <NavLink to={Local.about} className={classes.link}>
-                      <IconButton
-                        color="primary"
-                        aria-label="Info"
-                        component="span"
-                        size="small">
-                        <img
-                          data-for={infoIcon}
-                          data-tip
-                          src={icons[3]}
-                          className={classes.aboutIcon}
-                        />
-                      </IconButton>
-                      <ReactTooltip
-                        id={infoIcon}
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.aboutTip}
-                      </ReactTooltip>
-                    </NavLink>
+                  <NavLink to={Local.help} className={classes.link}>
+                    <IconButton
+                      color="primary"
+                      aria-label="Help"
+                      component="span"
+                      size="small">
+                      <img
+                        data-for={helpIcon}
+                        data-tip
+                        src={icons[2]}
+                        className={classes.helpIcon}
+                      />
+                    </IconButton>
+                    <ReactTooltip
+                      id={helpIcon}
+                      place="bottom"
+                      effect="solid"
+                    >
+                      {Help.helpTip}
+                    </ReactTooltip>
+                  </NavLink>
 
-                  </div>
-                </Grid>
+                  <NavLink to={Local.contact} className={classes.link}>
+                    <IconButton
+                      color="primary"
+                      aria-label="Contact"
+                      component="span"
+                      size="small">
+                      <img
+                        data-for={contactIcon}
+                        data-tip
+                        src={icons[4]}
+                        className={classes.contactIcon}
+                      />
+                    </IconButton>
+                    <ReactTooltip
+                      id={contactIcon}
+                      place="bottom"
+                      effect="solid"
+                    >
+                      {Help.contactTip}
+                    </ReactTooltip>
+                  </NavLink>
+
+                  <NavLink to={Local.about} className={classes.link}>
+                    <IconButton
+                      color="primary"
+                      aria-label="Info"
+                      component="span"
+                      size="small">
+                      <img
+                        data-for={infoIcon}
+                        data-tip
+                        src={icons[3]}
+                        className={classes.aboutIcon}
+                      />
+                    </IconButton>
+                    <ReactTooltip
+                      id={infoIcon}
+                      place="bottom"
+                      effect="solid"
+                    >
+                      {Help.aboutTip}
+                    </ReactTooltip>
+                  </NavLink>
+
+                </div>
 
               </Grid>
 
@@ -217,9 +219,9 @@ const display = (props: Props) => {
               </Grid>
 
 
-              <Grid item container className={classes.footer} xs={12}>
+              <Grid item container className={classes.footer} justify="space-between" xs={12}>
 
-                <Grid item container justify="flex-start" xs={2}>
+                <Grid item container justify="center" xs={2}>
 
                  <NavLink to={Local.balances}>
                     <IconButton
@@ -271,7 +273,7 @@ const display = (props: Props) => {
 
                 </Grid>
 
-                <Grid item container justify="flex-end" xs={2}>
+                <Grid item container justify="center" xs={2}>
 
                   <NavLink to={Local.trades}>
                     <IconButton
@@ -297,7 +299,7 @@ const display = (props: Props) => {
 
                 </Grid>
 
-                <Grid item container justify="flex-end" xs={2}>
+                <Grid item container justify="center" xs={2}>
 
                   <NavLink to={Local.allTrades}>
                     <IconButton
@@ -323,7 +325,7 @@ const display = (props: Props) => {
 
                 </Grid>
 
-                <Grid item container justify="flex-end" xs={2}>
+                <Grid item container justify="center" xs={2}>
 
                   <NavLink to={Local.orderBook}>
                     <IconButton
