@@ -6,9 +6,6 @@ import Typography from '@material-ui/core/Typography'
 
 import { ApplicationState, AppDispatch, InfoProps, InfoTypes } from '../../store/types'
 
-import hrFirst from '../../images/hrFirst.svg'
-import hrFirstMobile from '../../images/hrFirstMobile.svg'
-
 import { themeStyles } from '../../styles'
 
 import { Local } from '../../config'
@@ -68,8 +65,14 @@ const display = (props: Props) => {
             {pageData.title}
           </Typography>
         </Grid>
-        <Grid item container xs={12} alignItems="flex-start">
-          <img src={hrFirst} className={classes.hr}/>
+
+        <Grid item container justify="center" xs={12}>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 2000 4"
+          >
+            <line x2="2000" stroke="#001c32" strokeWidth={4} />
+          </svg>
         </Grid>
 
         { pageData.data.map( (data: string, i: number ) => {

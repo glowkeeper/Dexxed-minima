@@ -1,11 +1,43 @@
 import React from 'react'
 import { Home as HomeConfig } from '../../config'
 
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+
+import { Local } from '../../config'
+import { Orders as OrdersConfig } from '../../config/strings'
+
+import { themeStyles } from '../../styles'
+
 export const Orders = () => {
 
+  const classes = themeStyles()
+
   return (
-    <p>
-      blah
-    </p>
+    <Grid container alignItems="flex-start">
+      <Grid container justify="flex-start">
+        <Grid item container justify="flex-start" xs={12}>
+          <Typography variant="h2">
+            {OrdersConfig.heading}
+          </Typography>
+        </Grid>
+
+        <Grid item container justify="center" xs={12}>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 2000 4"
+          >
+            <line x2="2000" stroke="#001c32" strokeWidth={4} />
+          </svg>
+        </Grid>
+
+      </Grid>
+
+      <Grid className={classes.details} item container justify="flex-start" xs={12}>
+        <Typography variant="body1">
+          Coming soon..
+        </Typography>
+      </Grid>
+    </Grid>
   )
 }

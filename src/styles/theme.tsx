@@ -181,12 +181,12 @@ const themeStyles = makeStyles({
     justifyContent: 'center'
   },
   landingLogoIcon: {
-    height: "100px",
-    width: '100px'
+    height: "200px",
+    width: '200px'
   },
   landingAppNameIcon: {
-    height: "25px",
-    width: '168px'
+    height: "50px",
+    width: '336px'
   },
   root: {
     [breakpoints.up('xs')]: {
@@ -212,7 +212,7 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(4),
       paddingLeft: theme.spacing(4),
       margin: "0",
-      height: "50px",
+      height: "60px",
       width: "100%",
       position: 'absolute',
       top: '0'
@@ -222,61 +222,10 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      height: "50px",
+      height: "60px",
       width: "100%",
       position: 'absolute',
       top: '0'
-    }
-  },
-  subHeader: {
-    [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
-      paddingBottom: theme.spacing(1),
-      paddingTop: theme.spacing(1),
-      margin: "0",
-      height: "60px",
-      width: "100%",
-      position: 'absolute',
-      top: '50px'
-    },
-    [breakpoints.up('md')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
-      paddingBottom: theme.spacing(1),
-      paddingTop: theme.spacing(1),
-      margin: "0",
-      textAlign: 'center',
-      height: "60px",
-      width: "100%",
-      position: 'absolute',
-      top: '50px'
-    }
-  },
-  loggedOutContent: {
-    [breakpoints.up('xs')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
-      margin: "0",
-      overflow: 'auto',
-      width: "100%",
-      position: 'absolute',
-      bottom: '121px',
-      top: '50px'
-    },
-    [breakpoints.up('md')]: {
-      background: 'linear-gradient(#F0F0FA, #F0F0FA)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
-      margin: "0",
-      overflow: 'auto',
-      width: "100%",
-      position: 'absolute',
-      bottom: '121px',
-      top: '50px'
     }
   },
   content: {
@@ -288,8 +237,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '121px',
-      top: '110px'
+      bottom: '107px',
+      top: '60px'
     },
     [breakpoints.up('md')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
@@ -299,8 +248,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '121px',
-      top: '110px'
+      bottom: '107px',
+      top: '60px'
     }
   },
   footer: {
@@ -310,7 +259,7 @@ const themeStyles = makeStyles({
       paddingLeft: theme.spacing(4),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "121px",
+      height: "107px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
@@ -321,7 +270,7 @@ const themeStyles = makeStyles({
       paddingLeft: theme.spacing(5),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "121px",
+      height: "107px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
@@ -418,14 +367,14 @@ const themeStyles = makeStyles({
   },
   footerIcon: {
     [breakpoints.up('xs')]: {
-      height: "35px",
-      width: '35px'
+      height: "45px",
+      width: '45px'
     }
   },
   headerIcon: {
     [breakpoints.up('xs')]: {
-      height: "50px",
-      width: '50px'
+      height: "15px",
+      width: '120px'
     }
   },
   sortIcon: {

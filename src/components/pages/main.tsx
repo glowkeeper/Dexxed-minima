@@ -132,85 +132,85 @@ const display = (props: Props) => {
                 ]}
               />
 
-              <Grid item container className={classes.header} xs={12}>
+              <Grid item container alignItems="center" className={classes.header} xs={12}>
 
-                <Grid item container justify="flex-start">
+                <Grid item container justify="flex-start" xs={6}>
                   <img className={classes.headerIcon} src={logoIcon}/>
                 </Grid>
 
-              </Grid>
+                <Grid item container justify="flex-end" xs={6}>
 
-              <Grid item container justify="flex-end" className={classes.subHeader} xs={12}>
+                  <div className={classes.subHeaderIconParent}>                  
 
-                <div className={classes.subHeaderIconParent}>
+                    <NavLink to={Local.help} className={classes.link}>
+                      <IconButton
+                        color="primary"
+                        aria-label="Help"
+                        component="span"
+                        size="small">
+                        <img
+                          data-for={helpIcon}
+                          data-tip
+                          src={icons[5]}
+                          className={classes.helpIcon}
+                        />
+                      </IconButton>
+                      <ReactTooltip
+                        id={helpIcon}
+                        place="bottom"
+                        effect="solid"
+                      >
+                        {Help.helpTip}
+                      </ReactTooltip>
+                    </NavLink>
 
-                  <NavLink to={Local.help} className={classes.link}>
-                    <IconButton
-                      color="primary"
-                      aria-label="Help"
-                      component="span"
-                      size="small">
-                      <img
-                        data-for={helpIcon}
-                        data-tip
-                        src={icons[2]}
-                        className={classes.helpIcon}
-                      />
-                    </IconButton>
-                    <ReactTooltip
-                      id={helpIcon}
-                      place="bottom"
-                      effect="solid"
-                    >
-                      {Help.helpTip}
-                    </ReactTooltip>
-                  </NavLink>
+                    <NavLink to={Local.contact} className={classes.link}>
+                      <IconButton
+                        color="primary"
+                        aria-label="Contact"
+                        component="span"
+                        size="small">
+                        <img
+                          data-for={contactIcon}
+                          data-tip
+                          src={icons[7]}
+                          className={classes.contactIcon}
+                        />
+                      </IconButton>
+                      <ReactTooltip
+                        id={contactIcon}
+                        place="bottom"
+                        effect="solid"
+                      >
+                        {Help.contactTip}
+                      </ReactTooltip>
+                    </NavLink>
 
-                  <NavLink to={Local.contact} className={classes.link}>
-                    <IconButton
-                      color="primary"
-                      aria-label="Contact"
-                      component="span"
-                      size="small">
-                      <img
-                        data-for={contactIcon}
-                        data-tip
-                        src={icons[4]}
-                        className={classes.contactIcon}
-                      />
-                    </IconButton>
-                    <ReactTooltip
-                      id={contactIcon}
-                      place="bottom"
-                      effect="solid"
-                    >
-                      {Help.contactTip}
-                    </ReactTooltip>
-                  </NavLink>
+                    <NavLink to={Local.about} className={classes.link}>
+                      <IconButton
+                        color="primary"
+                        aria-label="Info"
+                        component="span"
+                        size="small">
+                        <img
+                          data-for={infoIcon}
+                          data-tip
+                          src={icons[6]}
+                          className={classes.aboutIcon}
+                        />
+                      </IconButton>
+                      <ReactTooltip
+                        id={infoIcon}
+                        place="bottom"
+                        effect="solid"
+                      >
+                        {Help.aboutTip}
+                      </ReactTooltip>
+                    </NavLink>
 
-                  <NavLink to={Local.about} className={classes.link}>
-                    <IconButton
-                      color="primary"
-                      aria-label="Info"
-                      component="span"
-                      size="small">
-                      <img
-                        data-for={infoIcon}
-                        data-tip
-                        src={icons[3]}
-                        className={classes.aboutIcon}
-                      />
-                    </IconButton>
-                    <ReactTooltip
-                      id={infoIcon}
-                      place="bottom"
-                      effect="solid"
-                    >
-                      {Help.aboutTip}
-                    </ReactTooltip>
-                  </NavLink>
+                  </div>
 
-                </div>
+                </Grid>
 
               </Grid>
 
@@ -219,7 +219,7 @@ const display = (props: Props) => {
               </Grid>
 
 
-              <Grid item container className={classes.footer} justify="space-between" xs={12}>
+              <Grid item container className={classes.footer} justify="space-between"  alignItems="flex-start" xs={12}>
 
                 <Grid item container justify="center" xs={2}>
 

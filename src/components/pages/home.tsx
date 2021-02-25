@@ -13,9 +13,8 @@ import { themeStyles } from '../../styles'
 import { Local } from '../../config'
 import { Home as HomeConfig, App } from '../../config/strings'
 
-import logoIcon from '../../images/logo.svg'
-import appNameIcon from '../../images/minimaLogo.png'
-//import minimaIcon from '../../images/minimaIcon.svg'
+import logoIcon from '../../images/dexxedIcon.svg'
+import appNameIcon from '../../images/logo.svg'
 
 import { setActivePage } from '../../store/app/appData/actions'
 
@@ -37,18 +36,18 @@ const landing = (props: Props) => {
 
   useEffect(() => {
 
-    /*let appTimeout = setTimeout(() => {
+    let appTimeout = setTimeout(() => {
       setLoadAppName(true)
-    }, 1000)*/
+    }, 1000)
 
     let exitTimeout = setTimeout(() => {
       setExit(true)
-    }, 2000)
+    }, 3000)
 
     let pageTimeout = setTimeout(() => {
       props.setActivePage(Local.balances)
       history.push(Local.balances)
-    }, 2500)
+    }, 3500)
 
     return () => {
       //clearTimeout(appTimeout)
@@ -66,9 +65,17 @@ const landing = (props: Props) => {
 
             <Grid item container className={classes.landingDisplay}>
 
-              <Grid item container justify="center" xs={12}>
-                <img className={classes.landingLogoIcon} src={logoIcon}/>
-              </Grid>
+              <div>
+
+                <Grid item container justify="center" xs={12}>
+                  <img className={classes.landingLogoIcon} src={logoIcon}/>
+                </Grid>
+                <br />
+                <Grid item container justify="center" xs={12}>
+                  <img className={classes.landingAppNameIcon} src={appNameIcon}/>
+                </Grid>
+
+              </div>
 
             </Grid>
 
@@ -78,11 +85,22 @@ const landing = (props: Props) => {
 
             <Grid item container className={classes.landingDisplay}>
 
+              <div>
                 <Fade in={loadLogo} timeout={1000}>
-                  <Grid item container justify="center" xs={12}>
-                    <img className={classes.landingLogoIcon} src={logoIcon}/>
-                  </Grid>
+                  <div>
+                    <Grid item container justify="center" xs={12}>
+                      <img className={classes.landingLogoIcon} src={logoIcon}/>
+                    </Grid>
+                    <br />
+                    <Fade in={loadAppName} timeout={1000}>
+                      <Grid item container justify="center" xs={12}>
+                        <img className={classes.landingAppNameIcon} src={appNameIcon}/>
+                      </Grid>
+                    </Fade>
+                  </div>
                 </Fade>
+
+              </div>
 
             </Grid>
 

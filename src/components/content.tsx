@@ -21,7 +21,7 @@ export const Content = () => {
         <Route name={Paths.trades} exact path={Local.trades} render= {() => <Trades />} />
         <Route name={Paths.allTrades} exact path={Local.allTrades} render= {() => <AllTrades />} />
 
-        <Route name={Paths.orderBookIndex} exact path={Local.orderBookIndex} render= {() => <OrderBook />} />
+        <Route name={Paths.orderBook} exact path={Local.orderBook} render= {() => <OrderBook />} />
         <Route name={Paths.recentTrades} exact path={Local.recentTrades} render= {() => <AllTrades />} />
 
         <Route name={Paths.balances} path={Local.balances} render= {() => <Balances />} />

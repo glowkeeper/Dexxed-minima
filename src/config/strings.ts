@@ -85,6 +85,7 @@ class Contact {
 class Orders {
 
   static readonly heading = 'My Orders'
+  static readonly allHeading = 'Order Book'
 
   static readonly statusLive = 'Live'
   static readonly statusOld = 'Too Old'
@@ -99,6 +100,7 @@ class Balances {
 class Trades {
 
   static readonly heading = 'My Trades'
+  static readonly allTradesHeading = 'All Trades'
 }
 
 class OrderBook {
