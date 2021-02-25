@@ -102,7 +102,7 @@ const display = (props: Props) => {
     } else if ( props.appData.activePage === Local.contact ) {
 
       setLoading(false)
-      setIcons([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
+      setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
 
     }
   }, [props.appData])
@@ -140,7 +140,7 @@ const display = (props: Props) => {
 
                 <Grid item container justify="flex-end" xs={6}>
 
-                  <div className={classes.subHeaderIconParent}>                  
+                  <div className={classes.subHeaderIconParent}>
 
                     <NavLink to={Local.help} className={classes.link}>
                       <IconButton
