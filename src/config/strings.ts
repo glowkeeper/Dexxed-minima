@@ -90,6 +90,15 @@ class Orders {
   static readonly statusLive = 'Live'
   static readonly statusOld = 'Too Old'
   static readonly statusWaiting = 'Waiting'
+
+  static readonly type = 'Type'
+  static readonly tokenName = 'Token'
+  static readonly buy = 'Buy'
+  static readonly sell = 'Sell'
+  static readonly token = 'Token'
+  static readonly amount = 'Amount'
+  static readonly price = 'Price'
+  static readonly total = 'Total'
 }
 
 class Balances {
@@ -97,7 +106,7 @@ class Balances {
   static readonly heading = 'My Balances'
 
   static readonly token = 'Token'
-  static readonly amount = 'Amount'
+  static readonly amount = 'Amount Confirmed'
 }
 
 class Trades {

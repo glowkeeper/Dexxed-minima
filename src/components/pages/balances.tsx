@@ -9,7 +9,6 @@ import Typography from '@material-ui/core/Typography'
 import { Local } from '../../config'
 import { Balances as BalancesConfig } from '../../config/strings'
 
-
 import { themeStyles } from '../../styles'
 
 import {
@@ -29,7 +28,7 @@ interface BalanceDispatchProps {
 
 type Props = BalanceStateProps & BalanceDispatchProps
 
-export const display = (props: Props) => {
+const display = (props: Props) => {
 
   const classes = themeStyles()
   props.setActivePage()
@@ -111,7 +110,6 @@ export const display = (props: Props) => {
     </Grid>
   )
 }
-
 
 const mapStateToProps = (state: ApplicationState): BalanceStateProps => {
 

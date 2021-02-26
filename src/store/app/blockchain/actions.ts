@@ -124,7 +124,7 @@ export const getTokens = () => {
 
         dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
 
-        console.log("tokens: ", tokenData)
+        //console.log("tokens: ", tokenData)
 
       } else {
 
@@ -165,7 +165,7 @@ export const setToken = (tokenid: string) => {
 
     dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
 
-    console.log("Set tokens: ", tokenData)
+    //console.log("Set tokens: ", tokenData)
   }
 }
 
@@ -282,7 +282,7 @@ const getOrders = (justMyOrders: boolean) => {
         const coinData = coinsJSON[0]
         for( let i=0; i < coinData.response.coins.length; i++ ) {
 
-          console.log("This coin: ", coinData.response.coins[i].data)
+          //console.log("This coin: ", coinData.response.coins[i].data)
 
           //The Order
           const coinProof  = coinData.response.coins[i].data
@@ -365,7 +365,7 @@ const getOrders = (justMyOrders: boolean) => {
 
         dispatch(write({ data: ordersData.data })(actionType))
 
-        justMyOrders ? console.log("my orders: ", ordersData, actionType) : console.log("all orders: ", ordersData, actionType)
+        //justMyOrders ? console.log("my orders: ", ordersData, actionType) : console.log("all orders: ", ordersData, actionType)
       } else {
 
         Minima.log("Get orders failed")
@@ -454,7 +454,7 @@ const getAllTrades = () => {
 
         dispatch(write({ data: tradesData.data })(AllTradesActionTypes.ADD_TRADES))
 
-        console.log("all trades: ", tradesData)
+        //console.log("all trades: ", tradesData)
 
       } else {
 
@@ -557,7 +557,7 @@ const getMyTrades = () => {
 
         dispatch(write({ data: tradesData.data })(MyTradesActionTypes.ADD_MYTRADES))
 
-        console.log("my trades: ", tradesData)
+        //console.log("my trades: ", tradesData)
 
       } else {
 
