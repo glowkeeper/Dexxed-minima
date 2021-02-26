@@ -35,7 +35,7 @@ export const init = () => {
 
       Minima.init( function( msg: any ) {
 
-        //console.log(msg)
+        //console.log("initing", msg)
 
         if ( msg.event == "connected" ) {
 
@@ -203,7 +203,7 @@ const getBalance = () => {
 
     dispatch(write({ data: balanceData.data })(BalanceActionTypes.GET_BALANCES))
 
-    console.log("balances: ", balanceData)
+    //console.log("balances: ", balanceData)
   }
 }
 

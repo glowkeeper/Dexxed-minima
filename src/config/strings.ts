@@ -95,6 +95,9 @@ class Orders {
 class Balances {
 
   static readonly heading = 'My Balances'
+
+  static readonly token = 'Token'
+  static readonly amount = 'Amount'
 }
 
 class Trades {
