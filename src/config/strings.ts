@@ -126,6 +126,7 @@ class Trades {
   static readonly amount = 'Amount'
   static readonly price = 'Price'
   static readonly total = 'Total'
+  static readonly block = 'Block'
 }
 
 class OrderBook {
