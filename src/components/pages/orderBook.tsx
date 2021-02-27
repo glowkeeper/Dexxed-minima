@@ -267,7 +267,6 @@ const display = (props: Props) => {
           <Grid item container className={classes.formButton} xs={12}>
             <Button
               type='submit'
-              className={classes.submitButton}
               color="primary"
               size='medium'
               variant="contained"
@@ -276,6 +275,10 @@ const display = (props: Props) => {
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
+                backgroundColor: isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`,
+                width: "100%",
+                borderRadius: 0,
+                justifyContent: "center"
               }}
             >
               {OrderBookConfig.orderButton}
