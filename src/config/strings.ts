@@ -94,7 +94,9 @@ class Orders {
   static readonly type = 'Type'
   static readonly tokenName = 'Token'
   static readonly buy = 'Buy'
+  static readonly buyColor = 'green'
   static readonly sell = 'Sell'
+  static readonly sellColor = 'red'
   static readonly token = 'Token'
   static readonly amount = 'Amount'
   static readonly price = 'Price'
@@ -113,6 +115,17 @@ class Trades {
 
   static readonly heading = 'My Trades'
   static readonly allTradesHeading = 'All Trades'
+
+  static readonly type = 'Type'
+  static readonly tokenName = 'Token'
+  static readonly buy = 'Buy'
+  static readonly buyColor = 'green'
+  static readonly sell = 'Sell'
+  static readonly sellColor = 'red'
+  static readonly token = 'Token'
+  static readonly amount = 'Amount'
+  static readonly price = 'Price'
+  static readonly total = 'Total'
 }
 
 class OrderBook {

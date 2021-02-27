@@ -139,7 +139,6 @@ export const setToken = (tokenid: string) => {
 
     const state = getState()
     const dexContract = state.script.data.scriptAddress
-    const myOrders = state.myOrders.data
     const tokens = state.tokens
 
     const tokenData: TokenProps = {
@@ -259,7 +258,6 @@ const getOrders = (justMyOrders: boolean) => {
 
     const state = getState()
     const dexContract = state.script.data.scriptAddress
-    const myOrders = state.myOrders.data
     const allTokens = state.tokens
 
     let minimaCmd = "coins address:" + dexContract  + ";"

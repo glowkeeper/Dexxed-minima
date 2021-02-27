@@ -117,6 +117,7 @@ let theme = createMuiTheme ({
       fontSize: "1",
       fontWeight: 400,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      fontFeatureSettings: `'tnum' on`,
       color: '#001C32',
     },
     caption: {
@@ -202,7 +203,7 @@ const themeStyles = makeStyles({
       marginLeft: "auto",
       marginRight: "auto",
       height: "90vh",
-      width: "40%",
+      width: "60%",
       position: 'relative'
     }
   },

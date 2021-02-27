@@ -89,7 +89,7 @@ const display = (props: Props) => {
                </Typography>
               </Grid>
               <Grid className={classes.details} item container justify="flex-end" xs={6}>
-               <Typography variant="body1">
+               <Typography variant="body2">
                  {thisAmount}
                </Typography>
               </Grid>

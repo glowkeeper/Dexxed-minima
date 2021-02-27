@@ -33,7 +33,7 @@ const display = (props: Props) => {
   const classes = themeStyles()
   props.setActivePage()
 
-  console.log("ORDERS!: ", props.orderData)
+  //console.log("ORDERS!: ", props.orderData)
 
   return (
     <Grid container alignItems="flex-start">
@@ -94,6 +94,7 @@ const display = (props: Props) => {
           console.log(order)
 
           const type = order.isBuy ? `${OrdersConfig.buy}` : `${OrdersConfig.sell}`
+          const color = order.isBuy ? `${OrdersConfig.buyColor}` : `${OrdersConfig.sellColor}`
 
           const amount = +order.amount
           const thisAmount = amount.toFixed(2)
@@ -108,27 +109,27 @@ const display = (props: Props) => {
             <React.Fragment key={index}>
 
               <Grid className={classes.details} item container justify="flex-start" xs={2}>
-               <Typography variant="body1">
+               <Typography style={{color: `${color}`}} variant="body1">
                  {type}
                </Typography>
               </Grid>
               <Grid className={classes.details} item container justify="flex-start" xs={2}>
-               <Typography variant="body1">
+               <Typography style={{ wordWrap: 'break-word' }} variant="body1">
                  {order.tokenName}
                </Typography>
               </Grid>
               <Grid className={classes.details} item container justify="flex-end" xs={2}>
-               <Typography variant="body1">
+               <Typography variant="body2">
                  {thisPrice}
                </Typography>
               </Grid>
               <Grid className={classes.details} item container justify="flex-end" xs={3}>
-               <Typography variant="body1">
+               <Typography variant="body2">
                  {thisAmount}
                </Typography>
               </Grid>
               <Grid className={classes.details} item container justify="flex-end" xs={3}>
-               <Typography variant="body1">
+               <Typography variant="body2">
                  {thisTotal}
                </Typography>
               </Grid>
