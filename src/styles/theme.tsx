@@ -438,10 +438,11 @@ const themeStyles = makeStyles({
   },
   formError: {
     paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
     color: 'red'
   },
   formButton: {
-    paddingTop: theme.spacing(2)
+    paddingTop: theme.spacing(1)
   },
   submitButton: {
     width: '100%',

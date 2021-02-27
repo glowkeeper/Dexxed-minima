@@ -40,11 +40,11 @@ type Props = OrdersStateProps & OrdersDispatchProps
 
 const tradeSchema = Yup.object().shape({
   amount: Yup.number()
-    .positive()
-    .required(`${GeneralError.required}`),
+    .typeError(`${GeneralError.number}`)
+    .positive(`${OrderBookConfig.validAmount}`),
   price: Yup.number()
-    .positive()
-    .required(`${GeneralError.required}`)
+    .typeError(`${GeneralError.number}`)
+    .positive(`${OrderBookConfig.validPrice}`)
 })
 
 const display = (props: Props) => {

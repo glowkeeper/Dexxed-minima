@@ -31,6 +31,7 @@ class Paths {
 class GeneralError {
 
     static readonly required = "Required"
+    static readonly number = "Must Be a Number"
 }
 
 class Transaction {
@@ -151,6 +152,9 @@ class OrderBook {
   static readonly buyButton = 'Buy'
   static readonly sellButton = 'Sell'
   static readonly orderButton = 'Place Order'
+
+  static readonly validAmount = 'Please Input a Valid Amount'
+  static readonly validPrice = 'Please Input a Valid Price'
 }
 
 class RecentTrades {
