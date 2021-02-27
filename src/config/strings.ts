@@ -71,7 +71,7 @@ class Help {
   static readonly tradesTip = 'My Trades'
   static readonly allTradesTip = 'All Trades'
   static readonly orderBookTip = 'Order Book'
-  static readonly recentTradesTip = 'Trades'
+  static readonly recentTradesTip = 'Recent Trades'
 
   static readonly orderTip = 'Place Order'
   static readonly buyTip = 'Buy Order'
@@ -145,10 +145,14 @@ class OrderBook {
   static readonly price = 'Price'
   static readonly buy = 'Buy'
   static readonly buyColour = 'green'
+  static readonly liveColour = '#000000'
   static readonly disabledColour = '#C8C8D4'
   static readonly sell = 'Sell'
   static readonly sellColour = 'red'
 
+
+  static readonly orderBookButton = 'Order Book'
+  static readonly recentTradesButton = 'Recent Trades'
   static readonly buyButton = 'Buy'
   static readonly sellButton = 'Sell'
   static readonly orderButton = 'Place Order'

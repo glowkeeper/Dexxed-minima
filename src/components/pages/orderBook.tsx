@@ -52,6 +52,9 @@ const display = (props: Props) => {
   const [isBuy, setIsBuy] = useState(true)
   const [tradeColours, setTradeColours] = useState([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
 
+  const [isBook, setIsBook] = useState(true)
+  const [bookColours, setBookColours] = useState([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
+
   const classes = themeStyles()
   props.setActivePage()
 
@@ -87,140 +90,206 @@ const display = (props: Props) => {
     }
   }
 
+  const book = (book: boolean) => {
+
+    setIsBook(book)
+    if ( book ) {
+      setBookColours([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
+    } else {
+      setBookColours([`${OrderBookConfig.disabledColour}`,`${OrderBookConfig.liveColour}`])
+    }
+  }
+
   return (
     <Grid container alignItems="flex-start">
 
-    <Grid item container className={classes.formLabel} xs={6}>
-      <Button
-        onClick={() => buy(true)}
-        color="primary"
-        size='medium'
-        variant="contained"
-        disableElevation={true}
-        data-for='buyButton'
-        data-tip
-        style={{
-          textTransform: 'none',
-          fontSize: "1em",
-          backgroundColor: `${tradeColours[0]}`,
-          width: "100%",
-          borderRadius: 0,
-          justifyContent: "flex-start"
-        }}
-      >
-        {OrderBookConfig.buyButton}
-      </Button>
-      <ReactTooltip
-        id='buyButton'
-        place="bottom"
-        effect="solid"
-      >
-        {Help.buyTip}
-      </ReactTooltip>
-    </Grid>
+      <Grid item container className={classes.formLabel} xs={6}>
+        <Button
+          onClick={() => book(true)}
+          color="primary"
+          size='medium'
+          variant="contained"
+          disableElevation={true}
+          data-for='orderBookButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            fontSize: "1em",
+            backgroundColor: `${bookColours[0]}`,
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-start"
+          }}
+        >
+          {OrderBookConfig.orderBookButton}
+        </Button>
+        <ReactTooltip
+          id='orderBookButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.orderBookTip}
+        </ReactTooltip>
+      </Grid>
 
-    <Grid item container className={classes.formLabel} xs={6}>
-      <Button
-        onClick={() => buy(false)}
-        color="primary"
-        size='medium'
-        variant="contained"
-        disableElevation={true}
-        data-for='sellButton'
-        data-tip
-        style={{
-          textTransform: 'none',
-          fontSize: "1em",
-          backgroundColor: `${tradeColours[1]}`,
-          width: "100%",
-          borderRadius: 0,
-          justifyContent: "flex-end"
-        }}
-      >
-        {OrderBookConfig.sellButton}
-      </Button>
-      <ReactTooltip
-        id='sellButton'
-        place="bottom"
-        effect="solid"
-      >
-        {Help.orderTip}
-      </ReactTooltip>
-    </Grid>
+      <Grid item container className={classes.formLabel} xs={6}>
+        <Button
+          onClick={() => book(false)}
+          color="primary"
+          size='medium'
+          variant="contained"
+          disableElevation={true}
+          data-for='recentTradesButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            fontSize: "1em",
+            backgroundColor: `${bookColours[1]}`,
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-end"
+          }}
+        >
+          {OrderBookConfig.recentTradesButton}
+        </Button>
+        <ReactTooltip
+          id='recentTradesButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.recentTradesTip}
+        </ReactTooltip>
+      </Grid>
 
-    <Grid item container className={classes.form} xs={12}>
+      <Grid item container className={classes.formLabel} xs={6}>
+        <Button
+          onClick={() => buy(true)}
+          color="primary"
+          size='medium'
+          variant="contained"
+          disableElevation={true}
+          data-for='buyButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            fontSize: "1em",
+            backgroundColor: `${tradeColours[0]}`,
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-start"
+          }}
+        >
+          {OrderBookConfig.buyButton}
+        </Button>
+        <ReactTooltip
+          id='buyButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.buyTip}
+        </ReactTooltip>
+      </Grid>
 
-      <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
-        <Grid item container xs={12}>
-          <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
-            <label htmlFor="amount">{OrderBookConfig.amount}</label>
-          </Grid>
-          <Grid item container className={classes.formInput} xs={11}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="outlined-basic"
-              name="amount"
-              type="text"
-              value={formik.values.amount}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item container className={classes.formError} xs={12}>
-            {formik.errors.amount && formik.touched.amount ? (
-              <div>{formik.errors.amount}</div>
-            ) : null}
-          </Grid>
-        </Grid>
-        <Grid item container xs={12}>
-          <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
-            <label htmlFor="price">{OrderBookConfig.price}</label>
-          </Grid>
-          <Grid item container className={classes.formInput} xs={11}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              id="outlined-basic"
-              name="price"
-              type="text"
-              value={formik.values.price}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item container className={classes.formError} xs={12}>
-            {formik.errors.price && formik.touched.price ? (
-              <div>{formik.errors.price}</div>
-            ) : null}
-          </Grid>
-        </Grid>
-        <Grid item container className={classes.formButton} xs={12}>
-          <Button
-            type='submit'
-            className={classes.submitButton}
-            color="primary"
-            size='medium'
-            variant="contained"
-            data-for='orderButton'
-            data-tip
-            style={{
-              textTransform: 'none',
-              fontSize: "1em",
-            }}
-          >
-            {OrderBookConfig.orderButton}
-          </Button>
-          <ReactTooltip
-            id='orderButton'
-            place="bottom"
-            effect="solid"
-          >
-            { isBuy ? `${Help.placeBuyTip}` : `${Help.placeSellTip}` }
-          </ReactTooltip>
-        </Grid>
-      </form>
-    </Grid>
+      <Grid item container className={classes.formLabel} xs={6}>
+        <Button
+          onClick={() => buy(false)}
+          color="primary"
+          size='medium'
+          variant="contained"
+          disableElevation={true}
+          data-for='sellButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            fontSize: "1em",
+            backgroundColor: `${tradeColours[1]}`,
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-end"
+          }}
+        >
+          {OrderBookConfig.sellButton}
+        </Button>
+        <ReactTooltip
+          id='sellButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.orderTip}
+        </ReactTooltip>
+      </Grid>
 
+      <Grid item container className={classes.form} xs={12}>
 
+        <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
+          <Grid item container xs={12}>
+            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
+              <label htmlFor="amount">{OrderBookConfig.amount}</label>
+            </Grid>
+            <Grid item container className={classes.formInput} xs={11}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="outlined-basic"
+                name="amount"
+                type="text"
+                value={formik.values.amount}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item container className={classes.formError} xs={12}>
+              {formik.errors.amount && formik.touched.amount ? (
+                <div>{formik.errors.amount}</div>
+              ) : null}
+            </Grid>
+          </Grid>
+          <Grid item container xs={12}>
+            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
+              <label htmlFor="price">{OrderBookConfig.price}</label>
+            </Grid>
+            <Grid item container className={classes.formInput} xs={11}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                id="outlined-basic"
+                name="price"
+                type="text"
+                value={formik.values.price}
+                onChange={formik.handleChange}
+              />
+            </Grid>
+            <Grid item container className={classes.formError} xs={12}>
+              {formik.errors.price && formik.touched.price ? (
+                <div>{formik.errors.price}</div>
+              ) : null}
+            </Grid>
+          </Grid>
+          <Grid item container className={classes.formButton} xs={12}>
+            <Button
+              type='submit'
+              className={classes.submitButton}
+              color="primary"
+              size='medium'
+              variant="contained"
+              data-for='orderButton'
+              data-tip
+              style={{
+                textTransform: 'none',
+                fontSize: "1em",
+              }}
+            >
+              {OrderBookConfig.orderButton}
+            </Button>
+            <ReactTooltip
+              id='orderButton'
+              place="bottom"
+              effect="solid"
+            >
+              { isBuy ? `${Help.placeBuyTip}` : `${Help.placeSellTip}` }
+            </ReactTooltip>
+          </Grid>
+        </form>
+      </Grid>
 
     </Grid>
   )
