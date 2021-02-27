@@ -507,6 +507,7 @@ const getMyTrades = () => {
               // To get this to match dexxed, you seem to have to reverse this from orders
               let isBuy = true
               const value = new Decimal(txpItem.values[0].value)
+              console.log("Value: ", tokenId, value + "")
               if( tokenId == "0x00" ) {
 
                 tokenId = Minima.util.getStateVariable( cPrevState, "2" )
@@ -525,7 +526,7 @@ const getMyTrades = () => {
         				const scaledAmount = coinAmount.mul(scale)
         				decPrice = new Decimal(decAmount.div(scaledAmount))
 
-                if ( value.lt(0) ) {
+                if ( value.lte(0) ) {
 
                   isBuy = false
                 }
