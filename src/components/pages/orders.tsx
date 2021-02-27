@@ -94,7 +94,7 @@ const display = (props: Props) => {
           console.log(order)
 
           const type = order.isBuy ? `${OrdersConfig.buy}` : `${OrdersConfig.sell}`
-          const color = order.isBuy ? `${OrdersConfig.buyColor}` : `${OrdersConfig.sellColor}`
+          const colour = order.isBuy ? `${OrdersConfig.buyColour}` : `${OrdersConfig.sellColour}`
 
           const amount = +order.amount
           const thisAmount = amount.toFixed(2)
@@ -109,7 +109,7 @@ const display = (props: Props) => {
             <React.Fragment key={index}>
 
               <Grid className={classes.details} item container justify="flex-start" xs={2}>
-               <Typography style={{color: `${color}`}} variant="body1">
+               <Typography style={{color: `${colour}`}} variant="body1">
                  {type}
                </Typography>
               </Grid>

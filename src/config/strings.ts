@@ -72,6 +72,12 @@ class Help {
   static readonly orderBookTip = 'Order Book'
   static readonly recentTradesTip = 'Trades'
 
+  static readonly orderTip = 'Place Order'
+  static readonly buyTip = 'Buy Order'
+  static readonly sellTip = 'Sell Order'
+  static readonly placeBuyTip = 'Place a Buy Order'
+  static readonly placeSellTip = 'Place a Sell Order'
+
   static readonly deleteSure = "Are you sure you want to delete"
 }
 
@@ -94,9 +100,9 @@ class Orders {
   static readonly type = 'Type'
   static readonly tokenName = 'Token'
   static readonly buy = 'Buy'
-  static readonly buyColor = 'green'
+  static readonly buyColour = 'green'
   static readonly sell = 'Sell'
-  static readonly sellColor = 'red'
+  static readonly sellColour = 'red'
   static readonly token = 'Token'
   static readonly amount = 'Amount'
   static readonly price = 'Price'
@@ -119,9 +125,9 @@ class Trades {
   static readonly type = 'Type'
   static readonly tokenName = 'Token'
   static readonly buy = 'Buy'
-  static readonly buyColor = 'green'
+  static readonly buyColour = 'green'
   static readonly sell = 'Sell'
-  static readonly sellColor = 'red'
+  static readonly sellColour = 'red'
   static readonly token = 'Token'
   static readonly amount = 'Amount'
   static readonly price = 'Price'
@@ -131,7 +137,20 @@ class Trades {
 
 class OrderBook {
 
-  static readonly heading = 'Order Book'
+  static readonly orderHeading = 'Order Book'
+  static readonly tradesHeading = 'Order Book'
+
+  static readonly amount = 'Amount'
+  static readonly price = 'Price'
+  static readonly buy = 'Buy'
+  static readonly buyColour = 'green'
+  static readonly disabledColour = '#C8C8D4'
+  static readonly sell = 'Sell'
+  static readonly sellColour = 'red'
+
+  static readonly buyButton = 'Buy'
+  static readonly sellButton = 'Sell'
+  static readonly orderButton = 'Place Order'
 }
 
 class RecentTrades {

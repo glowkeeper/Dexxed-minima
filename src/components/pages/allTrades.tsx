@@ -99,7 +99,7 @@ const display = (props: Props) => {
           console.log(trade)
 
           const type = trade.isBuy ? `${TradesConfig.buy}` : `${TradesConfig.sell}`
-          const color = trade.isBuy ? `${TradesConfig.buyColor}` : `${TradesConfig.sellColor}`
+          const colour = trade.isBuy ? `${TradesConfig.buyColour}` : `${TradesConfig.sellColour}`
 
           const amount = +trade.amount
           const thisAmount = amount.toFixed(2)
@@ -114,7 +114,7 @@ const display = (props: Props) => {
             <React.Fragment key={index}>
 
               <Grid className={classes.details} item container justify="flex-start" xs={2}>
-               <Typography style={{color: `${color}`}} variant="body1">
+               <Typography style={{color: `${colour}`}} variant="body1">
                  {type}
                </Typography>
               </Grid>

@@ -415,7 +415,7 @@ const themeStyles = makeStyles({
     }
   },
   form: {
-    paddingTop: theme.spacing(2),
+    paddingTop: theme.spacing(1),
   },
   formSubmit: {
     width: '100%',
