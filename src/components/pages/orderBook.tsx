@@ -378,7 +378,7 @@ const display = (props: Props) => {
         <Grid container alignItems="flex-start">
 
           <Grid item container justify="flex-start" xs={12}>
-            <Typography variant="h3">
+            <Typography style={{color: 'blue'}} variant="h3">
               {token.hasOwnProperty("label") ? token.label : ""}
             </Typography>
           </Grid>
@@ -472,7 +472,7 @@ const display = (props: Props) => {
           <Grid container alignItems="flex-start">
 
             <Grid item container justify="flex-start" xs={12}>
-              <Typography variant="h3">
+              <Typography style={{color: 'blue'}} variant="h3">
                 {token.hasOwnProperty("label") ? token.label : ""}
               </Typography>
             </Grid>
