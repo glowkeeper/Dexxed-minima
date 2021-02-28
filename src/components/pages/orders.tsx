@@ -91,8 +91,9 @@ const display = (props: Props) => {
       {
         props.orderData.data.map( ( order: Order, index: number ) => {
 
-          console.log(order)
+          //console.log("Order!", order)
 
+          const orderToken = order.isBuy ? order.swapTokenName : order.tokenName
           const type = order.isBuy ? `${OrdersConfig.buy}` : `${OrdersConfig.sell}`
           const colour = order.isBuy ? `${OrdersConfig.buyColour}` : `${OrdersConfig.sellColour}`
 
@@ -115,7 +116,7 @@ const display = (props: Props) => {
               </Grid>
               <Grid className={classes.details} item container justify="flex-start" xs={2}>
                <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-                 {order.tokenName}
+                 {orderToken}
                </Typography>
               </Grid>
               <Grid className={classes.details} item container justify="flex-end" xs={2}>

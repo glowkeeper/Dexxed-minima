@@ -138,11 +138,11 @@ class Trades {
 
 class OrderBook {
 
-  static readonly orderHeading = 'Order Book'
-  static readonly tradesHeading = 'Order Book'
+  static readonly heading = 'Order Book'
 
   static readonly amount = 'Amount'
   static readonly price = 'Price'
+  static readonly token = 'Token'
   static readonly buy = 'Buy'
   static readonly buyColour = 'green'
   static readonly liveColour = '#000000'
@@ -151,14 +151,15 @@ class OrderBook {
   static readonly sellColour = 'red'
 
 
-  static readonly orderBookButton = 'Order Book'
-  static readonly recentTradesButton = 'Recent Trades'
+  static readonly orderBookButton = 'Orders'
+  static readonly recentTradesButton = 'Trades'
   static readonly buyButton = 'Buy'
   static readonly sellButton = 'Sell'
   static readonly orderButton = 'Place Order'
 
   static readonly validAmount = 'Please Input a Valid Amount'
   static readonly validPrice = 'Please Input a Valid Price'
+  static readonly validToken = 'Please Select a Token'
 }
 
 class RecentTrades {

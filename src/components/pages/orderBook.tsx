@@ -12,6 +12,7 @@ import { useFormik } from 'formik'
 import Button from '@material-ui/core/Button'
 import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
+import Select from 'react-select'
 
 import { Local, GeneralError, Help } from '../../config'
 
@@ -24,11 +25,14 @@ import {
   AppDispatch,
   OrderBookProps,
   Order,
-  NewOrder
+  NewOrder,
+  TokenProps,
+  Token
 } from '../../store'
 
 interface OrdersStateProps {
   orderData: OrderBookProps
+  tokenData: TokenProps
 }
 
 interface OrdersDispatchProps {
@@ -39,6 +43,9 @@ interface OrdersDispatchProps {
 type Props = OrdersStateProps & OrdersDispatchProps
 
 const tradeSchema = Yup.object().shape({
+  token: Yup.string()
+    .typeError(`${OrderBookConfig.validToken}`)
+    .required(`${GeneralError.required}`),
   amount: Yup.number()
     .typeError(`${GeneralError.number}`)
     .positive(`${OrderBookConfig.validAmount}`),
@@ -55,14 +62,32 @@ const display = (props: Props) => {
   const [isBook, setIsBook] = useState(true)
   const [bookColours, setBookColours] = useState([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
 
+  const [tokens, setTokens] = useState([] as any[])
+  const [token, setToken] = useState({} as any)
+
+  const minimaTokenId = "0x00"
   const classes = themeStyles()
   props.setActivePage()
 
-  const minimaTokenId = "0x00"
+  useEffect(() => {
+
+    if ( props.tokenData ) {
+
+      let options = [] as any
+      props.tokenData.data.forEach(element => {
+
+        const thisOption = { value: element.tokenId, label: element.tokenName }
+        options.push(thisOption)
+      })
+      setTokens(options)
+    }
+
+  }, [props.tokenData])
 
   //console.log("ORDERS!: ", props.orderData)
   const formik = useFormik({
     initialValues: {
+      token: null,
       amount: null,
       price: null
     },
@@ -70,13 +95,22 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
+      console.log("values: ", values)
+
+      let hasTokenId = values.token
+      let wantsTokenId = minimaTokenId
+      if ( isBuy ) {
+        hasTokenId = hasTokenId
+        wantsTokenId = wantsTokenId
+      }
+
       const orderInfo: NewOrder = {
           amount: values.amount,
           price: values.price,
-          hasTokenId: minimaTokenId,
-          wantsTokenId: minimaTokenId
+          hasTokenId: hasTokenId,
+          wantsTokenId: wantsTokenId
       }
-      props.submitOrder(orderInfo)
+      //props.submitOrder(orderInfo)
     },
   })
 
@@ -103,62 +137,19 @@ const display = (props: Props) => {
   return (
     <Grid container alignItems="flex-start">
 
-      <Grid item container className={classes.formLabel} xs={6}>
-        <Button
-          onClick={() => book(true)}
-          color="primary"
-          size='medium'
-          variant="contained"
-          disableElevation={true}
-          data-for='orderBookButton'
-          data-tip
-          style={{
-            textTransform: 'none',
-            fontSize: "1em",
-            backgroundColor: `${bookColours[0]}`,
-            width: "100%",
-            borderRadius: 0,
-            justifyContent: "flex-start"
-          }}
-        >
-          {OrderBookConfig.orderBookButton}
-        </Button>
-        <ReactTooltip
-          id='orderBookButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.orderBookTip}
-        </ReactTooltip>
+      <Grid item container justify="flex-start" xs={12}>
+        <Typography variant="h2">
+          {OrderBookConfig.heading}
+        </Typography>
       </Grid>
 
-      <Grid item container className={classes.formLabel} xs={6}>
-        <Button
-          onClick={() => book(false)}
-          color="primary"
-          size='medium'
-          variant="contained"
-          disableElevation={true}
-          data-for='recentTradesButton'
-          data-tip
-          style={{
-            textTransform: 'none',
-            fontSize: "1em",
-            backgroundColor: `${bookColours[1]}`,
-            width: "100%",
-            borderRadius: 0,
-            justifyContent: "flex-end"
-          }}
+      <Grid item container justify="center" xs={12}>
+        <svg
+           xmlns="http://www.w3.org/2000/svg"
+           viewBox="0 0 2000 4"
         >
-          {OrderBookConfig.recentTradesButton}
-        </Button>
-        <ReactTooltip
-          id='recentTradesButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.recentTradesTip}
-        </ReactTooltip>
+          <line x2="2000" stroke="#001c32" strokeWidth={4} />
+        </svg>
       </Grid>
 
       <Grid item container className={classes.formLabel} xs={6}>
@@ -222,6 +213,28 @@ const display = (props: Props) => {
       <Grid item container className={classes.form} xs={12}>
 
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
+
+          <Grid item container xs={12}>
+            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
+              <label htmlFor="token">{OrderBookConfig.token}</label>
+            </Grid>
+            <Grid item container xs={11}>
+              <div style={{width: '100%'}}>
+                <Select
+                  defaultValue={token}
+                  onChange={setToken}
+                  options={tokens}
+                  name="token"
+                />
+              </div>
+            </Grid>
+            <Grid item container className={classes.formError} xs={12}>
+              {formik.errors.token && formik.touched.token ? (
+                <div>{formik.errors.token}</div>
+              ) : null}
+            </Grid>
+          </Grid>
+
           <Grid item container xs={12}>
             <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
               <label htmlFor="amount">{OrderBookConfig.amount}</label>
@@ -243,6 +256,7 @@ const display = (props: Props) => {
               ) : null}
             </Grid>
           </Grid>
+
           <Grid item container xs={12}>
             <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
               <label htmlFor="price">{OrderBookConfig.price}</label>
@@ -264,6 +278,7 @@ const display = (props: Props) => {
               ) : null}
             </Grid>
           </Grid>
+
           <Grid item container className={classes.formButton} xs={12}>
             <Button
               type='submit'
@@ -294,6 +309,149 @@ const display = (props: Props) => {
         </form>
       </Grid>
 
+      <Grid item container className={classes.formLabel} xs={6}>
+        <Button
+          onClick={() => book(true)}
+          color="primary"
+          size='medium'
+          variant="contained"
+          disableElevation={true}
+          data-for='orderBookButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            fontSize: "1em",
+            backgroundColor: `${bookColours[0]}`,
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-start"
+          }}
+        >
+          {OrderBookConfig.orderBookButton}
+        </Button>
+        <ReactTooltip
+          id='orderBookButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.orderBookTip}
+        </ReactTooltip>
+      </Grid>
+
+      <Grid item container className={classes.formLabel} xs={6}>
+        <Button
+          onClick={() => book(false)}
+          color="primary"
+          size='medium'
+          variant="contained"
+          disableElevation={true}
+          data-for='recentTradesButton'
+          data-tip
+          style={{
+            textTransform: 'none',
+            fontSize: "1em",
+            backgroundColor: `${bookColours[1]}`,
+            width: "100%",
+            borderRadius: 0,
+            justifyContent: "flex-end"
+          }}
+        >
+          {OrderBookConfig.recentTradesButton}
+        </Button>
+        <ReactTooltip
+          id='recentTradesButton'
+          place="bottom"
+          effect="solid"
+        >
+          {Help.recentTradesTip}
+        </ReactTooltip>
+      </Grid>
+
+      { isBook?
+
+        <Grid container alignItems="flex-start">
+
+          {
+            props.orderData.data.map( ( order: Order, index: number ) => {
+
+              //console.log("Order! ", order)
+              let selectedToken = ""
+              if ( token.hasOwnProperty("value") ) {
+                selectedToken = token.value
+              }
+
+              //console.log("TokenId: ", thisToken, order.tokenId )
+
+              const orderToken = order.isBuy ? order.swapTokenId :  order.tokenId
+
+              if ( orderToken == selectedToken ) {
+
+                //console.log(order)
+
+                const tokenName = order.isBuy ? order.swapTokenName : order.tokenName
+                const type = order.isBuy ? `${OrderBookConfig.buy}` : `${OrderBookConfig.sell}`
+                const colour = order.isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`
+
+                const amount = +order.amount
+                const thisAmount = amount.toFixed(2)
+
+                const price = +order.price
+                const thisPrice = price.toFixed(2)
+
+                const total = +order.total
+                const thisTotal = total.toFixed(2)
+
+                return (
+
+                  <React.Fragment key={index}>
+
+                    <Grid className={classes.details} item container justify="flex-start" xs={2}>
+                     <Typography style={{color: `${colour}`}} variant="body1">
+                       {type}
+                     </Typography>
+                    </Grid>
+                    <Grid className={classes.details} item container justify="flex-start" xs={2}>
+                     <Typography style={{ wordWrap: 'break-word' }} variant="body1">
+                       {tokenName}
+                     </Typography>
+                    </Grid>
+                    <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                     <Typography variant="body2">
+                       {thisPrice}
+                     </Typography>
+                    </Grid>
+                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                     <Typography variant="body2">
+                       {thisAmount}
+                     </Typography>
+                    </Grid>
+                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                     <Typography variant="body2">
+                       {thisTotal}
+                     </Typography>
+                    </Grid>
+
+                    <Grid item container justify="flex-start" xs={12}>
+                      <svg
+                         xmlns="http://www.w3.org/2000/svg"
+                         viewBox="0 0 2000 4"
+                      >
+                        <line x2="2000" stroke="#001c32" strokeWidth={4} />
+                      </svg>
+                    </Grid>
+
+                  </React.Fragment>
+                )
+
+              }
+            })
+          }
+
+        </Grid>
+
+        : ( null )
+      }
+
     </Grid>
   )
 }
@@ -301,8 +459,10 @@ const display = (props: Props) => {
 const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 
   const orders = state.orderBook as OrderBookProps
+  const tokens = state.tokens as TokenProps
   return {
-    orderData: orders
+    orderData: orders,
+    tokenData: tokens
   }
 }
 
