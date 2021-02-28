@@ -377,6 +377,28 @@ const display = (props: Props) => {
 
         <Grid container alignItems="flex-start">
 
+          <Grid item container justify="flex-start" xs={12}>
+            <Typography variant="h3">
+              {token.hasOwnProperty("label") ? token.label : ""}
+            </Typography>
+          </Grid>
+
+          <Grid item container justify="flex-end" xs={4}>
+            <Typography variant="h3">
+              {TradesConfig.price}
+            </Typography>
+          </Grid>
+          <Grid item container justify="flex-end" xs={4}>
+            <Typography variant="h3">
+              {TradesConfig.amount}
+            </Typography>
+          </Grid>
+          <Grid item container justify="flex-end" xs={4}>
+            <Typography variant="h3">
+              {TradesConfig.total}
+            </Typography>
+          </Grid>
+
           {
             props.orderData.data.map( ( order: Order, index: number ) => {
 
@@ -411,28 +433,18 @@ const display = (props: Props) => {
 
                   <React.Fragment key={index}>
 
-                    <Grid className={classes.details} item container justify="flex-start" xs={2}>
-                     <Typography style={{color: `${colour}`}} variant="body1">
-                       {type}
-                     </Typography>
-                    </Grid>
-                    <Grid className={classes.details} item container justify="flex-start" xs={2}>
-                     <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-                       {tokenName}
-                     </Typography>
-                    </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={2}>
-                     <Typography variant="body2">
+                    <Grid className={classes.details} item container justify="flex-end" xs={4}>
+                     <Typography style={{color: `${colour}`}} variant="body2">
                        {thisPrice}
                      </Typography>
                     </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                     <Typography variant="body2">
+                    <Grid className={classes.details} item container justify="flex-end" xs={4}>
+                     <Typography style={{color: `${colour}`}} variant="body2">
                        {thisAmount}
                      </Typography>
                     </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                     <Typography variant="body2">
+                    <Grid className={classes.details} item container justify="flex-end" xs={4}>
+                     <Typography style={{color: `${colour}`}} variant="body2">
                        {thisTotal}
                      </Typography>
                     </Grid>
