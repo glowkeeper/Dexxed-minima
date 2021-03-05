@@ -90,10 +90,10 @@ export interface BalanceProps extends PayloadProps {
 
 // Orders
 export interface NewOrder {
+  isBuy: boolean
   amount: Decimal
   price: Decimal
-  hasTokenId: string
-  wantsTokenId: string
+  tokenId: string
 }
 
 export interface CancelOrder {

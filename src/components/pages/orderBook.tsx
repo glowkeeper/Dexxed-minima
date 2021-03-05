@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
 import * as Yup from 'yup'
-import { useFormik } from 'formik'
+import { useFormik, useField } from 'formik'
 import Button from '@material-ui/core/Button'
 import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
@@ -71,7 +71,6 @@ const display = (props: Props) => {
   const [tokens, setTokens] = useState([] as any[])
   const [token, setToken] = useState({} as any)
 
-  const minimaTokenId = "0x00"
   const classes = themeStyles()
   props.setActivePage()
 
@@ -101,22 +100,14 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
-      console.log("values: ", values)
-
-      let hasTokenId = values.token
-      let wantsTokenId = minimaTokenId
-      if ( isBuy ) {
-        hasTokenId = hasTokenId
-        wantsTokenId = wantsTokenId
-      }
-
+      //console.log("values: ", values)
       const orderInfo: NewOrder = {
+          isBuy: isBuy,
           amount: values.amount,
           price: values.price,
-          hasTokenId: hasTokenId,
-          wantsTokenId: wantsTokenId
+          tokenId: values.token
       }
-      //props.submitOrder(orderInfo)
+      props.submitOrder(orderInfo)
     },
   })
 
@@ -228,7 +219,10 @@ const display = (props: Props) => {
               <div style={{width: '100%'}}>
                 <Select
                   defaultValue={token}
-                  onChange={setToken}
+                  onChange={selectedOption => {
+                    setToken(selectedOption)
+                    formik.setFieldValue("token", selectedOption.value)
+                  }}
                   options={tokens}
                   name="token"
                 />
@@ -249,7 +243,7 @@ const display = (props: Props) => {
               <TextField
                 fullWidth
                 variant="outlined"
-                id="outlined-basic"
+                id="amount"
                 name="amount"
                 type="text"
                 value={formik.values.amount}
@@ -271,7 +265,7 @@ const display = (props: Props) => {
               <TextField
                 fullWidth
                 variant="outlined"
-                id="outlined-basic"
+                id="price"
                 name="price"
                 type="text"
                 value={formik.values.price}

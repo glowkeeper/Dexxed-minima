@@ -1,5 +1,7 @@
 import { Minima } from 'minima'
 
+import { Decimal } from 'decimal.js'
+
 import {
   AppDispatch,
   TransactionActionTypes,
@@ -31,24 +33,36 @@ export const submitOrder = ( order: NewOrder ) => {
 
     Minima.cmd("keys new;newaddress;" , function( keysJSON: any ){
 
+      const txnId = Math.floor(Math.random()*1000000000)
+      const time = new Date(Date.now()).toString()
+      let txnData: TxData = {
+          txId:  txnId,
+          summary: Transaction.pending,
+          time: time
+      }
+
       if( Minima.util.checkAllResponses(keysJSON) ) {
 
+        //console.log("Keys check!", keysJSON)
+
+        txnData.summary = Transaction.failure
         const pubKey  = keysJSON[0].response.key.publickey
     		const address = keysJSON[1].response.address.hexaddress
+        const minimaTokenId = "0x00"
 
-        const hasTokenId = order.hasTokenId
-        const wantsTokenId = order.wantsTokenId
-        const decAmount = order.amount
-        const decPrice = order.price
-        const decTotal = decAmount.mul(decPrice)
+        const decPrice = new Decimal(order.price)
+        let decAmount = new Decimal(order.amount)
+        let decTotal = decAmount.mul(decPrice)
+        let hasTokenId = minimaTokenId
+        let wantsTokenId = order.tokenId
+        if ( !order.isBuy ) {
 
-        const time = new Date(Date.now()).toString()
-        const txnId = Math.floor(Math.random()*1000000000)
-
-        let txnData: TxData = {
-            txId:  txnId,
-            summary: `${Transaction.pending}`,
-            time: time
+          // swap everything :)
+          hasTokenId = order.tokenId
+          wantsTokenId = minimaTokenId
+      		let swap  = decTotal;
+      		decTotal  = decAmount;
+      		decAmount = swap;
         }
 
         dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_PENDING))
@@ -66,6 +80,8 @@ export const submitOrder = ( order: NewOrder ) => {
     		//And Run it..
     		Minima.cmd(txnCreator, function( respJSON: any ){
 
+          //console.log("txn check!", respJSON)
+
           if( Minima.util.checkAllResponses( respJSON ) ) {
 
             txnData.summary = `${Transaction.success}`
@@ -73,11 +89,29 @@ export const submitOrder = ( order: NewOrder ) => {
 
     			} else {
 
+            respJSON.forEach((element: any) => {
+
+              if ( !element.status ) {
+                txnData.summary = element.message
+              }
+
+            })
+
+            dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
             Minima.log("Submit order failed")
           }
     		})
   		}  else {
 
+        keysJSON.forEach((element: any) => {
+
+          if ( !element.status ) {
+            txnData.summary = element.message
+          }
+
+        })
+
+        dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
         Minima.log("Submit order failed")
       }
     })
@@ -115,13 +149,23 @@ export const cancelOrder = ( order: CancelOrder ) => {
 
   	Minima.cmd(txnCreator, function( respJSON: any ) {
 
+      txnData.summary = Transaction.failure
   		if ( Minima.util.checkAllResponses( respJSON ) ) {
 
-        txnData.summary = `${Transaction.success}`
+        txnData.summary = Transaction.success
         dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_SUCCESS))
 
       }  else {
 
+        respJSON.forEach((element: any) => {
+
+          if ( !element.status ) {
+            txnData.summary = element.message
+          }
+
+        })
+
+        dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
         Minima.log("Cancel order failed")
       }
     })
