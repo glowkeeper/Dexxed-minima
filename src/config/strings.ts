@@ -37,8 +37,8 @@ class GeneralError {
 class Transaction {
 
     static readonly pending = "Please wait - transaction is pending"
-    static readonly success = "Succeeded"
-    static readonly failure = 'Failed'
+    static readonly success = "Transaction Succeeded"
+    static readonly failure = 'Transaction Failed'
 
     static readonly errorGettingData = "Error getting data"
 }

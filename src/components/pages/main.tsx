@@ -5,8 +5,7 @@ import { NavLink, Redirect } from 'react-router-dom'
 import GoogleFontLoader from 'react-google-font-loader'
 
 import Grid from '@material-ui/core/Grid'
-import Paper from '@material-ui/core/Paper'
-import Input from '@material-ui/core/Input'
+import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
 
 import { Home } from './home'
@@ -18,7 +17,9 @@ import {
   ApplicationState,
   AppDispatch,
   AppDataProps,
-  AppData } from '../../store'
+  AppData,
+  TxData
+} from '../../store'
 
 import IconButton from '@material-ui/core/IconButton'
 
@@ -48,22 +49,27 @@ import { themeStyles } from '../../styles'
 
 import { Paths, Local, Help } from '../../config'
 
-interface MainStateProps {
+interface StateProps {
   appData: AppData
+  tx: TxData
 }
 
-type Props =  MainStateProps
+type Props =  StateProps
 
 const display = (props: Props) => {
 
   const [isLoading, setLoading] = useState(true)
+  const [summary, setSummary] = useState("")
   const [icons, setIcons] = useState([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactIcon])
 
   const classes = themeStyles()
 
   useEffect(() => {
 
-    //console.log("main with: ", props.appData.activePage)
+    if ( props.tx.summary.length ) {
+      setSummary(props.tx.summary)
+    }
+
     if ( props.appData.activePage === Local.balances ) {
 
       setLoading(false)
@@ -103,9 +109,9 @@ const display = (props: Props) => {
 
       setLoading(false)
       setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
-
     }
-  }, [props.appData])
+
+  }, [props.appData, props.tx])
 
   return (
     <>
@@ -219,136 +225,146 @@ const display = (props: Props) => {
               </Grid>
 
 
-              <Grid item container className={classes.footer} justify="space-between"  alignItems="flex-start" xs={12}>
+              <Grid item container className={classes.footer} alignItems="flex-start" xs={12}>
 
-                <Grid item container justify="center" xs={2}>
+                <Grid item container  justify="space-between" xs={12}>
 
-                 <NavLink to={Local.balances}>
-                    <IconButton
-                     color="primary"
-                     aria-label={Help.balancesTip}
-                     component="span"
-                     size="small">
-                     <img
-                      data-for={myBalancesIcon}
-                      data-tip
-                      src={icons[0]}
-                      className={classes.footerIcon}
-                    />
-                    </IconButton>
-                    <ReactTooltip
-                      id={myBalancesIcon}
-                      place="top"
-                      effect="solid"
-                    >
-                      {Help.balancesTip}
-                    </ReactTooltip>
-                 </NavLink>
+                  <Grid item container justify="center" xs={2}>
 
-                </Grid>
-
-                <Grid item container justify="center" xs={2}>
-
-                   <NavLink to={Local.orders}>
-                     <IconButton
+                   <NavLink to={Local.balances}>
+                      <IconButton
                        color="primary"
-                       aria-label={Help.ordersTip}
+                       aria-label={Help.balancesTip}
                        component="span"
                        size="small">
                        <img
-                        data-for={myOrdersIcon}
+                        data-for={myBalancesIcon}
                         data-tip
-                        src={icons[1]}
+                        src={icons[0]}
                         className={classes.footerIcon}
                       />
                       </IconButton>
                       <ReactTooltip
-                        id={myOrdersIcon}
+                        id={myBalancesIcon}
                         place="top"
                         effect="solid"
                       >
-                        {Help.ordersTip}
+                        {Help.balancesTip}
                       </ReactTooltip>
                    </NavLink>
 
+                  </Grid>
+
+                  <Grid item container justify="center" xs={2}>
+
+                     <NavLink to={Local.orders}>
+                       <IconButton
+                         color="primary"
+                         aria-label={Help.ordersTip}
+                         component="span"
+                         size="small">
+                         <img
+                          data-for={myOrdersIcon}
+                          data-tip
+                          src={icons[1]}
+                          className={classes.footerIcon}
+                        />
+                        </IconButton>
+                        <ReactTooltip
+                          id={myOrdersIcon}
+                          place="top"
+                          effect="solid"
+                        >
+                          {Help.ordersTip}
+                        </ReactTooltip>
+                     </NavLink>
+
+                  </Grid>
+
+                  <Grid item container justify="center" xs={2}>
+
+                    <NavLink to={Local.trades}>
+                      <IconButton
+                        color="primary"
+                        aria-label={Help.tradesTip}
+                        component="span"
+                        size="small">
+                        <img
+                         data-for={myTradesIcon}
+                         data-tip
+                         src={icons[2]}
+                         className={classes.footerIcon}
+                       />
+                       </IconButton>
+                       <ReactTooltip
+                         id={myTradesIcon}
+                         place="top"
+                         effect="solid"
+                       >
+                         {Help.tradesTip}
+                       </ReactTooltip>
+                    </NavLink>
+
+                  </Grid>
+
+                  <Grid item container justify="center" xs={2}>
+
+                    <NavLink to={Local.allTrades}>
+                      <IconButton
+                        color="primary"
+                        aria-label={Help.allTradesTip}
+                        component="span"
+                        size="small">
+                        <img
+                         data-for={allTradesIcon}
+                         data-tip
+                         src={icons[3]}
+                         className={classes.footerIcon}
+                       />
+                       </IconButton>
+                       <ReactTooltip
+                         id={allTradesIcon}
+                         place="top"
+                         effect="solid"
+                       >
+                         {Help.allTradesTip}
+                       </ReactTooltip>
+                    </NavLink>
+
+                  </Grid>
+
+                  <Grid item container justify="center" xs={2}>
+
+                    <NavLink to={Local.orderBook}>
+                      <IconButton
+                        color="primary"
+                        aria-label={Help.orderBookTip}
+                        component="span"
+                        size="small">
+                        <img
+                         data-for={orderBookIcon}
+                         data-tip
+                         src={icons[4]}
+                         className={classes.footerIcon}
+                       />
+                       </IconButton>
+                       <ReactTooltip
+                         id={orderBookIcon}
+                         place="top"
+                         effect="solid"
+                       >
+                         {Help.orderBookTip}
+                       </ReactTooltip>
+                    </NavLink>
+
+                  </Grid>
+                  
                 </Grid>
 
-                <Grid item container justify="center" xs={2}>
-
-                  <NavLink to={Local.trades}>
-                    <IconButton
-                      color="primary"
-                      aria-label={Help.tradesTip}
-                      component="span"
-                      size="small">
-                      <img
-                       data-for={myTradesIcon}
-                       data-tip
-                       src={icons[2]}
-                       className={classes.footerIcon}
-                     />
-                     </IconButton>
-                     <ReactTooltip
-                       id={myTradesIcon}
-                       place="top"
-                       effect="solid"
-                     >
-                       {Help.tradesTip}
-                     </ReactTooltip>
-                  </NavLink>
-
-                </Grid>
-
-                <Grid item container justify="center" xs={2}>
-
-                  <NavLink to={Local.allTrades}>
-                    <IconButton
-                      color="primary"
-                      aria-label={Help.allTradesTip}
-                      component="span"
-                      size="small">
-                      <img
-                       data-for={allTradesIcon}
-                       data-tip
-                       src={icons[3]}
-                       className={classes.footerIcon}
-                     />
-                     </IconButton>
-                     <ReactTooltip
-                       id={allTradesIcon}
-                       place="top"
-                       effect="solid"
-                     >
-                       {Help.allTradesTip}
-                     </ReactTooltip>
-                  </NavLink>
-
-                </Grid>
-
-                <Grid item container justify="center" xs={2}>
-
-                  <NavLink to={Local.orderBook}>
-                    <IconButton
-                      color="primary"
-                      aria-label={Help.orderBookTip}
-                      component="span"
-                      size="small">
-                      <img
-                       data-for={orderBookIcon}
-                       data-tip
-                       src={icons[4]}
-                       className={classes.footerIcon}
-                     />
-                     </IconButton>
-                     <ReactTooltip
-                       id={orderBookIcon}
-                       place="top"
-                       effect="solid"
-                     >
-                       {Help.orderBookTip}
-                     </ReactTooltip>
-                  </NavLink>
-
+                <Grid item container xs={12} alignItems="flex-start">
+                  <Typography variant="h5">
+                    {summary}
+                  </Typography>
                 </Grid>
 
               </Grid>
@@ -361,22 +377,13 @@ const display = (props: Props) => {
   )
 }
 
-const mainNav = (props: Props) => {
-
-  let path = window.location.href
-  const indexOf = path.indexOf("index")
-  if (indexOf > -1) {
-      const redirect = path.substr(0, indexOf)
-      window.location.href = redirect
+const mapStateToProps = (state: ApplicationState): StateProps => {
+  return {
+    appData: state.appData.data,
+    tx: state.tx.data as TxData
   }
-
-  return display(props)
 }
 
-const mapStateToProps = (state: ApplicationState): MainStateProps => {
-  return { appData: state.appData.data }
-}
-
-export const Main = connect<MainStateProps, {}, {}, ApplicationState>(
+export const Main = connect<StateProps, {}, {}, ApplicationState>(
   mapStateToProps
-)(mainNav)
+)(display)

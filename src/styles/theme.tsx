@@ -76,11 +76,11 @@ let theme = createMuiTheme ({
     },
     h5: {
       [breakpoints.up('xs')]: {
-        lineHeight: "1.2",
+        lineHeight: "1",
         fontSize: "0.9em",
-        fontWeight: 400,
+        fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#001C32'
+        color: '#FFFFFF'
       }
     },
     h6: {
@@ -89,7 +89,7 @@ let theme = createMuiTheme ({
         fontSize: "0.9em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#317AFF'
+        color: '#'
       }
     },
     subtitle1: {
