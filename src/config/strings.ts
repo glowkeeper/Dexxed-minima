@@ -40,6 +40,8 @@ class Transaction {
     static readonly success = "Transaction Succeeded"
     static readonly failure = 'Transaction Failed'
 
+    static readonly block = "Block"
+
     static readonly errorGettingData = "Error getting data"
 }
 

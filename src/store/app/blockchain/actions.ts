@@ -35,7 +35,7 @@ export const init = () => {
 
       Minima.init( function( msg: any ) {
 
-        //console.log("initing", msg)
+        //console.log("init stuff", msg)
 
         if ( msg.event == "connected" ) {
 

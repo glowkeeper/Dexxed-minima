@@ -45,7 +45,6 @@ export const submitOrder = ( order: NewOrder ) => {
 
         //console.log("Keys check!", keysJSON)
 
-        txnData.summary = Transaction.failure
         const pubKey  = keysJSON[0].response.key.publickey
     		const address = keysJSON[1].response.address.hexaddress
         const minimaTokenId = "0x00"
@@ -78,6 +77,7 @@ export const submitOrder = ( order: NewOrder ) => {
     			"txndelete " + txnId + ";"
 
     		//And Run it..
+        txnData.summary = Transaction.failure
     		Minima.cmd(txnCreator, function( respJSON: any ){
 
           //console.log("txn check!", respJSON)
@@ -89,30 +89,16 @@ export const submitOrder = ( order: NewOrder ) => {
 
     			} else {
 
-            respJSON.forEach((element: any) => {
-
-              if ( !element.status ) {
-                txnData.summary = element.message
-              }
-
-            })
-
+            txnData.summary = respJSON[respJSON.length - 1].message
             dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
-            Minima.log("Submit order failed")
+            //Minima.log("Submit order failed")
           }
     		})
   		}  else {
 
-        keysJSON.forEach((element: any) => {
-
-          if ( !element.status ) {
-            txnData.summary = element.message
-          }
-
-        })
-
+        txnData.summary = keysJSON[keysJSON.length - 1].message
         dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
-        Minima.log("Submit order failed")
+        //Minima.log("Submit order failed")
       }
     })
   }
@@ -132,7 +118,7 @@ export const cancelOrder = ( order: CancelOrder ) => {
 
     let txnData: TxData = {
         txId:  txnId,
-        summary: `${Transaction.pending}`,
+        summary: Transaction.pending,
         time: time
     }
 
@@ -157,14 +143,7 @@ export const cancelOrder = ( order: CancelOrder ) => {
 
       }  else {
 
-        respJSON.forEach((element: any) => {
-
-          if ( !element.status ) {
-            txnData.summary = element.message
-          }
-
-        })
-
+        txnData.summary = respJSON[respJSON.length - 1].message
         dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
         Minima.log("Cancel order failed")
       }

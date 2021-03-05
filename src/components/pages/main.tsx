@@ -21,6 +21,8 @@ import {
   TxData
 } from '../../store'
 
+import { initialise } from '../../store/app/blockchain/tx/actions'
+
 import IconButton from '@material-ui/core/IconButton'
 
 import ReactTooltip from 'react-tooltip'
@@ -47,27 +49,43 @@ import logoIcon from '../../images/logo.svg'
 
 import { themeStyles } from '../../styles'
 
-import { Paths, Local, Help } from '../../config'
+import { Paths, Local, Help, Transaction } from '../../config'
 
 interface StateProps {
   appData: AppData
   tx: TxData
+  block: number
 }
 
-type Props =  StateProps
+interface DispatchProps {
+  initialise: () => void
+}
+
+type Props =  StateProps & DispatchProps
 
 const display = (props: Props) => {
 
   const [isLoading, setLoading] = useState(true)
   const [summary, setSummary] = useState("")
+  const [block, setBlock] = useState(1)
+
   const [icons, setIcons] = useState([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactIcon])
 
   const classes = themeStyles()
 
   useEffect(() => {
 
+    let summaryTimeout: any
     if ( props.tx.summary.length ) {
       setSummary(props.tx.summary)
+      summaryTimeout = setTimeout(() => {
+        props.initialise()
+        setSummary("")
+     }, 3000)
+    }
+
+    if ( props.block != block ) {
+      setBlock(props.block)
     }
 
     if ( props.appData.activePage === Local.balances ) {
@@ -111,7 +129,11 @@ const display = (props: Props) => {
       setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
     }
 
-  }, [props.appData, props.tx])
+    return () => {
+      clearTimeout(summaryTimeout)
+    }
+
+  }, [props.appData, props.tx, props.block])
 
   return (
     <>
@@ -358,12 +380,18 @@ const display = (props: Props) => {
                     </NavLink>
 
                   </Grid>
-                  
+
                 </Grid>
 
-                <Grid item container xs={12} alignItems="flex-start">
+                <Grid item container xs={6} justify="flex-start">
                   <Typography variant="h5">
                     {summary}
+                  </Typography>
+                </Grid>
+
+                <Grid item container xs={6} justify="flex-end">
+                  <Typography variant="h5">
+                    {Transaction.block}: {block}
                   </Typography>
                 </Grid>
 
@@ -380,10 +408,19 @@ const display = (props: Props) => {
 const mapStateToProps = (state: ApplicationState): StateProps => {
   return {
     appData: state.appData.data,
-    tx: state.tx.data as TxData
+    tx: state.tx.data as TxData,
+    block: state.chainInfo.data.block
   }
 }
 
-export const Main = connect<StateProps, {}, {}, ApplicationState>(
-  mapStateToProps
+
+const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
+ return {
+   initialise: () => dispatch(initialise())
+ }
+}
+
+export const Main = connect<StateProps, DispatchProps, {}, ApplicationState>(
+  mapStateToProps,
+  mapDispatchToProps
 )(display)
