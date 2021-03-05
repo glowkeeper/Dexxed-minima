@@ -19,7 +19,7 @@ export const reducer = (state: TransactionProps = initialState, action: ActionPr
     case TransactionActionTypes.TRANSACTION_PENDING:
     case TransactionActionTypes.TRANSACTION_SUCCESS:
     case TransactionActionTypes.TRANSACTION_FAILURE: {
-      const data = (action.payload as TransactionProps)
+      let data = (action.payload as TransactionProps)
       return {...state, ...data}
     }
     default:

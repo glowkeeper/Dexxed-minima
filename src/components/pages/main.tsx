@@ -76,6 +76,7 @@ const display = (props: Props) => {
   useEffect(() => {
 
     let summaryTimeout: any
+    //console.log("new summary! ", props.tx.summary)
     if ( props.tx.summary.length ) {
       setSummary(props.tx.summary)
       summaryTimeout = setTimeout(() => {

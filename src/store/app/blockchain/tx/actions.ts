@@ -31,15 +31,16 @@ export const submitOrder = ( order: NewOrder ) => {
     const state = getState()
     const dexContract = state.script.data.scriptAddress
 
-    Minima.cmd("keys new;newaddress;" , function( keysJSON: any ){
+    const txnId = Math.floor(Math.random()*1000000000)
+    const time = new Date(Date.now()).toString()
+    const pendingData: TxData = {
+        txId:  txnId,
+        summary: Transaction.pending,
+        time: time
+    }
+    dispatch(write({data: pendingData})(TransactionActionTypes.TRANSACTION_PENDING))
 
-      const txnId = Math.floor(Math.random()*1000000000)
-      const time = new Date(Date.now()).toString()
-      let txnData: TxData = {
-          txId:  txnId,
-          summary: Transaction.pending,
-          time: time
-      }
+    Minima.cmd("keys new;newaddress;" , function( keysJSON: any ){
 
       if( Minima.util.checkAllResponses(keysJSON) ) {
 
@@ -64,8 +65,6 @@ export const submitOrder = ( order: NewOrder ) => {
       		decAmount = swap;
         }
 
-        dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_PENDING))
-
     		const txnCreator =
     			"txncreate " + txnId + ";" +
     			"txnstate " + txnId + " 0 " + pubKey + ";" +
@@ -77,27 +76,39 @@ export const submitOrder = ( order: NewOrder ) => {
     			"txndelete " + txnId + ";"
 
     		//And Run it..
-        txnData.summary = Transaction.failure
+        //txnData.summary = Transaction.failure
     		Minima.cmd(txnCreator, function( respJSON: any ){
 
           //console.log("txn check!", respJSON)
 
           if( Minima.util.checkAllResponses( respJSON ) ) {
 
-            txnData.summary = `${Transaction.success}`
-            dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_SUCCESS))
+            const successData: TxData = {
+                txId:  txnId,
+                summary: Transaction.success,
+                time: time
+            }
+            dispatch(write({data: successData})(TransactionActionTypes.TRANSACTION_SUCCESS))
 
     			} else {
 
-            txnData.summary = respJSON[respJSON.length - 1].message
-            dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
+            const failedData: TxData = {
+                txId:  txnId,
+                summary: respJSON[respJSON.length - 1].message,
+                time: time
+            }
+            dispatch(write({data: failedData})(TransactionActionTypes.TRANSACTION_FAILURE))
             //Minima.log("Submit order failed")
           }
     		})
   		}  else {
 
-        txnData.summary = keysJSON[keysJSON.length - 1].message
-        dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
+        const failedData: TxData = {
+            txId:  txnId,
+            summary: keysJSON[keysJSON.length - 1].message,
+            time: time
+        }
+        dispatch(write({data: failedData})(TransactionActionTypes.TRANSACTION_FAILURE))
         //Minima.log("Submit order failed")
       }
     })
@@ -138,14 +149,21 @@ export const cancelOrder = ( order: CancelOrder ) => {
       txnData.summary = Transaction.failure
   		if ( Minima.util.checkAllResponses( respJSON ) ) {
 
-        txnData.summary = Transaction.success
-        dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_SUCCESS))
+        const successData: TxData = {
+            txId:  txnId,
+            summary: Transaction.success,
+            time: time
+        }
+        dispatch(write({data: successData})(TransactionActionTypes.TRANSACTION_SUCCESS))
 
       }  else {
 
-        txnData.summary = respJSON[respJSON.length - 1].message
-        dispatch(write({data: txnData})(TransactionActionTypes.TRANSACTION_FAILURE))
-        Minima.log("Cancel order failed")
+        const failedData: TxData = {
+            txId:  txnId,
+            summary: respJSON[respJSON.length - 1].message,
+            time: time
+        }
+        dispatch(write({data: failedData})(TransactionActionTypes.TRANSACTION_FAILURE))
       }
     })
   }
