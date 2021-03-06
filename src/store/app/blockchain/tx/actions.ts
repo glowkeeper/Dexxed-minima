@@ -2,6 +2,8 @@ import { Minima } from 'minima'
 
 import { Decimal } from 'decimal.js'
 
+import { getOrders } from '../actions'
+
 import {
   AppDispatch,
   TransactionActionTypes,
@@ -155,6 +157,7 @@ export const cancelOrder = ( order: CancelOrder ) => {
             time: time
         }
         dispatch(write({data: successData})(TransactionActionTypes.TRANSACTION_SUCCESS))
+        dispatch(getOrders(true))
 
       }  else {
 

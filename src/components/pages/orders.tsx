@@ -2,12 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { setActivePage } from '../../store/app/appData/actions'
+import { cancelOrder } from '../../store/app/blockchain/tx/actions'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import ReactTooltip from 'react-tooltip'
 
 import { Local } from '../../config'
-import { Orders as OrdersConfig } from '../../config/strings'
+import { Orders as OrdersConfig, Help } from '../../config/strings'
 
 import { themeStyles } from '../../styles'
 
@@ -15,25 +18,38 @@ import {
   ApplicationState,
   AppDispatch,
   MyOrdersProps,
-  Order
+  Order,
+  CancelOrder
 } from '../../store'
 
-interface OrdersStateProps {
+interface StateProps {
   orderData: MyOrdersProps
 }
 
-interface OrdersDispatchProps {
+interface DispatchProps {
   setActivePage: () => void
+  cancelOrder: (order: CancelOrder) => void
 }
 
-type Props = OrdersStateProps & OrdersDispatchProps
+type Props = StateProps & DispatchProps
 
 const display = (props: Props) => {
 
   const classes = themeStyles()
   props.setActivePage()
 
-  //console.log("ORDERS!: ", props.orderData)
+  const cancel = (order: Order) => {
+
+    const cancelOrder: CancelOrder = {
+      coinId: order.coinId,
+      owner: order.owner,
+      address: order.address,
+      coinAmount: order.coinAmount,
+      tokenId: order.tokenId
+    }
+
+    props.cancelOrder(cancelOrder)
+  }
 
   return (
     <Grid container alignItems="flex-start">
@@ -68,14 +84,18 @@ const display = (props: Props) => {
           {OrdersConfig.price}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={3}>
+      <Grid item container justify="flex-end" xs={2}>
         <Typography variant="h3">
           {OrdersConfig.amount}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={3}>
+      <Grid item container justify="flex-end" xs={2}>
         <Typography variant="h3">
           {OrdersConfig.total}
+        </Typography>
+      </Grid><Grid item container justify="flex-end" xs={2}>
+        <Typography variant="h3">
+          &nbsp;
         </Typography>
       </Grid>
 
@@ -109,30 +129,44 @@ const display = (props: Props) => {
           return (
             <React.Fragment key={index}>
 
-              <Grid className={classes.details} item container justify="flex-start" xs={2}>
+              <Grid className={classes.details} item container alignItems="center" justify="flex-start" xs={2}>
                <Typography style={{color: `${colour}`}} variant="body1">
                  {type}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-start" xs={2}>
+              <Grid className={classes.details} item container alignItems="center" justify="flex-start" xs={2}>
                <Typography style={{ wordWrap: 'break-word' }} variant="body1">
                  {orderToken}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={2}>
+              <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
                <Typography variant="body2">
                  {thisPrice}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={3}>
+              <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
                <Typography variant="body2">
                  {thisAmount}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={3}>
+              <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
                <Typography variant="body2">
                  {thisTotal}
                </Typography>
+              </Grid>
+              <Grid item container alignItems="center" justify="center" xs={2}>
+                <Button
+                  onClick={() => cancel(order)}
+                  style={{
+                    paddingTop: '0.5em',
+                    textTransform: 'none',
+                    fontSize: "1em",
+                    lineHeight: "1.1",
+                    color: `${colour}`
+                  }}
+                >
+                  {OrdersConfig.cancelButton}
+                </Button>
               </Grid>
 
               <Grid item container justify="flex-start" xs={12}>
@@ -153,7 +187,7 @@ const display = (props: Props) => {
   )
 }
 
-const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
+const mapStateToProps = (state: ApplicationState): StateProps => {
 
   const orders = state.myOrders as MyOrdersProps
   return {
@@ -161,13 +195,14 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
   }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch): OrdersDispatchProps => {
+const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
-   setActivePage: () => dispatch(setActivePage(Local.orders))
+   setActivePage: () => dispatch(setActivePage(Local.orders)),
+   cancelOrder: (order: CancelOrder) => dispatch(cancelOrder(order))
  }
 }
 
-export const Orders = connect<OrdersStateProps, OrdersDispatchProps, {}, ApplicationState>(
+export const Orders = connect<StateProps, DispatchProps, {}, ApplicationState>(
   mapStateToProps,
   mapDispatchToProps
 )(display)

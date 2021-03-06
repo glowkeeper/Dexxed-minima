@@ -253,7 +253,7 @@ const getCurrentToken = ( tokens: TokenProps ): string => {
 	return tokenId
 }
 
-const getOrders = (justMyOrders: boolean) => {
+export const getOrders = (justMyOrders: boolean) => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
     const state = getState()

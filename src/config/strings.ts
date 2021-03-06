@@ -69,6 +69,7 @@ class Help {
   static readonly sortTip = "Sort"
 
   static readonly ordersTip = 'My Orders'
+  static readonly cancelTip = 'Cancel Order'
   static readonly balancesTip = 'My Balances'
   static readonly tradesTip = 'My Trades'
   static readonly allTradesTip = 'All Trades'
@@ -110,6 +111,8 @@ class Orders {
   static readonly amount = 'Amount'
   static readonly price = 'Price'
   static readonly total = 'Total'
+
+  static readonly cancelButton = 'Cancel'
 }
 
 class Balances {
