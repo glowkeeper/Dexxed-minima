@@ -44,6 +44,14 @@ export const init = () => {
           dispatch(getTokens())
           dispatch(getBlock())
 
+          const justMyOrders = true
+          dispatch(getOrders(justMyOrders))
+          // All orders (including mine)
+          dispatch(getOrders(!justMyOrders))
+
+          dispatch(getAllTrades())
+          dispatch(getMyTrades())
+
   	 		} else if ( msg.event == "newblock" ) {
 
           dispatch(getTokens())
