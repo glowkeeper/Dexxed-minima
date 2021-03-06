@@ -399,33 +399,30 @@ const getAllTrades = () => {
 
             // Get the state we need
             const cPrevState = coinProof.prevstate
-
-            let decAmount = new Decimal(1)
-            const amount = Minima.util.getStateVariable( cPrevState, "3" )
-            if ( amount ) {
-              decAmount = Decimal.mul(1, amount)
-            }
-
+            const amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
+            let decAmount = new Decimal(coinProof.coin.amount)
             // Calculate the (buy or sell) price..
       			let decPrice  = new Decimal(0)
+      			let decTotal  = new Decimal(0)
 
             // To get this to match dexxed, you seem to have to reverse this from orders
             let isBuy = true
       			if( tokenId == "0x00" ) {
 
               isBuy = false
-              decPrice = coinAmount.div(decAmount)
               tokenId = Minima.util.getStateVariable( cPrevState, "2" )
-              tokenName = getTokenName(tokenId, allTokens)
+              decAmount = amount
+              decPrice = coinAmount.div(decAmount)
+
       			} else {
 
       				const scale = getTokenScale(tokenId, allTokens)
-      				const scaledAmount = coinAmount.mul(scale)
-      				decPrice = new Decimal(decAmount.div(scaledAmount))
+      				decAmount = coinAmount.mul(scale)
+      				decPrice = amount.div(decAmount)
       			}
 
             //The total
-      			const decTotal = decAmount.mul(decPrice)
+      			decTotal = decAmount.mul(decPrice)
             const blockTime   = txpItem.inblock
 
             // Complete order
@@ -446,8 +443,6 @@ const getAllTrades = () => {
         }
 
         dispatch(write({ data: tradesData.data })(AllTradesActionTypes.ADD_TRADES))
-
-        //console.log("all trades: ", tradesData)
 
       } else {
 
