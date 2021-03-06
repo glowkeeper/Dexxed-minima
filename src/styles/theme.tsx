@@ -287,12 +287,12 @@ const themeStyles = makeStyles({
      top: "50%",
      bottom: "50%"
   },
-  deleteModal: {
+  orderModal: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  deleteModalSub: {
+  orderModalSub: {
     [breakpoints.up('xs')]: {
       backgroundColor: theme.palette.background.default,
       boxShadow: theme.shadows[3],
@@ -301,7 +301,7 @@ const themeStyles = makeStyles({
       width: "10%"
     }
   },
-  deleteModalSubIcons: {
+  orderModalSubIcons: {
     textAlign: "center"
   },
   appIcon: {
@@ -316,13 +316,13 @@ const themeStyles = makeStyles({
       width: '20px'
     }
   },
-  deleteIcon: {
+  cancelIcon: {
     [breakpoints.up('xs')]: {
       height: "25px",
       width: '25px'
     }
   },
-  tickIcon: {
+  confirmIcon: {
     [breakpoints.up('xs')]: {
       height: "25px",
       width: '31px'

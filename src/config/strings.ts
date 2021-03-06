@@ -82,7 +82,7 @@ class Help {
   static readonly placeBuyTip = 'Place a Buy Order'
   static readonly placeSellTip = 'Place a Sell Order'
 
-  static readonly deleteSure = "Are you sure you want to delete"
+  static readonly orderSure = "You are about to order"
 }
 
 class Contact {

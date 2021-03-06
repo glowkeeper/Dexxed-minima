@@ -6,13 +6,21 @@ import { setActivePage } from '../../store/app/appData/actions'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-
-import * as Yup from 'yup'
-import { useFormik, useField } from 'formik'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
 import Select from 'react-select'
+
+import confirmIcon from '../../images/tickIcon.svg'
+import cancelIcon from '../../images/crossIcon.svg'
+
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+
+import * as Yup from 'yup'
+import { useFormik, useField } from 'formik'
 
 import { Local, GeneralError, Help } from '../../config'
 
@@ -62,6 +70,9 @@ const tradeSchema = Yup.object().shape({
 
 const display = (props: Props) => {
 
+  const [order, setOrder] = useState({} as NewOrder)
+  const [orderDialogue, setOrderDialogue] = useState(false)
+
   const [isBuy, setIsBuy] = useState(true)
   const [tradeColours, setTradeColours] = useState([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
 
@@ -107,7 +118,8 @@ const display = (props: Props) => {
           price: values.price,
           tokenId: values.token
       }
-      props.submitOrder(orderInfo)
+      setOrder(orderInfo)
+      setOrderDialogue(true)
     },
   })
 
@@ -129,6 +141,15 @@ const display = (props: Props) => {
     } else {
       setBookColours([`${OrderBookConfig.disabledColour}`,`${OrderBookConfig.liveColour}`])
     }
+  }
+
+  const dialogueClose = () => {
+    setOrderDialogue(false)
+  }
+
+  const doOrder = () => {
+    setOrderDialogue(false)
+    props.submitOrder(order)
   }
 
   return (
@@ -556,6 +577,54 @@ const display = (props: Props) => {
           </Grid>
          )
       }
+
+      <Modal
+        aria-labelledby={Help.orderSure}
+        aria-describedby={Help.orderSure}
+        className={classes.orderModal}
+        open={orderDialogue}
+        onClose={dialogueClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={orderDialogue}>
+          <div className={classes.orderModalSub}>
+            <Typography variant="h3">
+              {Help.orderSure} {token.value}
+            </Typography>
+
+            <br/>
+            <div className={classes.orderModalSubIcons}>
+              <IconButton
+                onClick={dialogueClose}
+                color="primary"
+                aria-label={Help.cancelTip}
+                component="span"
+                size="small">
+                <img
+                  src={cancelIcon}
+                  className={classes.cancelIcon}
+                />
+              </IconButton>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <IconButton
+                onClick={() => doOrder()}
+                color="primary"
+                aria-label={Help.orderTip}
+                component="span"
+                size="small">
+                <img
+                  src={confirmIcon}
+                  className={classes.confirmIcon}
+                />
+              </IconButton>
+            </div>
+          </div>
+        </Fade>
+      </Modal>
 
     </Grid>
   )

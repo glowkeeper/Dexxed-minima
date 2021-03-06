@@ -29,7 +29,7 @@
     "decimal.js": "^10.2.1",
     "flat": "^5.0.2",
     "formik": "^2.2.6",
-    "minima": "file:../minimaJs/minima-0.96.17.tgz",
+    "minima": "file:../minimaJs/minima-0.96.18.tgz",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-google-font-loader": "^1.1.0",
