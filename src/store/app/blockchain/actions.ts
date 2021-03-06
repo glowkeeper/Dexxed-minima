@@ -295,17 +295,7 @@ export const getOrders = (justMyOrders: boolean) => {
           const owner: string = Minima.util.getStateVariable( cPrevState, "0" ) as string
     			const address = Minima.util.getStateVariable( cPrevState, "1" ) as string
           const swapTokenId = Minima.util.getStateVariable( cPrevState, "2" ) as string
-
-          let swapTokenName = ""
-          if ( swapTokenId ) {
-            swapTokenName = getTokenName(swapTokenId, allTokens)
-          }
-
-          let decAmount = new Decimal(1)
-          const amount = Minima.util.getStateVariable( cPrevState, "3" )
-          if ( amount ) {
-            decAmount = Decimal.mul(1, amount)
-          }
+          const amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
 
           // Status
           let status = OrdersConfig.statusWaiting
@@ -322,24 +312,29 @@ export const getOrders = (justMyOrders: boolean) => {
           }
 
     			// Calculate the (buy or sell) price..
+          let decAmount = new Decimal(0)
     			let decPrice  = new Decimal(0)
+    			let decTotal  = new Decimal(0)
           let isBuy = true
+          let swapTokenName = getTokenName(tokenId, allTokens)
 
     			//BUY OR SELL
     			if( tokenId == "0x00" ) {
     				//Token is Minima - BUY
+            swapTokenName = getTokenName(swapTokenId, allTokens)
+            decAmount = amount
     				decPrice = coinAmount.div(decAmount)
 
     			} else {
     				//SELL
             isBuy = false
     				const scale = getTokenScale(tokenId, allTokens)
-    				const scaledAmount = coinAmount.mul(scale)
-    				decPrice = new Decimal(decAmount.div(scaledAmount))
+    				decAmount = coinAmount.mul(scale)
+    				decPrice = amount.div(decAmount)
     			}
 
     			//The total
-    			const decTotal = decAmount.mul(decPrice)
+          decTotal = decAmount.mul(decPrice)
 
           // Complete order
           const thisOrder: Order = {
