@@ -298,7 +298,7 @@ const themeStyles = makeStyles({
       boxShadow: theme.shadows[3],
       padding: theme.spacing(1),
       outline: "none",
-      width: "10%"
+      width: "50%"
     }
   },
   orderModalSubIcons: {

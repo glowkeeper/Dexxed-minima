@@ -93,7 +93,9 @@ export interface NewOrder {
   isBuy: boolean
   amount: Decimal
   price: Decimal
-  tokenId: string
+  total: Decimal
+  hasTokenId: string
+  wantsTokenId: string
 }
 
 export interface CancelOrder {

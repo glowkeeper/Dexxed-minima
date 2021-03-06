@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
+import { Decimal } from 'decimal.js'
+
 import { submitOrder } from '../../store/app/blockchain/tx/actions'
 import { setActivePage } from '../../store/app/appData/actions'
 
@@ -70,7 +72,16 @@ const tradeSchema = Yup.object().shape({
 
 const display = (props: Props) => {
 
-  const [order, setOrder] = useState({} as NewOrder)
+  const minimaTokenId = "0x00"
+
+  const [order, setOrder] = useState({
+    isBuy: true,
+    amount: new Decimal(0),
+    price: new Decimal(0),
+    total: new Decimal(0),
+    hasTokenId: minimaTokenId,
+    wantsTokenId: minimaTokenId
+  } as NewOrder)
   const [orderDialogue, setOrderDialogue] = useState(false)
 
   const [isBuy, setIsBuy] = useState(true)
@@ -111,12 +122,29 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
+      //console.log("Values: ", values)
+      const decPrice = new Decimal(values.price)
+      let decAmount = new Decimal(values.amount)
+      let decTotal = decAmount.mul(decPrice)
+      let hasTokenId = minimaTokenId
+      let wantsTokenId = values.token
+      if ( !isBuy ) {
+        // swap everything :)
+        hasTokenId = values.token
+        wantsTokenId = minimaTokenId
+        const swap  = decTotal
+        decTotal  = decAmount
+        decAmount = swap
+      }
+
       //console.log("values: ", values)
       const orderInfo: NewOrder = {
           isBuy: isBuy,
-          amount: values.amount,
-          price: values.price,
-          tokenId: values.token
+          amount: decAmount,
+          price: decPrice,
+          total: decTotal,
+          hasTokenId: hasTokenId,
+          wantsTokenId: wantsTokenId
       }
       setOrder(orderInfo)
       setOrderDialogue(true)
@@ -592,9 +620,16 @@ const display = (props: Props) => {
       >
         <Fade in={orderDialogue}>
           <div className={classes.orderModalSub}>
-            <Typography variant="h3">
-              {Help.orderSure} {token.value}
-            </Typography>
+              { order.isBuy ?
+                <Typography variant="h3">
+                  You are about to place a buy order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each, for a total of {order.total.toString()} Minima
+                </Typography>
+                : (
+                  <Typography variant="h3">
+                    You are about to place a sell order of {order.total.toString()} {token.label} at {order.price.toString()} Minima each, for a total of {order.amount.toString()} Minima
+                  </Typography>
+                )
+              }
 
             <br/>
             <div className={classes.orderModalSubIcons}>

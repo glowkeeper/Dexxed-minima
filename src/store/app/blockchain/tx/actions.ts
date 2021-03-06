@@ -42,6 +42,8 @@ export const submitOrder = ( order: NewOrder ) => {
     }
     dispatch(write({data: pendingData})(TransactionActionTypes.TRANSACTION_PENDING))
 
+    //console.log ("New order: ", order)
+
     Minima.cmd("keys new;newaddress;" , function( keysJSON: any ){
 
       if( Minima.util.checkAllResponses(keysJSON) ) {
@@ -50,30 +52,14 @@ export const submitOrder = ( order: NewOrder ) => {
 
         const pubKey  = keysJSON[0].response.key.publickey
     		const address = keysJSON[1].response.address.hexaddress
-        const minimaTokenId = "0x00"
-
-        const decPrice = new Decimal(order.price)
-        let decAmount = new Decimal(order.amount)
-        let decTotal = decAmount.mul(decPrice)
-        let hasTokenId = minimaTokenId
-        let wantsTokenId = order.tokenId
-        if ( !order.isBuy ) {
-
-          // swap everything :)
-          hasTokenId = order.tokenId
-          wantsTokenId = minimaTokenId
-      		let swap  = decTotal;
-      		decTotal  = decAmount;
-      		decAmount = swap;
-        }
 
     		const txnCreator =
     			"txncreate " + txnId + ";" +
     			"txnstate " + txnId + " 0 " + pubKey + ";" +
     			"txnstate " + txnId + " 1 " + address + ";" +
-    			"txnstate " + txnId + " 2 " + wantsTokenId + ";" +
-    			"txnstate " + txnId + " 3 " + decAmount + ";" +
-    			"txnauto " + txnId + " " + decTotal + " " + dexContract + " " + hasTokenId + ";" +
+    			"txnstate " + txnId + " 2 " + order.wantsTokenId + ";" +
+    			"txnstate " + txnId + " 3 " + order.amount + ";" +
+    			"txnauto " + txnId + " " + order.total + " " + dexContract + " " + order.hasTokenId + ";" +
     			"txnpost " + txnId + ";" +
     			"txndelete " + txnId + ";"
 

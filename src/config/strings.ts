@@ -61,7 +61,7 @@ class Help {
 
   static readonly heading = `${App.appName} Help`
 
-  static readonly info = [`Coming soon.`]
+  static readonly info = [`Market MAKERS add an order by using the BUY or SELL form in the orderbook. Market TAKERS click an order in the orderbook.`]
 
   static readonly helpTip = 'Help'
   static readonly contactTip = 'Contact'
