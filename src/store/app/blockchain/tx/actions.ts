@@ -103,6 +103,24 @@ export const submitOrder = ( order: NewOrder ) => {
   }
 }
 
+/*
+export interface Order {
+  isBuy: boolean
+  coinId: string
+  owner: string
+  address: string
+  coinAmount: Decimal
+  tokenId: string
+  tokenName: string
+  swapTokenId: string
+  swapTokenName: string
+  amount: Decimal
+  price: Decimal
+  total: Decimal
+  status: string
+}
+*/
+
 export const takeOrder = ( order: Order ) => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
@@ -110,6 +128,8 @@ export const takeOrder = ( order: Order ) => {
     const allTokens = state.tokens
 
     const tokenName = order.isBuy? getTokenName(order.tokenId, allTokens) : getTokenName(order.swapTokenId, allTokens);
+
+    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toString() + "\ntokenId: " + order.tokenId + "\nthis token: " + tokenName + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
 
     const txnId = Math.floor(Math.random()*1000000000)
     const time = new Date(Date.now()).toString()
