@@ -129,7 +129,7 @@ export const takeOrder = ( order: Order ) => {
 
     const tokenName = order.isBuy? getTokenName(order.tokenId, allTokens) : getTokenName(order.swapTokenId, allTokens);
 
-    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toString() + "\ntokenId: " + order.tokenId + "\nthis token: " + tokenName + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
+    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toString() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
 
     const txnId = Math.floor(Math.random()*1000000000)
     const time = new Date(Date.now()).toString()
@@ -165,6 +165,8 @@ export const takeOrder = ( order: Order ) => {
   				"txnpost " + txnId + ";" +
   				//Delete..
   				"txndelete " + txnId + ";" ;
+
+        console.log("txCreator: ", txnCreator)
 
   			//Create this first stage
   			Minima.cmd(txnCreator, function( respJSON: any ) {
