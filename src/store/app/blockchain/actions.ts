@@ -214,7 +214,7 @@ const getBalance = () => {
   }
 }
 
-const getTokenName = ( tokenId: string, tokens: TokenProps ): string => {
+export const getTokenName = ( tokenId: string, tokens: TokenProps ): string => {
 
   if( tokenId == "0x00" ) {
 		return "Minima"

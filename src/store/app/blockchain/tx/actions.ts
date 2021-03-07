@@ -2,13 +2,14 @@ import { Minima } from 'minima'
 
 import { Decimal } from 'decimal.js'
 
-import { getOrders } from '../actions'
+import { getOrders, getTokenName } from '../actions'
 
 import {
   AppDispatch,
   TransactionActionTypes,
   TxData,
   NewOrder,
+  Order,
   CancelOrder
 } from '../../../types'
 
@@ -65,7 +66,7 @@ export const submitOrder = ( order: NewOrder ) => {
 
     		//And Run it..
         //txnData.summary = Transaction.failure
-    		Minima.cmd(txnCreator, function( respJSON: any ){
+    		Minima.cmd(txnCreator, function( respJSON: any ) {
 
           //console.log("txn check!", respJSON)
 
@@ -86,7 +87,6 @@ export const submitOrder = ( order: NewOrder ) => {
                 time: time
             }
             dispatch(write({data: failedData})(TransactionActionTypes.TRANSACTION_FAILURE))
-            //Minima.log("Submit order failed")
           }
     		})
   		}  else {
@@ -102,6 +102,86 @@ export const submitOrder = ( order: NewOrder ) => {
     })
   }
 }
+
+export const takeOrder = ( order: Order ) => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
+    const allTokens = state.tokens
+
+    const tokenName = order.isBuy? getTokenName(order.tokenId, allTokens) : getTokenName(order.swapTokenId, allTokens);
+
+    const txnId = Math.floor(Math.random()*1000000000)
+    const time = new Date(Date.now()).toString()
+    const pendingData: TxData = {
+        txId:  txnId,
+        summary: Transaction.pending,
+        time: time
+    }
+    dispatch(write({data: pendingData})(TransactionActionTypes.TRANSACTION_PENDING))
+
+  	Minima.cmd("newaddress" , function( addrJSON: any ) {
+
+      const txnId = Math.floor(Math.random()*1000000000)
+
+  		if ( addrJSON.status ) {
+  			//Get the address
+  			const myAddress = addrJSON.response.address.hexaddress
+  			//Create the TXN
+
+  			//First create a transaction paying him.. and an new address for you..
+  			const txnCreator =
+  				//Create the Base
+  				"txncreate " + txnId + ";" +
+  				//Auto set up the payment
+  				"txnauto " + txnId + " " + order.amount + " " + order.address + " " + order.swapTokenId + ";" +
+  				//NOW add that coin.. MUST be the first - as oposite is payment
+  				"txninput " + txnId + " "+ order.coinId + " 0;" +
+  				//Send it to yourself..
+  				"txnoutput " + txnId + " " + order.coinAmount + " " + myAddress + " " + order.tokenId + ";" +
+  				//Re Sign it..
+  				"txnsignauto " + txnId + ";" +
+  				//Post
+  				"txnpost " + txnId + ";" +
+  				//Delete..
+  				"txndelete " + txnId + ";" ;
+
+  			//Create this first stage
+  			Minima.cmd(txnCreator, function( respJSON: any ) {
+
+          if( Minima.util.checkAllResponses( respJSON ) ) {
+
+            const successData: TxData = {
+                txId:  txnId,
+                summary: Transaction.success,
+                time: time
+            }
+            dispatch(write({data: successData})(TransactionActionTypes.TRANSACTION_SUCCESS))
+
+    			} else {
+
+            const failedData: TxData = {
+                txId:  txnId,
+                summary: respJSON[respJSON.length - 1].message,
+                time: time
+            }
+            dispatch(write({data: failedData})(TransactionActionTypes.TRANSACTION_FAILURE))
+          }
+  			})
+
+  		} else {
+
+        const failedData: TxData = {
+            txId:  txnId,
+            summary: addrJSON.message,
+            time: time
+        }
+        dispatch(write({data: failedData})(TransactionActionTypes.TRANSACTION_FAILURE))
+  		}
+  	})
+  }
+}
+
 
 export const cancelOrder = ( order: CancelOrder ) => {
   return async (dispatch: AppDispatch, getState: Function) => {

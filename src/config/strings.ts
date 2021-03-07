@@ -82,7 +82,8 @@ class Help {
   static readonly placeBuyTip = 'Place a Buy Order'
   static readonly placeSellTip = 'Place a Sell Order'
 
-  static readonly orderSure = "You are about to order"
+  static readonly orderSure = "You are about to make an order"
+  static readonly takeOrderSure = "You are about to take an order"
 }
 
 class Contact {
@@ -158,9 +159,10 @@ class OrderBook {
 
   static readonly orderBookButton = 'Orders'
   static readonly recentTradesButton = 'Trades'
+  static readonly takeButton = 'Take'
   static readonly buyButton = 'Buy'
   static readonly sellButton = 'Sell'
-  static readonly orderButton = 'Place Order'
+  static readonly orderButton = 'Make'
 
   static readonly validAmount = 'Please Input a Valid Amount'
   static readonly validPrice = 'Please Input a Valid Price'

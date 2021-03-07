@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { Decimal } from 'decimal.js'
 
-import { submitOrder } from '../../store/app/blockchain/tx/actions'
+import { submitOrder, takeOrder } from '../../store/app/blockchain/tx/actions'
 import { setActivePage } from '../../store/app/appData/actions'
 
 import Grid from '@material-ui/core/Grid'
@@ -54,6 +54,7 @@ interface OrdersStateProps {
 interface OrdersDispatchProps {
   setActivePage: () => void
   submitOrder: (order: NewOrder) => void
+  takeOrder: (order: Order) => void
 }
 
 type Props = OrdersStateProps & OrdersDispatchProps
@@ -83,6 +84,23 @@ const display = (props: Props) => {
     wantsTokenId: minimaTokenId
   } as NewOrder)
   const [orderDialogue, setOrderDialogue] = useState(false)
+
+  const [take, setTake] = useState ({
+    isBuy: true,
+    coinId: "",
+    owner: "",
+    address: "",
+    coinAmount: new Decimal(0),
+    tokenId: "",
+    tokenName: "",
+    swapTokenId: "",
+    swapTokenName: "",
+    amount: new Decimal(0),
+    price: new Decimal(0),
+    total: new Decimal(0),
+    status: ""
+  } as Order)
+  const [takeOrderDialogue, setTakeOrderDialogue] = useState(false)
 
   const [isBuy, setIsBuy] = useState(true)
   const [tradeColours, setTradeColours] = useState([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
@@ -171,13 +189,28 @@ const display = (props: Props) => {
     }
   }
 
-  const dialogueClose = () => {
+  const orderDialogueClose = () => {
     setOrderDialogue(false)
   }
 
   const doOrder = () => {
     setOrderDialogue(false)
     props.submitOrder(order)
+  }
+
+  const processTakeOrder = (order: Order) => {
+    console.log("Take! ", order)
+    setTake(order)
+    setTakeOrderDialogue(true)
+  }
+
+  const takeOrderDialogueClose = () => {
+    setTakeOrderDialogue(false)
+  }
+
+  const doTakeOrder = () => {
+    setTakeOrderDialogue(false)
+    props.takeOrder(take)
   }
 
   return (
@@ -426,19 +459,24 @@ const display = (props: Props) => {
             </Typography>
           </Grid>
 
-          <Grid item container justify="flex-end" xs={4}>
+          <Grid item container justify="flex-end" xs={3}>
             <Typography variant="h3">
               {TradesConfig.price}
             </Typography>
           </Grid>
-          <Grid item container justify="flex-end" xs={4}>
+          <Grid item container justify="flex-end" xs={3}>
             <Typography variant="h3">
               {TradesConfig.amount}
             </Typography>
           </Grid>
-          <Grid item container justify="flex-end" xs={4}>
+          <Grid item container justify="flex-end" xs={3}>
             <Typography variant="h3">
               {TradesConfig.total}
+            </Typography>
+          </Grid>
+          <Grid item container xs={3}>
+            <Typography variant="h3">
+              &nbsp;
             </Typography>
           </Grid>
 
@@ -476,20 +514,34 @@ const display = (props: Props) => {
 
                   <React.Fragment key={index}>
 
-                    <Grid className={classes.details} item container justify="flex-end" xs={4}>
+                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
                      <Typography style={{color: `${colour}`}} variant="body2">
                        {thisPrice}
                      </Typography>
                     </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={4}>
+                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
                      <Typography style={{color: `${colour}`}} variant="body2">
                        {thisAmount}
                      </Typography>
                     </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={4}>
+                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
                      <Typography style={{color: `${colour}`}} variant="body2">
                        {thisTotal}
                      </Typography>
+                    </Grid>
+                    <Grid item container alignItems="center" justify="center" xs={2}>
+                      <Button
+                        onClick={() => processTakeOrder(order)}
+                        style={{
+                          paddingTop: '0.5em',
+                          textTransform: 'none',
+                          fontSize: "1em",
+                          lineHeight: "1.1",
+                          color: `${colour}`
+                        }}
+                      >
+                        {OrderBookConfig.takeButton}
+                      </Button>
                     </Grid>
 
                     <Grid item container justify="flex-start" xs={12}>
@@ -611,7 +663,7 @@ const display = (props: Props) => {
         aria-describedby={Help.orderSure}
         className={classes.orderModal}
         open={orderDialogue}
-        onClose={dialogueClose}
+        onClose={orderDialogueClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -622,11 +674,11 @@ const display = (props: Props) => {
           <div className={classes.orderModalSub}>
               { order.isBuy ?
                 <Typography variant="h3">
-                  You are about to place a buy order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each, for a total of {order.total.toString()} Minima
+                  You are about to place a buy order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. This will cost you a total of {order.total.toString()} Minima
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to place a sell order of {order.total.toString()} {token.label} at {order.price.toString()} Minima each, for a total of {order.amount.toString()} Minima
+                    You are about to place a sell order of {order.total.toString()} {token.label} at {order.price.toString()} Minima each. You will receive a total of {order.amount.toString()} Minima
                   </Typography>
                 )
               }
@@ -634,7 +686,7 @@ const display = (props: Props) => {
             <br/>
             <div className={classes.orderModalSubIcons}>
               <IconButton
-                onClick={dialogueClose}
+                onClick={orderDialogueClose}
                 color="primary"
                 aria-label={Help.cancelTip}
                 component="span"
@@ -647,6 +699,61 @@ const display = (props: Props) => {
               &nbsp;&nbsp;&nbsp;&nbsp;
               <IconButton
                 onClick={() => doOrder()}
+                color="primary"
+                aria-label={Help.orderTip}
+                component="span"
+                size="small">
+                <img
+                  src={confirmIcon}
+                  className={classes.confirmIcon}
+                />
+              </IconButton>
+            </div>
+          </div>
+        </Fade>
+      </Modal>
+
+      <Modal
+        aria-labelledby={Help.takeOrderSure}
+        aria-describedby={Help.takeOrderSure}
+        className={classes.orderModal}
+        open={takeOrderDialogue}
+        onClose={takeOrderDialogueClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={takeOrderDialogue}>
+          <div className={classes.orderModalSub}>
+              { take.isBuy ?
+                <Typography variant="h3">
+                  You are about to take a buy order of {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. This will cost you a total of {take.total.toString()} Minima
+                </Typography>
+                : (
+                  <Typography variant="h3">
+                    You are about to take a sell order of {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. You will receive a total of {take.total.toString()} Minima
+                  </Typography>
+                )
+              }
+
+            <br/>
+            <div className={classes.orderModalSubIcons}>
+              <IconButton
+                onClick={takeOrderDialogueClose}
+                color="primary"
+                aria-label={Help.cancelTip}
+                component="span"
+                size="small">
+                <img
+                  src={cancelIcon}
+                  className={classes.cancelIcon}
+                />
+              </IconButton>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              <IconButton
+                onClick={() => doTakeOrder()}
                 color="primary"
                 aria-label={Help.orderTip}
                 component="span"
@@ -680,7 +787,8 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): OrdersDispatchProps => {
  return {
    setActivePage: () => dispatch(setActivePage(Local.orderBook)),
-   submitOrder: (order: NewOrder) => dispatch(submitOrder(order))
+   submitOrder: (order: NewOrder) => dispatch(submitOrder(order)),
+   takeOrder: (order: Order) => dispatch(takeOrder(order))
  }
 }
 
