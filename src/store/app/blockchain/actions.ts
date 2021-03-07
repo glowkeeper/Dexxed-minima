@@ -324,12 +324,11 @@ export const getOrders = (justMyOrders: boolean) => {
     			let decPrice  = new Decimal(0)
     			let decTotal  = new Decimal(0)
           let isBuy = true
-          let swapTokenName = getTokenName(tokenId, allTokens)
+          let swapTokenName = getTokenName(swapTokenId, allTokens)
 
     			//BUY OR SELL
     			if( tokenId == "0x00" ) {
     				//Token is Minima - BUY
-            swapTokenName = getTokenName(swapTokenId, allTokens)
             decAmount = amount
     				decPrice = coinAmount.div(decAmount)
 

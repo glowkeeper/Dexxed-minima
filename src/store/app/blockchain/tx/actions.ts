@@ -103,24 +103,6 @@ export const submitOrder = ( order: NewOrder ) => {
   }
 }
 
-/*
-export interface Order {
-  isBuy: boolean
-  coinId: string
-  owner: string
-  address: string
-  coinAmount: Decimal
-  tokenId: string
-  tokenName: string
-  swapTokenId: string
-  swapTokenName: string
-  amount: Decimal
-  price: Decimal
-  total: Decimal
-  status: string
-}
-*/
-
 export const takeOrder = ( order: Order ) => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
