@@ -27,7 +27,7 @@ coinAmount: 2e-11
 tokenId: 0xCBDE084D0A44A8F6EBDBD2CBF448D448E88E06EC008F4A0E3C004EC234A50C21E59A9CE4D7C7ECE60351FE1E90A5D1E80DA816734C2BA2C3B5363448D9245B50
 order tokenname: Incentiva
 swap tokenid: 0x00
-swaptokenname: Incentiva
+swaptokenname: Minima
 amount: 2
 price: 12
 total: 24
