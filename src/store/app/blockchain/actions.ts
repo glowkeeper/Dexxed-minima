@@ -300,10 +300,12 @@ export const getOrders = (justMyOrders: boolean) => {
           // Get state
           //State[], port: string):
     			const cPrevState = coinProof.prevstate
+
           const owner: string = Minima.util.getStateVariable( cPrevState, "0" ) as string
     			const address = Minima.util.getStateVariable( cPrevState, "1" ) as string
           const swapTokenId = Minima.util.getStateVariable( cPrevState, "2" ) as string
-          const amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
+          const stateVar = Minima.util.getStateVariable( cPrevState, "3") as string
+          const amount = stateVar ? new Decimal(stateVar) : new Decimal(0)
 
           // Status
           let status = OrdersConfig.statusWaiting
@@ -342,7 +344,7 @@ export const getOrders = (justMyOrders: boolean) => {
     			//The total
           decTotal = amount.mul(decPrice)
 
-          console.log("scale: ", amount.toFixed(), coinAmount.toFixed(), decAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
+          //console.log("scale: ", amount.toFixed(), coinAmount.toFixed(), decAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
 
           // Complete order
           const thisOrder: Order = {
@@ -400,15 +402,20 @@ const getAllTrades = () => {
     			if ( txPow.body.txn.inputs.length >1 && txpItem.isinblock ) {
 
             const coinProof = txPow.body.witness.mmrproofs[0].data
+
+            //console.log("coinProof: ", coinProof)
+
     				const coinId = coinProof.coin.coinid
       			const coinAmount = new Decimal(coinProof.coin.amount)
     				let tokenId = coinProof.coin.tokenid
-            let tokenName = getTokenName(tokenId, allTokens)
 
             // Get the state we need
             const cPrevState = coinProof.prevstate
             const amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
-            let decAmount = new Decimal(coinProof.coin.amount)
+            let tokenName = getTokenName(tokenId, allTokens)
+
+            //console.log("trades amount: ", tokenName, amount.toFixed(), coinAmount.toFixed())
+
             // Calculate the (buy or sell) price..
       			let decPrice  = new Decimal(0)
       			let decTotal  = new Decimal(0)
@@ -418,19 +425,18 @@ const getAllTrades = () => {
       			if( tokenId == "0x00" ) {
 
               isBuy = false
-              tokenId = Minima.util.getStateVariable( cPrevState, "2" )
-              decAmount = amount
-              decPrice = coinAmount.div(decAmount)
+              tokenId = Minima.util.getStateVariable( cPrevState, "2" ) as string
+              tokenName = getTokenName(tokenId, allTokens)
+              decPrice = coinAmount.div(amount)
+              decTotal = amount.mul(decPrice)
 
       			} else {
 
       				const scale = getTokenScale(tokenId, allTokens)
-      				decAmount = coinAmount.mul(scale)
-      				decPrice = amount.div(decAmount)
+              decTotal = coinAmount.mul(scale)  //The total
+          		decPrice = decTotal.div(amount)
       			}
 
-            //The total
-      			decTotal = decAmount.mul(decPrice)
             const blockTime   = txpItem.inblock
 
             // Complete order
@@ -440,7 +446,7 @@ const getAllTrades = () => {
               coinAmount: coinAmount,
               tokenId: tokenId,
               tokenName: tokenName,
-              amount: decAmount,
+              amount: amount,
               price: decPrice,
               total: decTotal,
               block: blockTime
@@ -491,11 +497,11 @@ const getMyTrades = () => {
       				const coinId = coinProof.coin.coinid
         			const coinAmount = new Decimal(coinProof.coin.amount)
       				let tokenId = coinProof.coin.tokenid
-              let tokenName = getTokenName(tokenId, allTokens)
 
               const cPrevState = coinProof.prevstate
               const amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
-              let decAmount = new Decimal(coinProof.coin.amount)
+              let tokenName = getTokenName(tokenId, allTokens)
+
         			let decPrice  = new Decimal(0)
               let decTotal  = new Decimal(0)
 
@@ -506,20 +512,20 @@ const getMyTrades = () => {
               if( tokenId == "0x00" ) {
 
                 isBuy = false
-                tokenId = Minima.util.getStateVariable( cPrevState, "2" )
-                decAmount = amount
-                decPrice = coinAmount.div(decAmount)
+                tokenId = Minima.util.getStateVariable( cPrevState, "2" ) as string
+                tokenName = getTokenName(tokenId, allTokens)
+                decPrice = coinAmount.div(amount)
+                decTotal = amount.mul(decPrice)
 
                 if( value.gte(0) ) {
 
-                  isBuy = false
+                  isBuy = true
                 }
               } else {
 
-                // Get the state we need
                 const scale = getTokenScale(tokenId, allTokens)
-        				decAmount = coinAmount.mul(scale)
-        				decPrice = amount.div(decAmount)
+                decTotal = coinAmount.mul(scale)  //The total
+            		decPrice = decTotal.div(amount)
 
                 if ( value.lte(0) ) {
 
@@ -527,8 +533,6 @@ const getMyTrades = () => {
                 }
               }
 
-              //The total
-        			decTotal = decAmount.mul(decPrice)
               const blockTime   = txpItem.inblock
 
               // Complete trade
@@ -538,7 +542,7 @@ const getMyTrades = () => {
                 coinAmount: coinAmount,
                 tokenId: tokenId,
                 tokenName: tokenName,
-                amount: decAmount,
+                amount: amount,
                 price: decPrice,
                 total: decTotal,
                 block: blockTime
