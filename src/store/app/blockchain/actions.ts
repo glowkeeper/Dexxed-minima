@@ -342,7 +342,7 @@ export const getOrders = (justMyOrders: boolean) => {
     			//The total
           decTotal = amount.mul(decPrice)
 
-          //console.log("scale: ", amount.toFixed(), coinAmount.toFixed(), decAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
+          console.log("scale: ", amount.toFixed(), coinAmount.toFixed(), decAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
 
           // Complete order
           const thisOrder: Order = {

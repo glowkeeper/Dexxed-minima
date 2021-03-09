@@ -680,7 +680,7 @@ const display = (props: Props) => {
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to place a sell order of {order.total.toString()} {token.label} at {order.price.toString()} Minima each. You will receive a total of {order.amount.toString()} Minima
+                    You are about to place a sell order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. You will receive a total of {order.total.toString()} Minima
                   </Typography>
                 )
               }
