@@ -117,13 +117,13 @@ const display = (props: Props) => {
           const type = order.isBuy ? `${OrdersConfig.buy}` : `${OrdersConfig.sell}`
           const colour = order.isBuy ? `${OrdersConfig.buyColour}` : `${OrdersConfig.sellColour}`
 
-          const amount = +order.amount
+          const amount = order.isBuy ? +order.amount : +order.total
           const thisAmount = amount.toFixed(2)
 
           const price = +order.price
           const thisPrice = price.toFixed(2)
 
-          const total = +order.total
+          const total =  order.isBuy ? +order.total : +order.amount
           const thisTotal = total.toFixed(2)
 
           return (

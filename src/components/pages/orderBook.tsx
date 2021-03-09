@@ -503,13 +503,13 @@ const display = (props: Props) => {
                 const type = order.isBuy ? `${OrderBookConfig.buy}` : `${OrderBookConfig.sell}`
                 const colour = order.isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`
 
-                const amount = +order.amount
+                const amount = order.isBuy ? +order.amount : +order.total
                 const thisAmount = amount.toFixed(2)
 
                 const price = +order.price
                 const thisPrice = price.toFixed(2)
 
-                const total = +order.total
+                const total = order.isBuy ? +order.total : +order.amount
                 const thisTotal = total.toFixed(2)
 
                 return (
@@ -609,13 +609,13 @@ const display = (props: Props) => {
 
                   const colour = trade.isBuy ? `${TradesConfig.buyColour}` : `${TradesConfig.sellColour}`
 
-                  const amount = +trade.amount
+                  const amount = trade.isBuy ? +trade.amount : +trade.total
                   const thisAmount = amount.toFixed(2)
 
                   const price = +trade.price
                   const thisPrice = price.toFixed(2)
 
-                  const total = +trade.total
+                  const total = trade.isBuy ? +trade.total : +trade.amount
                   const thisTotal = total.toFixed(2)
 
                   return (
@@ -735,7 +735,7 @@ const display = (props: Props) => {
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to take a sell order of {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. You will receive a total of {take.total.toString()} Minima
+                    You are about to take a sell order of {take.total.toString()} {token.label} at {take.price.toString()} Minima each. You will receive a total of {take.amount.toString()} {token.label}
                   </Typography>
                 )
               }
