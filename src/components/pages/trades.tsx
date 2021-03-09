@@ -68,14 +68,19 @@ const display = (props: Props) => {
           {TradesConfig.price}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={3}>
+      <Grid item container justify="flex-end" xs={2}>
         <Typography variant="h3">
           {TradesConfig.amount}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={3}>
+      <Grid item container justify="flex-end" xs={2}>
         <Typography variant="h3">
           {TradesConfig.total}
+        </Typography>
+      </Grid>
+      <Grid item container justify="flex-end" xs={2}>
+        <Typography variant="h3">
+          {TradesConfig.block}
         </Typography>
       </Grid>
 
@@ -123,14 +128,19 @@ const display = (props: Props) => {
                  {thisPrice}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={3}>
+              <Grid className={classes.details} item container justify="flex-end" xs={2}>
                <Typography variant="body2">
                  {thisAmount}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={3}>
+              <Grid className={classes.details} item container justify="flex-end" xs={2}>
                <Typography variant="body2">
                  {thisTotal}
+               </Typography>
+              </Grid>
+              <Grid className={classes.details} item container justify="flex-end" xs={2}>
+               <Typography variant="body2">
+                 {trade.block}
                </Typography>
               </Grid>
 

@@ -320,7 +320,7 @@ export const getOrders = (justMyOrders: boolean) => {
           }
 
     			// Calculate the (buy or sell) price..
-          let decAmount = new Decimal(0)
+          let decAmount = amount
     			let decPrice  = new Decimal(0)
     			let decTotal  = new Decimal(0)
           let isBuy = true
@@ -329,19 +329,20 @@ export const getOrders = (justMyOrders: boolean) => {
     			//BUY OR SELL
     			if( tokenId == "0x00" ) {
     				//Token is Minima - BUY
-            decAmount = amount
     				decPrice = coinAmount.div(decAmount)
 
     			} else {
     				//SELL
             isBuy = false
     				const scale = getTokenScale(tokenId, allTokens)
-    				decAmount = coinAmount.mul(scale)
-    				decPrice = amount.div(decAmount)
+    				const thisAmount = coinAmount.mul(scale)
+    				decPrice = thisAmount.div(amount)
     			}
 
     			//The total
-          decTotal = decAmount.mul(decPrice)
+          decTotal = amount.mul(decPrice)
+
+          //console.log("scale: ", amount.toFixed(), coinAmount.toFixed(), decAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
 
           // Complete order
           const thisOrder: Order = {

@@ -64,6 +64,8 @@ export const submitOrder = ( order: NewOrder ) => {
     			"txnpost " + txnId + ";" +
     			"txndelete " + txnId + ";"
 
+        //console.log("Create order: ", txnCreator)
+
     		//And Run it..
         //txnData.summary = Transaction.failure
     		Minima.cmd(txnCreator, function( respJSON: any ) {
@@ -111,7 +113,7 @@ export const takeOrder = ( order: Order ) => {
 
     const tokenName = order.isBuy? getTokenName(order.tokenId, allTokens) : getTokenName(order.swapTokenId, allTokens);
 
-    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toString() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
+    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toFixed() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
 
     const txnId = Math.floor(Math.random()*1000000000)
     const time = new Date(Date.now()).toString()
@@ -140,7 +142,7 @@ export const takeOrder = ( order: Order ) => {
   				//NOW add that coin.. MUST be the first - as oposite is payment
   				"txninput " + txnId + " "+ order.coinId + " 0;" +
   				//Send it to yourself..
-  				"txnoutput " + txnId + " " + order.coinAmount + " " + myAddress + " " + order.tokenId + ";" +
+  				"txnoutput " + txnId + " " + order.coinAmount.toFixed() + " " + myAddress + " " + order.tokenId + ";" +
   				//Re Sign it..
   				"txnsignauto " + txnId + ";" +
   				//Post

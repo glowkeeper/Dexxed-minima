@@ -140,7 +140,7 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
-      //console.log("Values: ", values)
+      console.log("Values: ", values)
       const decPrice = new Decimal(values.price)
       let decAmount = new Decimal(values.amount)
       let decTotal = decAmount.mul(decPrice)
@@ -150,12 +150,11 @@ const display = (props: Props) => {
         // swap everything :)
         hasTokenId = values.token
         wantsTokenId = minimaTokenId
-        const swap  = decTotal
+        /*const swap  = decTotal
         decTotal  = decAmount
-        decAmount = swap
+        decAmount = swap*/
       }
 
-      //console.log("values: ", values)
       const orderInfo: NewOrder = {
           isBuy: isBuy,
           amount: decAmount,
@@ -164,6 +163,9 @@ const display = (props: Props) => {
           hasTokenId: hasTokenId,
           wantsTokenId: wantsTokenId
       }
+
+      console.log("new values: ", orderInfo.amount.toString(), orderInfo.price.toString(), orderInfo.total.toString(), hasTokenId, wantsTokenId)
+
       setOrder(orderInfo)
       setOrderDialogue(true)
     },

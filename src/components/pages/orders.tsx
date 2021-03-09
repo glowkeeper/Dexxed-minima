@@ -111,7 +111,7 @@ const display = (props: Props) => {
       {
         props.orderData.data.map( ( order: Order, index: number ) => {
 
-          //console.log("Order!", order)
+          console.log("Order!", order)
 
           const orderToken = order.isBuy ? order.swapTokenName : order.tokenName
           const type = order.isBuy ? `${OrdersConfig.buy}` : `${OrdersConfig.sell}`
