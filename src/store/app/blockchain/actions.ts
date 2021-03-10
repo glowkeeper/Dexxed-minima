@@ -339,7 +339,7 @@ export const getOrders = (justMyOrders: boolean) => {
             //const thisAmount = amount.div(scale)
             //coinAmount = thisAmount
 
-            console.log("sell order: ", coinProof, amount.toFixed(), coinAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
+            //console.log("sell order: ", coinProof, amount.toFixed(), coinAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
     			}
 
           // Complete order
