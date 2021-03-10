@@ -78,7 +78,7 @@ const display = (props: Props) => {
 
           //console.log(balance)
           const amount = +balance.confirmed
-          const thisAmount = amount.toFixed(2)
+          const thisAmount = amount.toFixed(10)
 
           return (
             <React.Fragment key={index}>

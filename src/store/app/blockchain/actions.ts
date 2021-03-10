@@ -44,14 +44,6 @@ export const init = () => {
           dispatch(getTokens())
           dispatch(getBlock())
 
-          const justMyOrders = true
-          dispatch(getOrders(justMyOrders))
-          // All orders (including mine)
-          dispatch(getOrders(!justMyOrders))
-
-          dispatch(getAllTrades())
-          dispatch(getMyTrades())
-
   	 		} else if ( msg.event == "newblock" ) {
 
           dispatch(getTokens())
@@ -331,8 +323,9 @@ export const getOrders = (justMyOrders: boolean) => {
     			if( tokenId == "0x00" ) {
     				//Token is Minima - BUY
     				decPrice = coinAmount.div(amount)
-            //The total
             decTotal = amount.mul(decPrice)
+
+            //console.log("buy: ", amount.toFixed(), coinAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
 
     			} else {
     				//SELL
@@ -340,7 +333,6 @@ export const getOrders = (justMyOrders: boolean) => {
     				const scale = getTokenScale(tokenId, allTokens)
     				decTotal = coinAmount.mul(scale)
     				decPrice = amount.div(decTotal)
-            //console.log("scale: ", amount.toFixed(), coinAmount.toFixed(), amount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
     			}
 
           // Complete order
@@ -408,7 +400,7 @@ const getAllTrades = () => {
 
             // Get the state we need
             const cPrevState = coinProof.prevstate
-            const amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
+            let amount = new Decimal(Minima.util.getStateVariable( cPrevState, "3" ) as string)
             let tokenName = getTokenName(tokenId, allTokens)
 
             //console.log("trades amount: ", tokenName, amount.toFixed(), coinAmount.toFixed())
@@ -417,7 +409,6 @@ const getAllTrades = () => {
       			let decPrice  = new Decimal(0)
       			let decTotal  = new Decimal(0)
 
-            // To get this to match dexxed, you seem to have to reverse this from orders
             let isBuy = true
       			if( tokenId == "0x00" ) {
 
@@ -429,9 +420,11 @@ const getAllTrades = () => {
 
       			} else {
 
-      				const scale = getTokenScale(tokenId, allTokens)
-              decTotal = coinAmount.mul(scale)  //The total
-          		decPrice = decTotal.div(amount)
+              const scale = getTokenScale(tokenId, allTokens)
+              const thisAmount = amount
+      				amount = coinAmount.mul(scale)
+              decTotal = thisAmount
+      				decPrice = thisAmount.div(amount)
       			}
 
             const blockTime   = txpItem.inblock
@@ -514,7 +507,7 @@ const getMyTrades = () => {
                 decPrice = coinAmount.div(amount)
                 decTotal = amount.mul(decPrice)
 
-                if( value.gte(0) ) {
+                if( value.lte(0) ) {
 
                   isBuy = true
                 }
@@ -522,7 +515,7 @@ const getMyTrades = () => {
 
                 const scale = getTokenScale(tokenId, allTokens)
                 decTotal = coinAmount.mul(scale)  //The total
-            		decPrice = decTotal.div(amount)
+        				decPrice = amount.div(decTotal)
 
                 if ( value.lte(0) ) {
 
