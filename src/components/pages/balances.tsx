@@ -86,7 +86,7 @@ const display = (props: Props) => {
       {
         props.balanceData.data.map( ( balance: Balance, index: number ) => {
 
-          console.log(balance)
+          //console.log(balance)
           const amount = +balance.confirmed
           const unconfirmed = +balance.unconfirmed
           const mempool = +balance.mempool

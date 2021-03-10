@@ -161,10 +161,10 @@ class OrderBook {
 
   static readonly orderBookButton = 'Orders'
   static readonly recentTradesButton = 'Trades'
-  static readonly takeButton = 'Take'
+  static readonly takeButton = 'Take Order'
   static readonly buyButton = 'Buy'
   static readonly sellButton = 'Sell'
-  static readonly orderButton = 'Make'
+  static readonly orderButton = 'Place Order'
 
   static readonly validAmount = 'Please Input a Valid Amount'
   static readonly validPrice = 'Please Input a Valid Price'

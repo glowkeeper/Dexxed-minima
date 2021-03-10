@@ -285,7 +285,7 @@ export const getOrders = (justMyOrders: boolean) => {
           //The Order
           const coinProof  = coinData.response.coins[i].data
     			const coinId = coinProof.coin.coinid
-    			const coinAmount = new Decimal(coinProof.coin.amount)
+    			let coinAmount = new Decimal(coinProof.coin.amount)
     			const tokenId = coinProof.coin.tokenid
           const tokenName = getTokenName(tokenId, allTokens)
 
@@ -335,7 +335,11 @@ export const getOrders = (justMyOrders: boolean) => {
             const thisAmount = amount
             amount = coinAmount.mul(scale)
             decTotal = thisAmount
-            decPrice = thisAmount.div(amount)
+            decPrice = decTotal.div(amount)
+            //const thisAmount = amount.div(scale)
+            //coinAmount = thisAmount
+
+            console.log("sell order: ", coinProof, amount.toFixed(), coinAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
     			}
 
           // Complete order

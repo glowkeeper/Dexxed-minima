@@ -43,6 +43,14 @@ export const submitOrder = ( order: NewOrder ) => {
     }
     dispatch(write({data: pendingData})(TransactionActionTypes.TRANSACTION_PENDING))
 
+    let amountIn = order.amount.toFixed()
+    let amountOut = order.total.toFixed()
+    if ( !order.isBuy ) {
+
+      amountIn = order.total.toFixed()
+      amountOut = order.amount.toFixed()
+    }
+
     //console.log ("New order: ", order)
 
     Minima.cmd("keys new;newaddress;" , function( keysJSON: any ){
@@ -59,12 +67,12 @@ export const submitOrder = ( order: NewOrder ) => {
     			"txnstate " + txnId + " 0 " + pubKey + ";" +
     			"txnstate " + txnId + " 1 " + address + ";" +
     			"txnstate " + txnId + " 2 " + order.wantsTokenId + ";" +
-    			"txnstate " + txnId + " 3 " + order.amount + ";" +
-    			"txnauto " + txnId + " " + order.total + " " + dexContract + " " + order.hasTokenId + ";" +
+    			"txnstate " + txnId + " 3 " + amountIn + ";" +
+    			"txnauto " + txnId + " " + amountOut + " " + dexContract + " " + order.hasTokenId + ";" +
     			"txnpost " + txnId + ";" +
     			"txndelete " + txnId + ";"
 
-        //console.log("Create order: ", txnCreator)
+        console.log("Create order: ", txnCreator)
 
     		//And Run it..
         //txnData.summary = Transaction.failure
@@ -111,7 +119,7 @@ export const takeOrder = ( order: Order ) => {
     const state = getState()
     const allTokens = state.tokens
 
-    //console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toFixed() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
+    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toFixed() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
 
     let tokenName = getTokenName(order.tokenId, allTokens)
     let amountIn = order.amount.toFixed()
@@ -158,7 +166,7 @@ export const takeOrder = ( order: Order ) => {
   				//Delete..
   				"txndelete " + txnId + ";" ;
 
-        //console.log("txCreator: ", txnCreator)
+        console.log("txCreator: ", txnCreator)
 
   			//Create this first stage
   			Minima.cmd(txnCreator, function( respJSON: any ) {
