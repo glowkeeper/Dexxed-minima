@@ -121,7 +121,10 @@ const display = (props: Props) => {
       let options = [] as any
       props.tokenData.data.forEach(element => {
 
-        const thisOption = { value: element.tokenId, label: element.tokenName }
+        const thisOption = {
+          value: element.tokenId,
+          name: element.tokenName,
+          label: `${element.tokenName} (${element.tokenId})` }
         options.push(thisOption)
       })
       setTokens(options)
@@ -140,7 +143,7 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
-      console.log("Values: ", values)
+      //console.log("Values: ", values)
       const decPrice = new Decimal(values.price)
       let decAmount = new Decimal(values.amount)
       let decTotal = decAmount.mul(decPrice)
@@ -164,7 +167,7 @@ const display = (props: Props) => {
           wantsTokenId: wantsTokenId
       }
 
-      console.log("new values: ", orderInfo.amount.toString(), orderInfo.price.toString(), orderInfo.total.toString(), hasTokenId, wantsTokenId)
+      //console.log("new values: ", orderInfo.amount.toString(), orderInfo.price.toString(), orderInfo.total.toString(), hasTokenId, wantsTokenId)
 
       setOrder(orderInfo)
       setOrderDialogue(true)
@@ -201,7 +204,7 @@ const display = (props: Props) => {
   }
 
   const processTakeOrder = (order: Order) => {
-    console.log("Take! ", order)
+    //console.log("Take! ", order)
     setTake(order)
     setTakeOrderDialogue(true)
   }
@@ -457,7 +460,7 @@ const display = (props: Props) => {
 
           <Grid item container justify="flex-start" xs={12}>
             <Typography style={{color: 'blue'}} variant="h3">
-              {token.hasOwnProperty("label") ? token.label : ""}
+              {token.hasOwnProperty("label") ? token.name : ""}
             </Typography>
           </Grid>
 
@@ -676,11 +679,11 @@ const display = (props: Props) => {
           <div className={classes.orderModalSub}>
               { order.isBuy ?
                 <Typography variant="h3">
-                  You are about to place a buy order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. Total order value is {order.total.toString()} Minima
+                  You are about to place a buy order of {order.amount.toString()} {token.name} at {order.price.toString()} Minima each. Total order value is {order.total.toString()} Minima
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to place a sell order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. Total order value is {order.total.toString()} Minima
+                    You are about to place a sell order of {order.amount.toString()} {token.name} at {order.price.toString()} Minima each. Total order value is {order.total.toString()} Minima
                   </Typography>
                 )
               }
@@ -731,11 +734,11 @@ const display = (props: Props) => {
           <div className={classes.orderModalSub}>
               { take.isBuy ?
                 <Typography variant="h3">
-                  You are about to sell {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. You will receive {take.total.toString()} Minima
+                  You are about to sell {take.amount.toString()} {token.name} at {take.price.toString()} Minima each. You will receive {take.total.toString()} Minima
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to buy {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. You will spend {take.total.toString()} Minima
+                    You are about to buy {take.amount.toString()} {token.name} at {take.price.toString()} Minima each. You will spend {take.total.toString()} Minima
                   </Typography>
                 )
               }

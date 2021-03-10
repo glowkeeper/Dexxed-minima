@@ -121,7 +121,9 @@ class Balances {
   static readonly heading = 'My Balances'
 
   static readonly token = 'Token'
-  static readonly amount = 'Amount Confirmed'
+  static readonly amount = 'Confirmed'
+  static readonly unconfirmed = 'Unconfirmed'
+  static readonly mempool = 'Mempool'
 }
 
 class Trades {

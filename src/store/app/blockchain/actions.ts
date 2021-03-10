@@ -193,7 +193,7 @@ const getBalance = () => {
       const thisBalance: Balance = {
         token: Minima.balance[i].token,
         confirmed: Minima.balance[i].confirmed,
-        uncomfirmed: Minima.balance[i].unconfirmed,
+        unconfirmed: Minima.balance[i].unconfirmed,
         mempool: Minima.balance[i].mempool
       }
 

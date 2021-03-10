@@ -53,14 +53,24 @@ const display = (props: Props) => {
         </svg>
       </Grid>
 
-      <Grid item container justify="flex-start" xs={6}>
+      <Grid item container justify="flex-start" xs={3}>
         <Typography variant="h3">
           {BalancesConfig.token}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={6}>
+      <Grid item container justify="flex-end" xs={3}>
         <Typography variant="h3">
           {BalancesConfig.amount}
+        </Typography>
+      </Grid>
+      <Grid item container justify="flex-end" xs={3}>
+        <Typography variant="h3">
+          {BalancesConfig.unconfirmed}
+        </Typography>
+      </Grid>
+      <Grid item container justify="flex-end" xs={3}>
+        <Typography variant="h3">
+          {BalancesConfig.mempool}
         </Typography>
       </Grid>
 
@@ -76,22 +86,36 @@ const display = (props: Props) => {
       {
         props.balanceData.data.map( ( balance: Balance, index: number ) => {
 
-          //console.log(balance)
+          console.log(balance)
           const amount = +balance.confirmed
-          const thisAmount = amount.toFixed(10)
+          const unconfirmed = +balance.unconfirmed
+          const mempool = +balance.mempool
+          const thisAmount = amount.toFixed(2)
+          const thisUnconfirmed = unconfirmed.toFixed(2)
+          const thisMempool = mempool.toFixed(2)
 
           return (
             <React.Fragment key={index}>
 
-              <Grid className={classes.details} item container justify="flex-start" xs={6}>
+              <Grid className={classes.details} item container justify="flex-start" xs={3}>
                <Typography variant="body1">
                  {balance.token}
                </Typography>
               </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={6}>
+              <Grid className={classes.details} item container justify="flex-end" xs={3}>
                <Typography variant="body2">
                  {thisAmount}
                </Typography>
+              </Grid>
+              <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                <Typography variant="body2">
+                  {thisUnconfirmed}
+                </Typography>
+              </Grid>
+              <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                <Typography variant="body2">
+                  {thisMempool}
+                </Typography>
               </Grid>
 
               <Grid item container justify="flex-start" xs={12}>
