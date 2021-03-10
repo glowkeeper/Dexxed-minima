@@ -111,9 +111,17 @@ export const takeOrder = ( order: Order ) => {
     const state = getState()
     const allTokens = state.tokens
 
-    const tokenName = order.isBuy? getTokenName(order.tokenId, allTokens) : getTokenName(order.swapTokenId, allTokens);
+    //console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toFixed() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
 
-    console.log("take! " + "\nisBuy: " + order.isBuy + "\ncoindId: " + order.coinId + "\nowner: " + order.owner + "\naddress: " + order.address + "\ncoinAmount: "+ order.coinAmount.toFixed() + "\ntokenId: " + order.tokenId + "\norder tokenname: " + order.tokenName + "\nswap tokenid: " + order.swapTokenId + "\nswaptokenname: " + order.swapTokenName + "\namount: " + order.amount.toString() + "\nprice: " + order.price.toString() + "\ntotal: " + order.total.toString() + "\nstatus: " + order.status)
+    let tokenName = getTokenName(order.tokenId, allTokens)
+    let amountIn = order.amount.toFixed()
+    let amountOut = order.total.toFixed()
+    if ( !order.isBuy ) {
+
+      tokenName = getTokenName(order.swapTokenId, allTokens)
+      amountIn = order.total.toFixed()
+      amountOut = order.coinAmount.toFixed()
+    }
 
     const txnId = Math.floor(Math.random()*1000000000)
     const time = new Date(Date.now()).toString()
@@ -138,11 +146,11 @@ export const takeOrder = ( order: Order ) => {
   				//Create the Base
   				"txncreate " + txnId + ";" +
   				//Auto set up the payment
-  				"txnauto " + txnId + " " + order.amount + " " + order.address + " " + order.swapTokenId + ";" +
+  				"txnauto " + txnId + " " + amountIn + " " + order.address + " " + order.swapTokenId + ";" +
   				//NOW add that coin.. MUST be the first - as oposite is payment
   				"txninput " + txnId + " "+ order.coinId + " 0;" +
   				//Send it to yourself..
-  				"txnoutput " + txnId + " " + order.coinAmount.toFixed() + " " + myAddress + " " + order.tokenId + ";" +
+  				"txnoutput " + txnId + " " + amountOut + " " + myAddress + " " + order.tokenId + ";" +
   				//Re Sign it..
   				"txnsignauto " + txnId + ";" +
   				//Post
@@ -150,7 +158,7 @@ export const takeOrder = ( order: Order ) => {
   				//Delete..
   				"txndelete " + txnId + ";" ;
 
-        console.log("txCreator: ", txnCreator)
+        //console.log("txCreator: ", txnCreator)
 
   			//Create this first stage
   			Minima.cmd(txnCreator, function( respJSON: any ) {

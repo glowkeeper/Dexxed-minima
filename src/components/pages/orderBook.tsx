@@ -676,11 +676,11 @@ const display = (props: Props) => {
           <div className={classes.orderModalSub}>
               { order.isBuy ?
                 <Typography variant="h3">
-                  You are about to place a buy order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. This will cost you a total of {order.total.toString()} Minima
+                  You are about to place a buy order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. Total order value is {order.total.toString()} Minima
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to place a sell order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. You will receive a total of {order.total.toString()} Minima
+                    You are about to place a sell order of {order.amount.toString()} {token.label} at {order.price.toString()} Minima each. Total order value is {order.total.toString()} Minima
                   </Typography>
                 )
               }
@@ -731,11 +731,11 @@ const display = (props: Props) => {
           <div className={classes.orderModalSub}>
               { take.isBuy ?
                 <Typography variant="h3">
-                  You are about to take a buy order of {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. This will cost you a total of {take.total.toString()} Minima
+                  You are about to sell {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. You will receive {take.total.toString()} Minima
                 </Typography>
                 : (
                   <Typography variant="h3">
-                    You are about to take a sell order of {take.total.toString()} {token.label} at {take.price.toString()} Minima each. You will receive a total of {take.amount.toString()} {token.label}
+                    You are about to buy {take.amount.toString()} {token.label} at {take.price.toString()} Minima each. You will spend {take.total.toString()} Minima
                   </Typography>
                 )
               }

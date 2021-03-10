@@ -297,7 +297,7 @@ export const getOrders = (justMyOrders: boolean) => {
     			const address = Minima.util.getStateVariable( cPrevState, "1" ) as string
           const swapTokenId = Minima.util.getStateVariable( cPrevState, "2" ) as string
           const stateVar = Minima.util.getStateVariable( cPrevState, "3") as string
-          const amount = stateVar ? new Decimal(stateVar) : new Decimal(0)
+          let amount = stateVar ? new Decimal(stateVar) : new Decimal(0)
 
           // Status
           let status = OrdersConfig.statusWaiting
@@ -328,11 +328,14 @@ export const getOrders = (justMyOrders: boolean) => {
             //console.log("buy: ", amount.toFixed(), coinAmount.toFixed(), decPrice.toFixed(), decTotal.toFixed())
 
     			} else {
+
     				//SELL
             isBuy = false
-    				const scale = getTokenScale(tokenId, allTokens)
-    				decTotal = coinAmount.mul(scale)
-    				decPrice = amount.div(decTotal)
+            const scale = getTokenScale(tokenId, allTokens)
+            const thisAmount = amount
+            amount = coinAmount.mul(scale)
+            decTotal = thisAmount
+            decPrice = thisAmount.div(amount)
     			}
 
           // Complete order
