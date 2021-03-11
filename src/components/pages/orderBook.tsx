@@ -573,7 +573,7 @@ const display = (props: Props) => {
 
             <Grid item container justify="flex-start" xs={12}>
               <Typography style={{color: 'blue'}} variant="h3">
-                {token.hasOwnProperty("label") ? token.label : ""}
+                {token.hasOwnProperty("label") ? token.name : ""}
               </Typography>
             </Grid>
 
