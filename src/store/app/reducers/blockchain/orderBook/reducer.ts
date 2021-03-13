@@ -6,8 +6,8 @@ const initialState: OrderBookProps = {
 
 export const reducer = (state: OrderBookProps = initialState, action: ActionProps): OrderBookProps => {
   //console.log('blockchain info: ', action.type, action.payload)
-  const orderBookData: OrderBookProps = action.payload as OrderBookProps
-  if ( action.type == OrderBookActionTypes.ADD_ORDERS ) {
+  if ( action.type == OrderBookActionTypes.ADD_ORDERS ) {    
+    const orderBookData: OrderBookProps = action.payload as OrderBookProps
     return { ...state, data: orderBookData.data }
   } else {
     return state

@@ -7,9 +7,8 @@ const initialInfoState: ChainInfoProps = {
 }
 
 export const reducer = (state: ChainInfoProps = initialInfoState, action: ActionProps): ChainInfoProps => {
-
-  const chainData: ChainInfoProps = action.payload as ChainInfoProps
   if ( action.type == ChainInfoActionTypes.ADD_BLOCK ) {
+    const chainData: ChainInfoProps = action.payload as ChainInfoProps
     return {...state, data: chainData.data }
   } else {
     return state

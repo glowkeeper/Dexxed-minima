@@ -6,8 +6,8 @@ const initialState: AllTradesProps = {
 
 export const reducer = (state: AllTradesProps = initialState, action: ActionProps): AllTradesProps => {
   //console.log('blockchain info: ', action.type, action.payload)
-  const tradeData: AllTradesProps = action.payload as AllTradesProps
   if ( action.type == AllTradesActionTypes.ADD_TRADES ) {
+    const tradeData: AllTradesProps = action.payload as AllTradesProps
     return { ...state, data: tradeData.data }
   } else {
     return state

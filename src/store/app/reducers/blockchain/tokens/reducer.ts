@@ -6,8 +6,8 @@ const initialState: TokenProps = {
 
 export const reducer = (state: TokenProps = initialState, action: ActionProps): TokenProps => {
   //console.log('blockchain info: ', action.type, action.payload)
-  const tokenData: TokenProps = action.payload as TokenProps
   if ( action.type == TokenActionTypes.ADD_TOKENS ) {
+    const tokenData: TokenProps = action.payload as TokenProps
     return { ...state, data: tokenData.data }
   } else {
     return state

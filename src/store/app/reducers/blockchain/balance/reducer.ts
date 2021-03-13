@@ -6,8 +6,8 @@ const initialState: BalanceProps = {
 
 export const reducer = (state: BalanceProps = initialState, action: ActionProps): BalanceProps => {
   //console.log('blockchain info: ', action.type, action.payload)
-  const balanceData: BalanceProps = action.payload as BalanceProps
   if ( action.type == BalanceActionTypes.GET_BALANCES ) {
+    const balanceData: BalanceProps = action.payload as BalanceProps
     return { ...state, data: balanceData.data }
   } else {
     return state
