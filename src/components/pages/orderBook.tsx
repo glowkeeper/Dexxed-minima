@@ -105,7 +105,7 @@ const display = (props: Props) => {
   const [isBuy, setIsBuy] = useState(true)
   const [tradeColours, setTradeColours] = useState([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
 
-  const [isBook, setIsBook] = useState(true)
+  const [isOrder, setIsOrder] = useState(true)
   const [bookColours, setBookColours] = useState([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
 
   const [tokens, setTokens] = useState([] as any[])
@@ -186,7 +186,7 @@ const display = (props: Props) => {
 
   const book = (book: boolean) => {
 
-    setIsBook(book)
+    setIsOrder(book)
     if ( book ) {
       setBookColours([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
     } else {
@@ -460,7 +460,7 @@ const display = (props: Props) => {
         </ReactTooltip>
       </Grid>
 
-      { isBook?
+      { isOrder?
 
         <Grid container alignItems="flex-start">
 
@@ -470,24 +470,14 @@ const display = (props: Props) => {
             </Typography>
           </Grid>
 
-          <Grid item container justify="flex-end" xs={3}>
+          <Grid item container justify="flex-end" xs={6}>
             <Typography variant="h3">
               {TradesConfig.price}
             </Typography>
           </Grid>
-          <Grid item container justify="flex-end" xs={3}>
-            <Typography variant="h3">
-              {TradesConfig.amount}
-            </Typography>
-          </Grid>
-          <Grid item container justify="flex-end" xs={3}>
+          <Grid item container justify="flex-end" xs={6}>
             <Typography variant="h3">
               {TradesConfig.total}
-            </Typography>
-          </Grid>
-          <Grid item container xs={3}>
-            <Typography variant="h3">
-              &nbsp;
             </Typography>
           </Grid>
 
@@ -507,13 +497,8 @@ const display = (props: Props) => {
               if ( orderToken == selectedToken ) {
 
                 //console.log(order)
-
-                const tokenName = order.isBuy ? order.swapTokenName : order.tokenName
                 const type = order.isBuy ? `${OrderBookConfig.buy}` : `${OrderBookConfig.sell}`
                 const colour = order.isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`
-
-                const amount = +order.amount
-                const thisAmount = amount.toFixed(2)
 
                 const price = +order.price
                 const thisPrice = price.toFixed(2)
@@ -525,34 +510,44 @@ const display = (props: Props) => {
 
                   <React.Fragment key={index}>
 
-                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                     <Typography style={{color: `${colour}`}} variant="body2">
-                       {thisPrice}
-                     </Typography>
-                    </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                     <Typography style={{color: `${colour}`}} variant="body2">
-                       {thisAmount}
-                     </Typography>
-                    </Grid>
-                    <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                     <Typography style={{color: `${colour}`}} variant="body2">
-                       {thisTotal}
-                     </Typography>
-                    </Grid>
-                    <Grid item container alignItems="center" justify="center" xs={2}>
-                      <Button
-                        onClick={() => processTakeOrder(order)}
-                        style={{
-                          paddingTop: '0.5em',
-                          textTransform: 'none',
-                          fontSize: "1em",
-                          lineHeight: "1.1",
-                          color: `${colour}`
-                        }}
-                      >
-                        {OrderBookConfig.takeButton}
-                      </Button>
+
+                    <Grid item container alignItems="center" justify="center" xs={12}>
+                      <Grid item container alignItems="center" xs={6}>
+                        <Button
+                          onClick={() => processTakeOrder(order)}
+                          style={{
+                            width: "100%",
+                            textTransform: 'none',
+                            fontSize: "1em",
+                            lineHeight: "1",
+                            paddingRight: 0,
+                            borderRadius: 0,
+                            justifyContent: "flex-end"
+                          }}
+                        >
+                          <Typography style={{color: `${colour}`}} variant="body2">
+                             {thisPrice}
+                           </Typography>
+                        </Button>
+                      </Grid>
+                      <Grid item container alignItems="center" xs={6}>
+                        <Button
+                          onClick={() => processTakeOrder(order)}
+                          style={{
+                            width: "100%",
+                            textTransform: 'none',
+                            fontSize: "1em",
+                            lineHeight: "1",
+                            paddingRight: 0,
+                            borderRadius: 0,
+                            justifyContent: "flex-end"
+                          }}
+                        >
+                          <Typography style={{color: `${colour}`}} variant="body2">
+                            {thisTotal}
+                          </Typography>
+                        </Button>
+                      </Grid>
                     </Grid>
 
                     <Grid item container justify="flex-start" xs={12}>
