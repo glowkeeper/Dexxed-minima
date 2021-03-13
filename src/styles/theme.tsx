@@ -291,12 +291,12 @@ const themeStyles = makeStyles({
       position: 'absolute',
       top: '0'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       margin: "0",
-      height: "60px",
+      height: "40px",
       width: "100%",
       position: 'absolute',
       top: '0'
@@ -314,7 +314,7 @@ const themeStyles = makeStyles({
       bottom: '107px',
       top: '60px'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
@@ -322,8 +322,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '107px',
-      top: '60px'
+      bottom: '80px',
+      top: '40px'
     }
   },
   footer: {
@@ -338,13 +338,13 @@ const themeStyles = makeStyles({
       position: 'absolute',
       bottom: '0'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
       paddingRight: theme.spacing(5),
       paddingLeft: theme.spacing(5),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "107px",
+      height: "80px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
@@ -391,14 +391,14 @@ const themeStyles = makeStyles({
   },
   cancelIcon: {
     [breakpoints.up('xs')]: {
-      height: "25px",
-      width: '25px'
+      height: "20px",
+      width: '20px'
     }
   },
   confirmIcon: {
     [breakpoints.up('xs')]: {
-      height: "25px",
-      width: '31px'
+      height: "20px",
+      width: '25px'
     }
   },
   subHeaderIconParent: {
@@ -413,6 +413,12 @@ const themeStyles = makeStyles({
       justifyContent: 'flex-start',
       height: "40px",
       width: '40px'
+    },
+    [breakpoints.up('lg')]: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      height: "26px",
+      width: '26px'
     }
   },
   contactIcon: {
@@ -423,6 +429,14 @@ const themeStyles = makeStyles({
       justifyContent: 'center',
       height: "40px",
       width: '40px'
+    },
+    [breakpoints.up('lg')]: {
+      marginRight: theme.spacing(2),
+      marginLeft: theme.spacing(2),
+      display: 'flex',
+      justifyContent: 'center',
+      height: "26px",
+      width: '26px'
     }
   },
   aboutIcon: {
@@ -431,6 +445,12 @@ const themeStyles = makeStyles({
       justifyContent: 'flex-end',
       height: "40px",
       width: '40px'
+    },
+    [breakpoints.up('lg')]: {
+      display: 'flex',
+      justifyContent: 'flex-end',
+      height: "26px",
+      width: '26px'
     }
   },
   userIcon: {
@@ -443,12 +463,20 @@ const themeStyles = makeStyles({
     [breakpoints.up('xs')]: {
       height: "45px",
       width: '45px'
+    },
+    [breakpoints.up('lg')]: {
+      height: "30px",
+      width: '30px'
     }
   },
   headerIcon: {
     [breakpoints.up('xs')]: {
       height: "15px",
       width: '120px'
+    },
+    [breakpoints.up('lg')]: {
+      height: "10px",
+      width: '80px'
     }
   },
   sortIcon: {
