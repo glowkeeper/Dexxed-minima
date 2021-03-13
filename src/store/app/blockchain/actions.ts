@@ -54,8 +54,7 @@ export const init = () => {
           // All orders (including mine)
           dispatch(getOrders(!justMyOrders))
 
-          dispatch(getAllTrades())
-          dispatch(getMyTrades())
+          dispatch(getTrades())
 
   	 		} else if ( msg.event == "newbalance" ) {
 
@@ -373,7 +372,7 @@ export const getOrders = (justMyOrders: boolean) => {
   }
 }
 
-const getAllTrades = () => {
+const getTrades = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
     const state = getState()
@@ -388,6 +387,10 @@ const getAllTrades = () => {
           data: []
         }
 
+        let myTradesData: MyTradesProps = {
+          data: []
+        }
+
         const txPowList = tradesJSON[0].response.txpowlist
         for ( let i=0; i < txPowList.length; i++ ) {
 
@@ -398,9 +401,6 @@ const getAllTrades = () => {
     			if ( txPow.body.txn.inputs.length >1 && txpItem.isinblock ) {
 
             const coinProof = txPow.body.witness.mmrproofs[0].data
-
-            //console.log("coinProof: ", coinProof)
-
     				const coinId = coinProof.coin.coinid
       			const coinAmount = new Decimal(coinProof.coin.amount)
     				let tokenId = coinProof.coin.tokenid
@@ -450,10 +450,33 @@ const getAllTrades = () => {
             }
 
             tradesData.data.push(thisTrade)
+
+            // my trades
+            if( txpItem.relevant ) {
+
+              const value = new Decimal(txpItem.values[0].value)
+              let myTrade = thisTrade
+        			if( tokenId == "0x00" ) {
+
+                if( value.lte(0) ) {
+
+                  myTrade.isBuy = true
+                }
+
+        			} else {
+
+                if ( value.lte(0) ) {
+
+                  myTrade.isBuy = false
+                }
+        			}
+              myTradesData.data.push(thisTrade)
+            }
           }
         }
 
         dispatch(write({ data: tradesData.data })(AllTradesActionTypes.ADD_TRADES))
+        dispatch(write({ data: tradesData.data })(MyTradesActionTypes.ADD_MYTRADES))
 
       } else {
 
@@ -463,6 +486,7 @@ const getAllTrades = () => {
   }
 }
 
+/*
 const getMyTrades = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
@@ -562,3 +586,4 @@ const getMyTrades = () => {
     })
   }
 }
+*/
