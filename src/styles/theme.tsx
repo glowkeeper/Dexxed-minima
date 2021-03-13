@@ -283,8 +283,8 @@ const themeStyles = makeStyles({
   header: {
     [breakpoints.up('xs')]: {
       background: 'linear-gradient(#001C32, #001C32)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
       margin: "0",
       height: "60px",
       width: "100%",
@@ -293,8 +293,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
       margin: "0",
       height: "40px",
       width: "100%",
@@ -305,8 +305,8 @@ const themeStyles = makeStyles({
   content: {
     [breakpoints.up('xs')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
       margin: "0",
       overflow: 'auto',
       width: "100%",
@@ -316,8 +316,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
       margin: "0",
       overflow: 'auto',
       width: "100%",
@@ -329,8 +329,8 @@ const themeStyles = makeStyles({
   footer: {
     [breakpoints.up('xs')]: {
       background: 'linear-gradient(#001C32, #001C32)',
-      paddingRight: theme.spacing(4),
-      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(2),
+      paddingLeft: theme.spacing(2),
       paddingTop: theme.spacing(1),
       margin: "0",
       height: "107px",
@@ -340,8 +340,8 @@ const themeStyles = makeStyles({
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#001C32, #001C32)',
-      paddingRight: theme.spacing(5),
-      paddingLeft: theme.spacing(5),
+      paddingRight: theme.spacing(3),
+      paddingLeft: theme.spacing(3),
       paddingTop: theme.spacing(1),
       margin: "0",
       height: "80px",
