@@ -161,7 +161,7 @@ const display = (props: Props) => {
                     paddingTop: '0.5em',
                     textTransform: 'none',
                     fontSize: "1em",
-                    lineHeight: "1.1",
+                    lineHeight: "1",
                     color: `${colour}`
                   }}
                 >

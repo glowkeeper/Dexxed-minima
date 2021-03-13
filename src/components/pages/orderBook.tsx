@@ -465,105 +465,152 @@ const display = (props: Props) => {
         <Grid container alignItems="flex-start">
 
           <Grid item container justify="flex-start" xs={12}>
-            <Typography style={{color: 'blue'}} variant="h3">
+            <Typography variant="h3">
               {token.hasOwnProperty("label") ? token.name : ""}
             </Typography>
           </Grid>
 
-          <Grid item container justify="flex-end" xs={6}>
-            <Typography variant="h3">
+          <Grid item container justify="flex-start" xs={3}>
+            <Typography style={{color: TradesConfig.buyColour}} variant="h3">
+              {TradesConfig.total}
+            </Typography>
+          </Grid>
+          <Grid item container justify="flex-start" xs={3}>
+            <Typography style={{color: TradesConfig.buyColour}} variant="h3">
               {TradesConfig.price}
             </Typography>
           </Grid>
-          <Grid item container justify="flex-end" xs={6}>
-            <Typography variant="h3">
+          <Grid item container justify="flex-end" xs={3}>
+            <Typography style={{color: TradesConfig.sellColour}} variant="h3">
+              {TradesConfig.price}
+            </Typography>
+          </Grid>
+          <Grid item container justify="flex-end" xs={3}>
+            <Typography style={{color: TradesConfig.sellColour}} variant="h3">
               {TradesConfig.total}
             </Typography>
           </Grid>
 
           {
-            props.orderData.data.map( ( order: Order, index: number ) => {
+            <>
+              <Grid item container justify="flex-start" xs={6}>
+                {props.orderData.data.map( ( order: Order, index: number ) => {
 
-              //console.log("Order! ", order)
-              let selectedToken = ""
-              if ( token.hasOwnProperty("value") ) {
-                selectedToken = token.value
-              }
+                  //console.log("Order! ", order)
+                  let selectedToken = ""
+                  if ( token.hasOwnProperty("value") ) {
+                    selectedToken = token.value
+                  }
 
-              //console.log("TokenId: ", thisToken, order.tokenId )
+                  //console.log("TokenId: ", thisToken, order.tokenId )
 
-              const orderToken = order.isBuy ? order.swapTokenId :  order.tokenId
+                  const orderToken = order.swapTokenId
 
-              if ( orderToken == selectedToken ) {
+                  if ( ( orderToken == selectedToken ) &&
+                       ( order.isBuy ) ) {
 
-                //console.log(order)
-                const type = order.isBuy ? `${OrderBookConfig.buy}` : `${OrderBookConfig.sell}`
-                const colour = order.isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`
+                    //console.log(order)
+                    const type = OrderBookConfig.buy
+                    const colour = OrderBookConfig.buyColour
 
-                const price = +order.price
-                const thisPrice = price.toFixed(2)
+                    const price = +order.price
+                    const thisPrice = price.toFixed(2)
 
-                const total = +order.total
-                const thisTotal = total.toFixed(2)
+                    const total = +order.total
+                    const thisTotal = total.toFixed(2)
 
-                return (
+                    return (
 
-                  <React.Fragment key={index}>
+                      <React.Fragment key={index}>
+                        <Grid item container xs={12}>
+                          <Button
+                            onClick={() => processTakeOrder(order)}
+                            style={{
+                              width: "100%",
+                              textTransform: 'none',
+                              fontSize: "1em",
+                              lineHeight: "1",
+                              borderRadius: 0,
+                              padding: 0
+                            }}
+                          >
+                            <Grid item container xs={6}>
+                             <Typography style={{color: `${colour}`}} variant="body2">
+                               {thisTotal}
+                             </Typography>
+                            </Grid>
+                            <Grid item container xs={6}>
+                              <Typography style={{color: `${colour}`}} variant="body2">
+                                 {thisPrice}
+                               </Typography>
+                            </Grid>
+                          </Button>
+                        </Grid>
 
+                      </React.Fragment>
+                    )
+                  }
+                })}
+              </Grid>
+              <Grid item container justify="flex-end" xs={6}>
+                {props.orderData.data.map( ( order: Order, index: number ) => {
 
-                    <Grid item container alignItems="center" justify="center" xs={12}>
-                      <Grid item container alignItems="center" xs={6}>
-                        <Button
-                          onClick={() => processTakeOrder(order)}
-                          style={{
-                            width: "100%",
-                            textTransform: 'none',
-                            fontSize: "1em",
-                            lineHeight: "1",
-                            paddingRight: 0,
-                            borderRadius: 0,
-                            justifyContent: "flex-end"
-                          }}
-                        >
-                          <Typography style={{color: `${colour}`}} variant="body2">
-                             {thisPrice}
-                           </Typography>
-                        </Button>
-                      </Grid>
-                      <Grid item container alignItems="center" xs={6}>
-                        <Button
-                          onClick={() => processTakeOrder(order)}
-                          style={{
-                            width: "100%",
-                            textTransform: 'none',
-                            fontSize: "1em",
-                            lineHeight: "1",
-                            paddingRight: 0,
-                            borderRadius: 0,
-                            justifyContent: "flex-end"
-                          }}
-                        >
-                          <Typography style={{color: `${colour}`}} variant="body2">
-                            {thisTotal}
-                          </Typography>
-                        </Button>
-                      </Grid>
-                    </Grid>
+                  //console.log("Order! ", order)
+                  let selectedToken = ""
+                  if ( token.hasOwnProperty("value") ) {
+                    selectedToken = token.value
+                  }
 
-                    <Grid item container justify="flex-start" xs={12}>
-                      <svg
-                         xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 2000 4"
-                      >
-                        <line x2="2000" stroke="#001c32" strokeWidth={4} />
-                      </svg>
-                    </Grid>
+                  const orderToken = order.tokenId
 
-                  </React.Fragment>
-                )
+                  if ( ( orderToken == selectedToken ) &&
+                       ( !order.isBuy ) ) {
 
-              }
-            })
+                    //console.log(order)
+                    const type = OrderBookConfig.sell
+                    const colour = OrderBookConfig.sellColour
+
+                    const price = +order.price
+                    const thisPrice = price.toFixed(2)
+
+                    const total = +order.total
+                    const thisTotal = total.toFixed(2)
+
+                    return (
+
+                      <React.Fragment key={index}>
+
+                        <Grid item container xs={12}>
+                          <Button
+                            onClick={() => processTakeOrder(order)}
+                            style={{
+                              width: "100%",
+                              textTransform: 'none',
+                              fontSize: "1em",
+                              lineHeight: "1",
+                              borderRadius: 0,
+                              padding: 0
+                            }}
+                          >
+                            <Grid item container justify="flex-end" xs={6}>
+                              <Typography style={{color: `${colour}`}} variant="body2">
+                                 {thisPrice}
+                               </Typography>
+                            </Grid>
+                            <Grid item container justify="flex-end" xs={6}>
+                             <Typography style={{color: `${colour}`}} variant="body2">
+                               {thisTotal}
+                             </Typography>
+                            </Grid>
+                          </Button>
+                        </Grid>
+
+                      </React.Fragment>
+                    )
+                  }
+                })}
+              </Grid>
+            </>
           }
 
         </Grid>
@@ -573,7 +620,7 @@ const display = (props: Props) => {
           <Grid container alignItems="flex-start">
 
             <Grid item container justify="flex-start" xs={12}>
-              <Typography style={{color: 'blue'}} variant="h3">
+              <Typography variant="h3">
                 {token.hasOwnProperty("label") ? token.name : ""}
               </Typography>
             </Grid>
@@ -611,7 +658,7 @@ const display = (props: Props) => {
 
                 if ( trade.tokenId == selectedToken ) {
 
-                  const colour = trade.isBuy ? `${TradesConfig.buyColour}` : `${TradesConfig.sellColour}`
+                  const colour = trade.isBuy ? TradesConfig.buyColour : TradesConfig.sellColour
 
                   const amount = +trade.amount
                   const thisAmount = amount.toFixed(2)
