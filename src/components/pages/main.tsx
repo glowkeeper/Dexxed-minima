@@ -25,8 +25,6 @@ import { initialise } from '../../store/app/blockchain/tx/actions'
 
 import IconButton from '@material-ui/core/IconButton'
 
-import ReactTooltip from 'react-tooltip'
-
 import helpIcon from '../../images/helpIcon.svg'
 import helpActiveIcon from '../../images/helpActiveIcon.svg'
 import infoIcon from '../../images/infoIcon.svg'
@@ -178,19 +176,10 @@ const display = (props: Props) => {
                         component="span"
                         size="small">
                         <img
-                          data-for={helpIcon}
-                          data-tip
                           src={icons[5]}
                           className={classes.helpIcon}
                         />
                       </IconButton>
-                      <ReactTooltip
-                        id={helpIcon}
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.helpTip}
-                      </ReactTooltip>
                     </NavLink>
 
                     <NavLink to={Local.contact} className={classes.link}>
@@ -200,19 +189,10 @@ const display = (props: Props) => {
                         component="span"
                         size="small">
                         <img
-                          data-for={contactIcon}
-                          data-tip
                           src={icons[7]}
                           className={classes.contactIcon}
                         />
                       </IconButton>
-                      <ReactTooltip
-                        id={contactIcon}
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.contactTip}
-                      </ReactTooltip>
                     </NavLink>
 
                     <NavLink to={Local.about} className={classes.link}>
@@ -222,19 +202,10 @@ const display = (props: Props) => {
                         component="span"
                         size="small">
                         <img
-                          data-for={infoIcon}
-                          data-tip
                           src={icons[6]}
                           className={classes.aboutIcon}
                         />
                       </IconButton>
-                      <ReactTooltip
-                        id={infoIcon}
-                        place="bottom"
-                        effect="solid"
-                      >
-                        {Help.aboutTip}
-                      </ReactTooltip>
                     </NavLink>
 
                   </div>
@@ -261,19 +232,10 @@ const display = (props: Props) => {
                        component="span"
                        size="small">
                        <img
-                        data-for={myBalancesIcon}
-                        data-tip
                         src={icons[0]}
                         className={classes.footerIcon}
                       />
                       </IconButton>
-                      <ReactTooltip
-                        id={myBalancesIcon}
-                        place="top"
-                        effect="solid"
-                      >
-                        {Help.balancesTip}
-                      </ReactTooltip>
                    </NavLink>
 
                   </Grid>
@@ -287,19 +249,10 @@ const display = (props: Props) => {
                          component="span"
                          size="small">
                          <img
-                          data-for={myOrdersIcon}
-                          data-tip
                           src={icons[1]}
                           className={classes.footerIcon}
                         />
                         </IconButton>
-                        <ReactTooltip
-                          id={myOrdersIcon}
-                          place="top"
-                          effect="solid"
-                        >
-                          {Help.ordersTip}
-                        </ReactTooltip>
                      </NavLink>
 
                   </Grid>
@@ -313,19 +266,10 @@ const display = (props: Props) => {
                         component="span"
                         size="small">
                         <img
-                         data-for={myTradesIcon}
-                         data-tip
                          src={icons[2]}
                          className={classes.footerIcon}
                        />
                        </IconButton>
-                       <ReactTooltip
-                         id={myTradesIcon}
-                         place="top"
-                         effect="solid"
-                       >
-                         {Help.tradesTip}
-                       </ReactTooltip>
                     </NavLink>
 
                   </Grid>
@@ -339,19 +283,10 @@ const display = (props: Props) => {
                         component="span"
                         size="small">
                         <img
-                         data-for={allTradesIcon}
-                         data-tip
                          src={icons[3]}
                          className={classes.footerIcon}
                        />
                        </IconButton>
-                       <ReactTooltip
-                         id={allTradesIcon}
-                         place="top"
-                         effect="solid"
-                       >
-                         {Help.allTradesTip}
-                       </ReactTooltip>
                     </NavLink>
 
                   </Grid>
@@ -365,19 +300,10 @@ const display = (props: Props) => {
                         component="span"
                         size="small">
                         <img
-                         data-for={orderBookIcon}
-                         data-tip
                          src={icons[4]}
                          className={classes.footerIcon}
                        />
                        </IconButton>
-                       <ReactTooltip
-                         id={orderBookIcon}
-                         place="top"
-                         effect="solid"
-                       >
-                         {Help.orderBookTip}
-                       </ReactTooltip>
                     </NavLink>
 
                   </Grid>

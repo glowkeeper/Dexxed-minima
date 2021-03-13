@@ -7,7 +7,6 @@ import { cancelOrder } from '../../store/app/blockchain/tx/actions'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import ReactTooltip from 'react-tooltip'
 
 import { Local } from '../../config'
 import { Orders as OrdersConfig, Help } from '../../config/strings'

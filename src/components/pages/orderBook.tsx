@@ -10,7 +10,6 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
-import ReactTooltip from 'react-tooltip'
 import TextField from '@material-ui/core/TextField'
 import Select from 'react-select'
 
@@ -243,8 +242,6 @@ const display = (props: Props) => {
           size='medium'
           variant="contained"
           disableElevation={true}
-          data-for='buyButton'
-          data-tip
           style={{
             textTransform: 'none',
             fontSize: "1em",
@@ -257,13 +254,6 @@ const display = (props: Props) => {
         >
           {OrderBookConfig.buyButton}
         </Button>
-        <ReactTooltip
-          id='buyButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.buyTip}
-        </ReactTooltip>
       </Grid>
 
       <Grid item container className={classes.formLabel} xs={6}>
@@ -273,8 +263,6 @@ const display = (props: Props) => {
           size='medium'
           variant="contained"
           disableElevation={true}
-          data-for='sellButton'
-          data-tip
           style={{
             textTransform: 'none',
             fontSize: "1em",
@@ -287,13 +275,6 @@ const display = (props: Props) => {
         >
           {OrderBookConfig.sellButton}
         </Button>
-        <ReactTooltip
-          id='sellButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.orderTip}
-        </ReactTooltip>
       </Grid>
 
       <Grid item container xs={12}>
@@ -375,8 +356,6 @@ const display = (props: Props) => {
               color="primary"
               size='medium'
               variant="contained"
-              data-for='orderButton'
-              data-tip
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
@@ -389,13 +368,6 @@ const display = (props: Props) => {
             >
               {OrderBookConfig.orderButton}
             </Button>
-            <ReactTooltip
-              id='orderButton'
-              place="bottom"
-              effect="solid"
-            >
-              { isBuy ? `${Help.placeBuyTip}` : `${Help.placeSellTip}` }
-            </ReactTooltip>
           </Grid>
         </form>
       </Grid>
@@ -407,8 +379,6 @@ const display = (props: Props) => {
           size='medium'
           variant="contained"
           disableElevation={true}
-          data-for='orderBookButton'
-          data-tip
           style={{
             textTransform: 'none',
             fontSize: "1em",
@@ -421,13 +391,6 @@ const display = (props: Props) => {
         >
           {OrderBookConfig.orderBookButton}
         </Button>
-        <ReactTooltip
-          id='orderBookButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.orderBookTip}
-        </ReactTooltip>
       </Grid>
 
       <Grid item container className={classes.formLabel} xs={6}>
@@ -437,8 +400,6 @@ const display = (props: Props) => {
           size='medium'
           variant="contained"
           disableElevation={true}
-          data-for='recentTradesButton'
-          data-tip
           style={{
             textTransform: 'none',
             fontSize: "1em",
@@ -451,13 +412,6 @@ const display = (props: Props) => {
         >
           {OrderBookConfig.recentTradesButton}
         </Button>
-        <ReactTooltip
-          id='recentTradesButton'
-          place="bottom"
-          effect="solid"
-        >
-          {Help.recentTradesTip}
-        </ReactTooltip>
       </Grid>
 
       { isOrder?
