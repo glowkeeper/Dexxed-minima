@@ -8,7 +8,7 @@ class App {
   static readonly author = 'Minima'
   static readonly email = 'info@minima.global'
   static readonly bugEmail = 'minima-global@fire.fundersclub.com'
-  static readonly version = '0.8.7'
+  static readonly version = '0.8.8'
   static readonly release = 'Testnet'
 }
 
