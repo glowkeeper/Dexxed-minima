@@ -248,6 +248,7 @@ const display = (props: Props) => {
           style={{
             textTransform: 'none',
             fontSize: "1em",
+            lineHeight: "1",
             backgroundColor: `${tradeColours[0]}`,
             width: "100%",
             borderRadius: 0,
@@ -277,6 +278,7 @@ const display = (props: Props) => {
           style={{
             textTransform: 'none',
             fontSize: "1em",
+            lineHeight: "1",
             backgroundColor: `${tradeColours[1]}`,
             width: "100%",
             borderRadius: 0,
@@ -294,7 +296,7 @@ const display = (props: Props) => {
         </ReactTooltip>
       </Grid>
 
-      <Grid item container className={classes.form} xs={12}>
+      <Grid item container xs={12}>
 
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
 
@@ -305,6 +307,7 @@ const display = (props: Props) => {
             <Grid item container xs={11}>
               <div style={{width: '100%'}}>
                 <Select
+                  size="small"
                   defaultValue={token}
                   onChange={selectedOption => {
                     setToken(selectedOption)
@@ -326,15 +329,15 @@ const display = (props: Props) => {
             <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
               <label htmlFor="amount">{OrderBookConfig.amount}</label>
             </Grid>
-            <Grid item container className={classes.formInput} xs={11}>
+            <Grid item container xs={11}>
               <TextField
                 fullWidth
-                variant="outlined"
-                id="amount"
+                size="small"
                 name="amount"
                 type="text"
                 value={formik.values.amount}
                 onChange={formik.handleChange}
+                InputProps={{ disableUnderline: true }}
               />
             </Grid>
             <Grid item container className={classes.formError} xs={12}>
@@ -348,15 +351,15 @@ const display = (props: Props) => {
             <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
               <label htmlFor="price">{OrderBookConfig.price}</label>
             </Grid>
-            <Grid item container className={classes.formInput} xs={11}>
+            <Grid item container xs={11}>
               <TextField
                 fullWidth
-                variant="outlined"
-                id="price"
+                size="small"
                 name="price"
                 type="text"
                 value={formik.values.price}
                 onChange={formik.handleChange}
+                InputProps={{ disableUnderline: true }}
               />
             </Grid>
             <Grid item container className={classes.formError} xs={12}>
@@ -377,6 +380,7 @@ const display = (props: Props) => {
               style={{
                 textTransform: 'none',
                 fontSize: "1em",
+                lineHeight: "1",
                 backgroundColor: isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`,
                 width: "100%",
                 borderRadius: 0,
@@ -408,6 +412,7 @@ const display = (props: Props) => {
           style={{
             textTransform: 'none',
             fontSize: "1em",
+            lineHeight: "1",
             backgroundColor: `${bookColours[0]}`,
             width: "100%",
             borderRadius: 0,
@@ -437,6 +442,7 @@ const display = (props: Props) => {
           style={{
             textTransform: 'none',
             fontSize: "1em",
+            lineHeight: "1",
             backgroundColor: `${bookColours[1]}`,
             width: "100%",
             borderRadius: 0,

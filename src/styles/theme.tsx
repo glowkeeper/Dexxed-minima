@@ -41,16 +41,30 @@ let theme = createMuiTheme ({
     h1: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
-        fontSize:  "2.2em",
+        fontSize:  "2.5em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32',
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: "1.5",
+        fontSize:  "2em",
+        fontWeight: 700,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
       }
     },
     h2: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
         fontSize: "2em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#91919D'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: "1.5",
+        fontSize:  "1.5em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -63,12 +77,26 @@ let theme = createMuiTheme ({
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1.5',
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#91919D'
       }
     },
     h4: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
         fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#91919D'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1.5',
+        fontSize: "0.9em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -81,6 +109,13 @@ let theme = createMuiTheme ({
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#FFFFFF'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1.5',
+        fontSize: "0.8em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#FFFFFF'
       }
     },
     h6: {
@@ -89,7 +124,14 @@ let theme = createMuiTheme ({
         fontSize: "0.9em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-        color: '#'
+        color: '#FFFFFF'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1.5',
+        fontSize: "0.7em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#FFFFFF'
       }
     },
     subtitle1: {
@@ -106,19 +148,38 @@ let theme = createMuiTheme ({
       color: '#F0F0FA'
     },
     body1: {
-      lineHeight: '1.1',
-      fontSize: "1",
-      fontWeight: 400,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32',
+      [breakpoints.up('xs')]: {
+        lineHeight: '1.1',
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1.1',
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        color: '#001C32'
+      }
     },
     body2: {
-      lineHeight: '1',
-      fontSize: "1",
-      fontWeight: 400,
-      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      fontFeatureSettings: `'tnum' on`,
-      color: '#001C32',
+      [breakpoints.up('xs')]: {
+        lineHeight: '1',
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        fontFeatureSettings: `'tnum' on`,
+        color: '#001C32'
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1',
+        fontSize: "1em",
+        fontWeight: 400,
+        fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+        fontFeatureSettings: `'tnum' on`,
+        color: '#001C32'
+      }
     },
     caption: {
       fontSize: "1.1em",
@@ -128,7 +189,8 @@ let theme = createMuiTheme ({
     },
     button: {
       fontSize: "1.8em",
-      textTransform: "uppercase",
+      lineHeight: "1.5",
+      textTransform: "none",
       fontWeight: 500,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
       color: '#001C32'
@@ -196,15 +258,26 @@ const themeStyles = makeStyles({
       width: "100%",
       position: 'relative'
     },
-    [breakpoints.up('md')]: {
+    [breakpoints.up('lg')]: {
       background: 'linear-gradient(#000000, #000000)',
-      marginTop: "5vh",
-      marginBottom: "5vh",
+      marginTop: "2vh",
+      marginBottom: "2vh",
       marginLeft: "auto",
       marginRight: "auto",
-      height: "90vh",
+      height: "96vh",
       width: "60%",
       position: 'relative'
+    },
+    "& .MuiInputBase-input": {
+      border: '2px solid #C8C8D4',
+      borderRadius: '5px',
+      background: 'linear-gradient(#FFFFFF, #FFFFFF)',
+      color: "#001C32",
+      padding: theme.spacing(0.5)
+    },
+    "& .MuiInputBase-input:focus": {
+      border: '2px solid #001C32',
+      borderRadius: '5px'
     }
   },
   header: {
@@ -414,39 +487,22 @@ const themeStyles = makeStyles({
       width: '30px'
     }
   },
-  form: {
-    paddingTop: theme.spacing(1),
-  },
   formSubmit: {
-    width: '100%',
-    /*'& .MuiTextField-root': {
-      border: '1px solid',
-      borderColour: '#000000',
-      borderRadius: '6px',
-      width: '100ch',
-    },*/
-  },
-  formInput: {
-    border: '2px solid',
-    borderColour: '#C8C8D4',
-    borderRadius: '5px',
-    background: 'linear-gradient(#FFFFFF, #FFFFFF)'
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
+    width: '100%'
   },
   formLabel: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
   },
   formError: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
     color: 'red'
   },
   formButton: {
-    paddingTop: theme.spacing(1)
-  },
-  submitButton: {
-    width: '100%',
-    background: 'linear-gradient(#317AFF, #317AFF)',
+    paddingTop: theme.spacing(0.5)
   },
   activeLink: {
     lineHeight: "2",
