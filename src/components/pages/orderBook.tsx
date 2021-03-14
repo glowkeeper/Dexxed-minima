@@ -509,7 +509,7 @@ const display = (props: Props) => {
               <Grid item container justify="flex-end" xs={6}>
                 {props.orderData.data.map( ( order: Order, index: number ) => {
 
-                  //console.log("Order! ", order)
+                  //se
                   let selectedToken = ""
                   if ( token.hasOwnProperty("value") ) {
                     selectedToken = token.value
