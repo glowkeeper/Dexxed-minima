@@ -1,24 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { Decimal } from 'decimal.js'
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-
-import confirmIcon from '../../images/tickIcon.svg'
-import cancelIcon from '../../images/crossIcon.svg'
-
-import Modal from '@material-ui/core/Modal'
-import Backdrop from '@material-ui/core/Backdrop'
-import Fade from '@material-ui/core/Fade'
-
-import * as Yup from 'yup'
-import { useFormik, useField } from 'formik'
-
-import { Local, GeneralError, Help } from '../../config'
 
 import { TokenOrders } from './TokenOrders'
 
@@ -46,8 +30,6 @@ interface OrdersStateProps {
 type Props = TokenTradeProps & OrdersStateProps
 
 const display = (props: Props) => {
-
-  const minimaTokenId = "0x00"
 
   const classes = themeStyles()
 

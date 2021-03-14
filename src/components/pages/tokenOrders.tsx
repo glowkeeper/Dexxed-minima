@@ -17,10 +17,7 @@ import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 
-import * as Yup from 'yup'
-import { useFormik, useField } from 'formik'
-
-import { Local, GeneralError, Help } from '../../config'
+import { Help } from '../../config'
 
 import {
   OrderBook
@@ -52,8 +49,6 @@ interface OrdersDispatchProps {
 type Props = TokenOrderProps & OrdersStateProps & OrdersDispatchProps
 
 const display = (props: Props) => {
-
-  const minimaTokenId = "0x00"
 
   const [take, setTake] = useState ({
     isBuy: true,

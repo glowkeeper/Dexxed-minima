@@ -148,9 +148,7 @@ const display = (props: Props) => {
           hasTokenId: hasTokenId,
           wantsTokenId: wantsTokenId
       }
-
-      //console.log("new values: ", orderInfo.amount.toString(), orderInfo.price.toString(), orderInfo.total.toString(), hasTokenId, wantsTokenId)
-
+      
       setOrder(orderInfo)
       setOrderDialogue(true)
     },
