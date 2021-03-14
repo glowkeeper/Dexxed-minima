@@ -114,8 +114,7 @@ export const getTokens = () => {
             tokenId: tokens[i].tokenid,
             tokenName: tokens[i].token,
             scale: tokens[i].scale,
-            total:  tokens[i].total,
-            isSelected: false
+            total:  tokens[i].total
           }
 
           tokenData.data.push(thisToken)
@@ -130,40 +129,6 @@ export const getTokens = () => {
         Minima.log("tokens failed")
       }
   	})
-  }
-}
-
-export const setToken = (tokenid: string) => {
-  return async (dispatch: AppDispatch, getState: Function) => {
-
-    const state = getState()
-    const dexContract = state.script.data.scriptAddress
-    const tokens = state.tokens
-
-    const tokenData: TokenProps = {
-      data: []
-    }
-
-    for( let i=1; i < tokens.length; i++ ) {
-
-      const isSelected = tokens[i].tokenid === tokenid ? true : false
-
-      //console.log("tokens: ",  tokens[i])
-
-      const thisToken: Token = {
-        tokenId: tokens[i].tokenid,
-        tokenName: tokens[i].token,
-        scale: tokens[i].scale,
-        total:  tokens[i].total,
-        isSelected: isSelected
-      }
-
-      tokenData.data.push(thisToken)
-    }
-
-    dispatch(write({ data: tokenData.data })(TokenActionTypes.ADD_TOKENS))
-
-    //console.log("Set tokens: ", tokenData)
   }
 }
 
@@ -234,22 +199,6 @@ const getTokenScale = ( tokenId: string, tokens: TokenProps ): Decimal => {
 	}
 
 	return new Decimal(1)
-}
-
-const getCurrentToken = ( tokens: TokenProps ): string => {
-
-  let tokenId = ""
-
-  for ( let i = 0; i < tokens.data.length; i++) {
-
-    if(tokens.data[i].isSelected ) {
-
-      tokenId = tokens.data[i].tokenId
-      break;
-		}
-	}
-
-	return tokenId
 }
 
 export const getOrders = (justMyOrders: boolean) => {

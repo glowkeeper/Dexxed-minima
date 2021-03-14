@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { Decimal } from 'decimal.js'
 
-import { submitOrder, takeOrder } from '../../store/app/blockchain/tx/actions'
+import { submitOrder } from '../../store/app/blockchain/tx/actions'
 import { setActivePage } from '../../store/app/appData/actions'
 
 import Grid from '@material-ui/core/Grid'
@@ -24,6 +24,8 @@ import * as Yup from 'yup'
 import { useFormik, useField } from 'formik'
 
 import { Local, GeneralError, Help } from '../../config'
+
+import { TokenOrders } from './TokenOrders'
 
 import {
   OrderBook as OrderBookConfig,
@@ -53,7 +55,6 @@ interface OrdersStateProps {
 interface OrdersDispatchProps {
   setActivePage: () => void
   submitOrder: (order: NewOrder) => void
-  takeOrder: (order: Order) => void
 }
 
 type Props = OrdersStateProps & OrdersDispatchProps
@@ -83,23 +84,6 @@ const display = (props: Props) => {
     wantsTokenId: minimaTokenId
   } as NewOrder)
   const [orderDialogue, setOrderDialogue] = useState(false)
-
-  const [take, setTake] = useState ({
-    isBuy: true,
-    coinId: "",
-    owner: "",
-    address: "",
-    coinAmount: new Decimal(0),
-    tokenId: "",
-    tokenName: "",
-    swapTokenId: "",
-    swapTokenName: "",
-    amount: new Decimal(0),
-    price: new Decimal(0),
-    total: new Decimal(0),
-    status: ""
-  } as Order)
-  const [takeOrderDialogue, setTakeOrderDialogue] = useState(false)
 
   const [isBuy, setIsBuy] = useState(true)
   const [tradeColours, setTradeColours] = useState([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
@@ -173,7 +157,7 @@ const display = (props: Props) => {
     },
   })
 
-  const buy = (isBuy: boolean) => {
+  const isBuyOrder = (isBuy: boolean) => {
 
     setIsBuy(isBuy)
     if ( isBuy ) {
@@ -183,7 +167,7 @@ const display = (props: Props) => {
     }
   }
 
-  const book = (book: boolean) => {
+  const isOrderBook = (book: boolean) => {
 
     setIsOrder(book)
     if ( book ) {
@@ -200,21 +184,6 @@ const display = (props: Props) => {
   const doOrder = () => {
     setOrderDialogue(false)
     props.submitOrder(order)
-  }
-
-  const processTakeOrder = (order: Order) => {
-    //console.log("Take! ", order)
-    setTake(order)
-    setTakeOrderDialogue(true)
-  }
-
-  const takeOrderDialogueClose = () => {
-    setTakeOrderDialogue(false)
-  }
-
-  const doTakeOrder = () => {
-    setTakeOrderDialogue(false)
-    props.takeOrder(take)
   }
 
   return (
@@ -237,7 +206,7 @@ const display = (props: Props) => {
 
       <Grid item container className={classes.formLabel} xs={6}>
         <Button
-          onClick={() => buy(true)}
+          onClick={() => isBuyOrder(true)}
           color="primary"
           size='medium'
           variant="contained"
@@ -258,7 +227,7 @@ const display = (props: Props) => {
 
       <Grid item container className={classes.formLabel} xs={6}>
         <Button
-          onClick={() => buy(false)}
+          onClick={() => isBuyOrder(false)}
           color="primary"
           size='medium'
           variant="contained"
@@ -374,7 +343,7 @@ const display = (props: Props) => {
 
       <Grid item container className={classes.formLabel} xs={6}>
         <Button
-          onClick={() => book(true)}
+          onClick={() => isOrderBook(true)}
           color="primary"
           size='medium'
           variant="contained"
@@ -395,7 +364,7 @@ const display = (props: Props) => {
 
       <Grid item container className={classes.formLabel} xs={6}>
         <Button
-          onClick={() => book(false)}
+          onClick={() => isOrderBook(false)}
           color="primary"
           size='medium'
           variant="contained"
@@ -416,158 +385,13 @@ const display = (props: Props) => {
 
       { isOrder?
 
-        <Grid container alignItems="flex-start">
-
-          <Grid item container justify="flex-start" xs={12}>
-            <Typography variant="h3">
-              {token.hasOwnProperty("label") ? token.name : ""}
-            </Typography>
-          </Grid>
-
-          <Grid item container justify="flex-start" xs={3}>
-            <Typography style={{color: TradesConfig.buyColour}} variant="h3">
-              {TradesConfig.total}
-            </Typography>
-          </Grid>
-          <Grid item container justify="flex-start" xs={3}>
-            <Typography style={{color: TradesConfig.buyColour}} variant="h3">
-              {TradesConfig.price}
-            </Typography>
-          </Grid>
-          <Grid item container justify="flex-end" xs={3}>
-            <Typography style={{color: TradesConfig.sellColour}} variant="h3">
-              {TradesConfig.price}
-            </Typography>
-          </Grid>
-          <Grid item container justify="flex-end" xs={3}>
-            <Typography style={{color: TradesConfig.sellColour}} variant="h3">
-              {TradesConfig.total}
-            </Typography>
-          </Grid>
-
-          {
-            <>
-              <Grid item container justify="flex-start" xs={6}>
-                {props.orderData.data.map( ( order: Order, index: number ) => {
-
-                  //console.log("Order! ", order)
-                  let selectedToken = ""
-                  if ( token.hasOwnProperty("value") ) {
-                    selectedToken = token.value
-                  }
-
-                  //console.log("TokenId: ", thisToken, order.tokenId )
-
-                  const orderToken = order.swapTokenId
-
-                  if ( ( orderToken == selectedToken ) &&
-                       ( order.isBuy ) ) {
-
-                    //console.log(order)
-                    const type = OrderBookConfig.buy
-                    const colour = OrderBookConfig.buyColour
-
-                    const price = +order.price
-                    const thisPrice = price.toFixed(2)
-
-                    const total = +order.total
-                    const thisTotal = total.toFixed(2)
-
-                    return (
-
-                      <React.Fragment key={index}>
-                        <Grid item container xs={12}>
-                          <Button
-                            onClick={() => processTakeOrder(order)}
-                            style={{
-                              width: "100%",
-                              textTransform: 'none',
-                              fontSize: "1em",
-                              lineHeight: "1",
-                              borderRadius: 0,
-                              padding: 0
-                            }}
-                          >
-                            <Grid item container xs={6}>
-                             <Typography style={{color: `${colour}`}} variant="body2">
-                               {thisTotal}
-                             </Typography>
-                            </Grid>
-                            <Grid item container xs={6}>
-                              <Typography style={{color: `${colour}`}} variant="body2">
-                                 {thisPrice}
-                               </Typography>
-                            </Grid>
-                          </Button>
-                        </Grid>
-
-                      </React.Fragment>
-                    )
-                  }
-                })}
-              </Grid>
-              <Grid item container justify="flex-end" xs={6}>
-                {props.orderData.data.map( ( order: Order, index: number ) => {
-
-                  //se
-                  let selectedToken = ""
-                  if ( token.hasOwnProperty("value") ) {
-                    selectedToken = token.value
-                  }
-
-                  const orderToken = order.tokenId
-
-                  if ( ( orderToken == selectedToken ) &&
-                       ( !order.isBuy ) ) {
-
-                    //console.log(order)
-                    const type = OrderBookConfig.sell
-                    const colour = OrderBookConfig.sellColour
-
-                    const price = +order.price
-                    const thisPrice = price.toFixed(2)
-
-                    const total = +order.total
-                    const thisTotal = total.toFixed(2)
-
-                    return (
-
-                      <React.Fragment key={index}>
-
-                        <Grid item container xs={12}>
-                          <Button
-                            onClick={() => processTakeOrder(order)}
-                            style={{
-                              width: "100%",
-                              textTransform: 'none',
-                              fontSize: "1em",
-                              lineHeight: "1",
-                              borderRadius: 0,
-                              padding: 0
-                            }}
-                          >
-                            <Grid item container justify="flex-end" xs={6}>
-                              <Typography style={{color: `${colour}`}} variant="body2">
-                                 {thisPrice}
-                               </Typography>
-                            </Grid>
-                            <Grid item container justify="flex-end" xs={6}>
-                             <Typography style={{color: `${colour}`}} variant="body2">
-                               {thisTotal}
-                             </Typography>
-                            </Grid>
-                          </Button>
-                        </Grid>
-
-                      </React.Fragment>
-                    )
-                  }
-                })}
-              </Grid>
-            </>
-          }
-
-        </Grid>
+        <TokenOrders token={{
+            tokenId: token.value,
+            tokenName: token.name,
+            scale: "",
+            total: ""
+          }}
+        />
 
         : (
 
@@ -720,61 +544,6 @@ const display = (props: Props) => {
         </Fade>
       </Modal>
 
-      <Modal
-        aria-labelledby={Help.takeOrderSure}
-        aria-describedby={Help.takeOrderSure}
-        className={classes.orderModal}
-        open={takeOrderDialogue}
-        onClose={takeOrderDialogueClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={takeOrderDialogue}>
-          <div className={classes.orderModalSub}>
-              { take.isBuy ?
-                <Typography variant="h3">
-                  You are about to sell {take.amount.toString()} {token.name} at {take.price.toString()} Minima each. You will receive {take.total.toString()} Minima
-                </Typography>
-                : (
-                  <Typography variant="h3">
-                    You are about to buy {take.amount.toString()} {token.name} at {take.price.toString()} Minima each. You will spend {take.total.toString()} Minima
-                  </Typography>
-                )
-              }
-
-            <br/>
-            <div className={classes.orderModalSubIcons}>
-              <IconButton
-                onClick={takeOrderDialogueClose}
-                color="primary"
-                aria-label={Help.cancelTip}
-                component="span"
-                size="small">
-                <img
-                  src={cancelIcon}
-                  className={classes.cancelIcon}
-                />
-              </IconButton>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <IconButton
-                onClick={() => doTakeOrder()}
-                color="primary"
-                aria-label={Help.orderTip}
-                component="span"
-                size="small">
-                <img
-                  src={confirmIcon}
-                  className={classes.confirmIcon}
-                />
-              </IconButton>
-            </div>
-          </div>
-        </Fade>
-      </Modal>
-
     </Grid>
   )
 }
@@ -794,8 +563,7 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): OrdersDispatchProps => {
  return {
    setActivePage: () => dispatch(setActivePage(Local.orderBook)),
-   submitOrder: (order: NewOrder) => dispatch(submitOrder(order)),
-   takeOrder: (order: Order) => dispatch(takeOrder(order))
+   submitOrder: (order: NewOrder) => dispatch(submitOrder(order))
  }
 }
 

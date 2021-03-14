@@ -150,6 +150,7 @@ class OrderBook {
 
   static readonly amount = 'Amount'
   static readonly price = 'Price'
+  static readonly total = 'Total'
   static readonly token = 'Token'
   static readonly buy = 'Buy'
   static readonly buyColour = 'green'

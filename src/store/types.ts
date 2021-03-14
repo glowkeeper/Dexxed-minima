@@ -69,7 +69,6 @@ export interface Token {
   tokenName: string
   scale: string
   total: string
-  isSelected: boolean
 }
 
 export interface TokenProps extends PayloadProps {
