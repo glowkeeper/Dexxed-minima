@@ -25,7 +25,8 @@ import { useFormik, useField } from 'formik'
 
 import { Local, GeneralError, Help } from '../../config'
 
-import { TokenOrders } from './TokenOrders'
+import { TokenOrders } from './tokenOrders'
+import { TokenTrades } from './tokenTrades'
 
 import {
   OrderBook as OrderBookConfig,
@@ -47,8 +48,6 @@ import {
 } from '../../store'
 
 interface OrdersStateProps {
-  orderData: OrderBookProps
-  tradeData: AllTradesProps
   tokenData: TokenProps
 }
 
@@ -395,97 +394,14 @@ const display = (props: Props) => {
 
         : (
 
-          <Grid container alignItems="flex-start">
+          <TokenTrades token={{
+              tokenId: token.value,
+              tokenName: token.name,
+              scale: "",
+              total: ""
+            }}
+          />
 
-            <Grid item container justify="flex-start" xs={12}>
-              <Typography variant="h3">
-                {token.hasOwnProperty("label") ? token.name : ""}
-              </Typography>
-            </Grid>
-
-            <Grid item container justify="flex-end" xs={3}>
-              <Typography variant="h3">
-                {TradesConfig.price}
-              </Typography>
-            </Grid>
-            <Grid item container justify="flex-end" xs={3}>
-              <Typography variant="h3">
-                {TradesConfig.amount}
-              </Typography>
-            </Grid>
-            <Grid item container justify="flex-end" xs={3}>
-              <Typography variant="h3">
-                {TradesConfig.total}
-              </Typography>
-            </Grid>
-            <Grid item container justify="flex-end" xs={3}>
-              <Typography variant="h3">
-                {TradesConfig.block}
-              </Typography>
-            </Grid>
-
-            {
-              props.tradeData.data.map( ( trade: Trade, index: number ) => {
-
-                //console.log(trade)
-
-                let selectedToken = ""
-                if ( token.hasOwnProperty("value") ) {
-                  selectedToken = token.value
-                }
-
-                if ( trade.tokenId == selectedToken ) {
-
-                  const colour = trade.isBuy ? TradesConfig.buyColour : TradesConfig.sellColour
-
-                  const amount = +trade.amount
-                  const thisAmount = amount.toFixed(2)
-
-                  const price = +trade.price
-                  const thisPrice = price.toFixed(2)
-
-                  const total = +trade.total
-                  const thisTotal = total.toFixed(2)
-
-                  return (
-                    <React.Fragment key={index}>
-
-                      <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                       <Typography style={{color: `${colour}`}} variant="body2">
-                         {thisPrice}
-                       </Typography>
-                      </Grid>
-                      <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                       <Typography style={{color: `${colour}`}} variant="body2">
-                         {thisAmount}
-                       </Typography>
-                      </Grid>
-                      <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                       <Typography style={{color: `${colour}`}} variant="body2">
-                         {thisTotal}
-                       </Typography>
-                      </Grid>
-                      <Grid className={classes.details} item container justify="flex-end" xs={3}>
-                       <Typography  style={{color: `${colour}`}} variant="body2">
-                         {trade.block}
-                       </Typography>
-                      </Grid>
-
-                      <Grid item container justify="flex-start" xs={12}>
-                        <svg
-                           xmlns="http://www.w3.org/2000/svg"
-                           viewBox="0 0 2000 4"
-                        >
-                          <line x2="2000" stroke="#001c32" strokeWidth={4} />
-                        </svg>
-                      </Grid>
-
-                    </React.Fragment>
-                  )
-                }
-              })
-            }
-          </Grid>
          )
       }
 
@@ -550,12 +466,8 @@ const display = (props: Props) => {
 
 const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 
-  const orders = state.orderBook as OrderBookProps
-  const trades = state.allTrades as AllTradesProps
   const tokens = state.tokens as TokenProps
   return {
-    orderData: orders,
-    tradeData: trades,
     tokenData: tokens
   }
 }
