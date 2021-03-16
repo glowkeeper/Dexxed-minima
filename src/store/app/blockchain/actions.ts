@@ -18,6 +18,7 @@ import {
   MyOrdersProps,
   OrderBookActionTypes,
   OrderBookProps,
+  OrderProps,
   Order,
   AllTradesActionTypes,
   AllTradesProps,
@@ -201,14 +202,12 @@ const getTokenScale = ( tokenId: string, tokens: TokenProps ): Decimal => {
 	return new Decimal(1)
 }
 
-export const sortOrderBook = () => {
-  return async (dispatch: AppDispatch, getState: Function) => {
+const sortOrderBook = (ordersData: OrderProps): Order[]  => {
+  return ordersData.data.sort((a: Order, b: Order) => b.price.cmp(a.price))
+}
 
-    const state = getState()
-    const orderBook = state.orderBook.data
-    const sortedBook = orderBook.sort((a: Order, b: Order) => a.price < b.price)
-    dispatch(write({ data: sortedBook })(OrderBookActionTypes.ADD_ORDERS))
-  }
+const sortMyOrders = (ordersData: OrderProps): Order[] => {
+  return  ordersData.data.sort((a: Order, b: Order) =>  a.tokenName.localeCompare(b.tokenName) || b.price.cmp(a.price))
 }
 
 export const getOrders = (justMyOrders: boolean) => {
@@ -320,7 +319,8 @@ export const getOrders = (justMyOrders: boolean) => {
           ordersData.data.push(thisOrder)
     		}
 
-        dispatch(write({ data: ordersData.data })(actionType))
+        const sortedOrders = justMyOrders ? sortMyOrders(ordersData) : sortOrderBook(ordersData)
+        dispatch(write({ data: sortedOrders })(actionType))
 
         //justMyOrders ? console.log("my orders: ", ordersData, actionType) : console.log("all orders: ", ordersData, actionType)
       } else {

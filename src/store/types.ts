@@ -129,6 +129,8 @@ export interface OrderBookProps extends PayloadProps {
   data: Array<Order>
 }
 
+export type OrderProps = MyOrdersProps | OrderBookProps
+
 // Trades
 export interface Trade {
   isBuy: boolean

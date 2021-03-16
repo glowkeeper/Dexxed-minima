@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 import { Decimal } from 'decimal.js'
 
 import { takeOrder } from '../../store/app/blockchain/tx/actions'
-import { sortOrderBook } from '../../store/app/blockchain/actions'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -44,7 +43,6 @@ interface OrdersStateProps {
 }
 
 interface OrdersDispatchProps {
-  sortOrderBook: () => void
   takeOrder: (order: Order) => void
 }
 
@@ -70,12 +68,6 @@ const display = (props: Props) => {
   const [takeOrderDialogue, setTakeOrderDialogue] = useState(false)
 
   const classes = themeStyles()
-
-  useEffect(() => {
-
-    props.sortOrderBook()
-
-  }, [props.orderData])
 
   const processTakeOrder = (order: Order) => {
     //console.log("Take! ", order)
@@ -300,7 +292,6 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 
 const mapDispatchToProps = (dispatch: AppDispatch): OrdersDispatchProps => {
  return {
-   sortOrderBook: () => dispatch(sortOrderBook()),
    takeOrder: (order: Order) => dispatch(takeOrder(order))
  }
 }
