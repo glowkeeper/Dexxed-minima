@@ -201,6 +201,16 @@ const getTokenScale = ( tokenId: string, tokens: TokenProps ): Decimal => {
 	return new Decimal(1)
 }
 
+export const sortOrderBook = () => {
+  return async (dispatch: AppDispatch, getState: Function) => {
+
+    const state = getState()
+    const orderBook = state.orderBook.data
+    const sortedBook = orderBook.sort((a: Order, b: Order) => a.price < b.price)
+    dispatch(write({ data: sortedBook })(OrderBookActionTypes.ADD_ORDERS))
+  }
+}
+
 export const getOrders = (justMyOrders: boolean) => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
