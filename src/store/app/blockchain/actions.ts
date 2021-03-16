@@ -24,6 +24,7 @@ import {
   AllTradesProps,
   MyTradesActionTypes,
   MyTradesProps,
+  TradeProps,
   Trade
 } from '../../types'
 
@@ -331,6 +332,10 @@ export const getOrders = (justMyOrders: boolean) => {
   }
 }
 
+const sortTrades = (tradesData: TradeProps): Trade[]  => {
+  return tradesData.data.sort((a: Trade, b: Trade) => b.block.localeCompare(a.block))
+}
+
 const getTrades = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
@@ -434,8 +439,11 @@ const getTrades = () => {
           }
         }
 
-        dispatch(write({ data: tradesData.data })(AllTradesActionTypes.ADD_TRADES))
-        dispatch(write({ data: tradesData.data })(MyTradesActionTypes.ADD_MYTRADES))
+        const sortedAllTrades = sortTrades(tradesData)
+        const sortedMyTrades = sortTrades(myTradesData)
+
+        dispatch(write({ data: sortedAllTrades })(AllTradesActionTypes.ADD_TRADES))
+        dispatch(write({ data: sortedMyTrades })(MyTradesActionTypes.ADD_MYTRADES))
 
       } else {
 

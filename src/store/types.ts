@@ -152,6 +152,8 @@ export interface MyTradesProps extends PayloadProps {
   data: Array<Trade>
 }
 
+export type TradeProps = MyTradesProps | AllTradesProps
+
 // Get stuff
 export interface Data {
   info: string
