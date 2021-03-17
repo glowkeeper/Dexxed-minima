@@ -532,6 +532,12 @@ const themeStyles = makeStyles({
   formButton: {
     paddingTop: theme.spacing(0.5)
   },
+  oddRow: {
+    backgroundColor: '#F5F3F2'
+  },
+  evenRow: {
+    backgroundColor: '#FAFAFF'
+  },
   activeLink: {
     lineHeight: "2",
     fontSize: "1.6em",

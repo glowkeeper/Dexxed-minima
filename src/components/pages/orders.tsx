@@ -98,12 +98,12 @@ const display = (props: Props) => {
         </Typography>
       </Grid>
 
-      <Grid item container justify="flex-start" xs={12}>
+      <Grid item container justify="center" xs={12}>
         <svg
            xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 2000 4"
         >
-          <line x2="2000" stroke="#00cccc" strokeWidth={4} />
+          <line x2="2000" stroke="#001c32" strokeWidth={4} />
         </svg>
       </Grid>
 
@@ -125,56 +125,52 @@ const display = (props: Props) => {
           const total =  +order.total
           const thisTotal = total.toFixed(2)
 
+          const rowclass = index % 2 ? classes.evenRow : classes.oddRow
+
           return (
             <React.Fragment key={index}>
 
-              <Grid className={classes.details} item container alignItems="center" justify="flex-start" xs={2}>
-               <Typography style={{color: `${colour}`}} variant="body1">
-                 {type}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container alignItems="center" justify="flex-start" xs={2}>
-               <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-                 {orderToken}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {thisPrice}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {thisAmount}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {thisTotal}
-               </Typography>
-              </Grid>
-              <Grid item container alignItems="center" justify="center" xs={2}>
-                <Button
-                  onClick={() => cancel(order)}
-                  style={{
-                    paddingTop: '0.5em',
-                    textTransform: 'none',
-                    fontSize: "1em",
-                    lineHeight: "1",
-                    color: `${colour}`
-                  }}
-                >
-                  {OrdersConfig.cancelButton}
-                </Button>
-              </Grid>
+              <Grid className={rowclass} item container xs={12}>
 
-              <Grid item container justify="flex-start" xs={12}>
-                <svg
-                   xmlns="http://www.w3.org/2000/svg"
-                   viewBox="0 0 2000 4"
-                >
-                  <line x2="2000" stroke="#001c32" strokeWidth={4} />
-                </svg>
+                <Grid className={classes.details} item container alignItems="center" justify="flex-start" xs={2}>
+                 <Typography style={{color: `${colour}`}} variant="body1">
+                   {type}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container alignItems="center" justify="flex-start" xs={2}>
+                 <Typography style={{ wordWrap: 'break-word' }} variant="body1">
+                   {orderToken}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {thisPrice}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {thisAmount}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container alignItems="center" justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {thisTotal}
+                 </Typography>
+                </Grid>
+                <Grid item container alignItems="center" justify="center" xs={2}>
+                  <Button
+                    onClick={() => cancel(order)}
+                    style={{
+                      textTransform: 'none',
+                      fontSize: "1em",
+                      lineHeight: "1",
+                      color: `${colour}`
+                    }}
+                  >
+                    {OrdersConfig.cancelButton}
+                  </Button>
+                </Grid>
+
               </Grid>
 
             </React.Fragment>

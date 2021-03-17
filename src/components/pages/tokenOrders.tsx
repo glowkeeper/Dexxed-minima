@@ -117,6 +117,15 @@ const display = (props: Props) => {
           </Typography>
         </Grid>
 
+        <Grid item container justify="flex-start" xs={12}>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 2000 4"
+          >
+            <line x2="2000" stroke="#001c32" strokeWidth={4} />
+          </svg>
+        </Grid>
+
         {
           <>
             <Grid item container justify="flex-start" xs={6}>
@@ -135,10 +144,14 @@ const display = (props: Props) => {
                   const total = +order.total
                   const thisTotal = total.toFixed(2)
 
+                  //const rowColour = index % 2 ? '#FAFAFF' : '#F5F3F2'
+
                   return (
 
                     <React.Fragment key={index}>
+
                       <Grid item container xs={12}>
+
                         <Button
                           onClick={() => processTakeOrder(order)}
                           style={{
@@ -161,6 +174,7 @@ const display = (props: Props) => {
                              </Typography>
                           </Grid>
                         </Button>
+
                       </Grid>
 
                     </React.Fragment>
@@ -183,6 +197,8 @@ const display = (props: Props) => {
 
                   const total = +order.total
                   const thisTotal = total.toFixed(2)
+
+                  //const rowColour = index % 2 ? '#FAFAFF' : '#F5F3F2'
 
                   return (
 

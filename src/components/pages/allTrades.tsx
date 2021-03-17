@@ -89,7 +89,7 @@ const display = (props: Props) => {
            xmlns="http://www.w3.org/2000/svg"
            viewBox="0 0 2000 4"
         >
-          <line x2="2000" stroke="#00cccc" strokeWidth={4} />
+          <line x2="2000" stroke="#001c32" strokeWidth={4} />
         </svg>
       </Grid>
 
@@ -110,47 +110,44 @@ const display = (props: Props) => {
           const total = +trade.total
           const thisTotal = total.toFixed(2)
 
+          const rowclass = index % 2 ? classes.evenRow : classes.oddRow
+
           return (
             <React.Fragment key={index}>
 
-              <Grid className={classes.details} item container justify="flex-start" xs={2}>
-               <Typography style={{color: `${colour}`}} variant="body1">
-                 {type}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container justify="flex-start" xs={2}>
-               <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-                 {trade.tokenName}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {thisPrice}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {thisAmount}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {thisTotal}
-               </Typography>
-              </Grid>
-              <Grid className={classes.details} item container justify="flex-end" xs={2}>
-               <Typography variant="body2">
-                 {trade.block}
-               </Typography>
-              </Grid>
+              <Grid className={rowclass} item container xs={12}>
 
-              <Grid item container justify="flex-start" xs={12}>
-                <svg
-                   xmlns="http://www.w3.org/2000/svg"
-                   viewBox="0 0 2000 4"
-                >
-                  <line x2="2000" stroke="#001c32" strokeWidth={4} />
-                </svg>
+                <Grid className={classes.details} item container justify="flex-start" xs={2}>
+                 <Typography style={{color: `${colour}`}} variant="body1">
+                   {type}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container justify="flex-start" xs={2}>
+                 <Typography style={{ wordWrap: 'break-word' }} variant="body1">
+                   {trade.tokenName}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {thisPrice}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {thisAmount}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {thisTotal}
+                 </Typography>
+                </Grid>
+                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                 <Typography variant="body2">
+                   {trade.block}
+                 </Typography>
+                </Grid>
+
               </Grid>
 
             </React.Fragment>
