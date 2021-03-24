@@ -84,6 +84,8 @@ const display = (props: Props) => {
     props.takeOrder(take)
   }
 
+  let rowCounter = 0
+
   return (
 
     <>
@@ -96,25 +98,39 @@ const display = (props: Props) => {
           </Typography>
         </Grid>
 
-        <Grid item container justify="flex-start" xs={3}>
-          <Typography style={{color: OrderBook.buyColour}} variant="h3">
-            {OrderBook.total}
-          </Typography>
-        </Grid>
-        <Grid item container justify="flex-start" xs={3}>
-          <Typography style={{color: OrderBook.buyColour}} variant="h3">
-            {OrderBook.price}
-          </Typography>
-        </Grid>
-        <Grid item container justify="flex-end" xs={3}>
-          <Typography style={{color: OrderBook.sellColour}} variant="h3">
-            {OrderBook.price}
-          </Typography>
-        </Grid>
-        <Grid item container justify="flex-end" xs={3}>
-          <Typography style={{color: OrderBook.sellColour}} variant="h3">
-            {OrderBook.total}
-          </Typography>
+        <Grid item container justify="space-evenly" xs={12}>
+          <Grid item container justify="center" xs={2}>
+            <Typography style={{color: OrderBook.buyColour}} variant="h3">
+              {OrderBook.total}
+            </Typography>
+          </Grid>
+          <Grid item container justify="center" xs={2}>
+            <Typography style={{color: OrderBook.buyColour}} variant="h3">
+              {OrderBook.amount}
+            </Typography>
+          </Grid>
+          <Grid item container justify="center" xs={2}>
+            <Typography style={{color: OrderBook.buyColour}} variant="h3">
+              {OrderBook.price}
+            </Typography>
+          </Grid>
+
+          <Grid item container justify="center" xs={2}>
+            <Typography style={{color: OrderBook.sellColour}} variant="h3">
+              {OrderBook.price}
+            </Typography>
+          </Grid>
+          <Grid item container justify="center" xs={2}>
+            <Typography style={{color: OrderBook.sellColour}} variant="h3">
+              {OrderBook.amount}
+            </Typography>
+          </Grid>
+          <Grid item container justify="center" xs={2}>
+            <Typography style={{color: OrderBook.sellColour}} variant="h3">
+              {OrderBook.total}
+            </Typography>
+          </Grid>
+
         </Grid>
 
         <Grid item container justify="flex-start" xs={12}>
@@ -128,15 +144,19 @@ const display = (props: Props) => {
 
         {
           <>
-            <Grid item container justify="flex-start" xs={6}>
+            <Grid item container justify="space-evenly" xs={6}>
+
               {props.orderData.data.map( ( order: Order, index: number ) => {
 
                 if ( ( order.swapTokenId == props.token.tokenId ) &&
                      ( order.isBuy ) ) {
 
-                  //console.log(order)
+                  //console.log("Isbuy order: ", +order.amount.toFixed(2), +order.coinAmount.toFixed(2) )
                   const type = OrderBook.buy
                   const colour = OrderBook.buyColour
+
+                  const amount = +order.amount
+                  const thisAmount = amount.toFixed(2)
 
                   const price = +order.price
                   const thisPrice = price.toFixed(2)
@@ -144,7 +164,8 @@ const display = (props: Props) => {
                   const total = +order.total
                   const thisTotal = total.toFixed(2)
 
-                  //const rowColour = index % 2 ? '#FAFAFF' : '#F5F3F2'
+                  const rowColour = rowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
+                  rowCounter += 1
 
                   return (
 
@@ -156,6 +177,7 @@ const display = (props: Props) => {
                           onClick={() => processTakeOrder(order)}
                           style={{
                             width: "100%",
+                            backgroundColor: rowColour,
                             textTransform: 'none',
                             fontSize: "1em",
                             lineHeight: "1",
@@ -163,13 +185,18 @@ const display = (props: Props) => {
                             padding: 0
                           }}
                         >
-                          <Grid item container xs={6}>
-                           <Typography style={{color: `${colour}`}} variant="body2">
+                          <Grid item xs={4}>
+                           <Typography style={{color: colour}} variant="body2">
                              {thisTotal}
                            </Typography>
                           </Grid>
-                          <Grid item container xs={6}>
-                            <Typography style={{color: `${colour}`}} variant="body2">
+                          <Grid item xs={4}>
+                            <Typography style={{color: colour}} variant="body2">
+                               {thisAmount}
+                             </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                            <Typography style={{color: colour}} variant="body2">
                                {thisPrice}
                              </Typography>
                           </Grid>
@@ -182,15 +209,24 @@ const display = (props: Props) => {
                 }
               })}
             </Grid>
-            <Grid item container justify="flex-end" xs={6}>
+            <Grid item container justify="space-evenly" xs={6}>
+
               {props.orderData.data.map( ( order: Order, index: number ) => {
+
+                if ( !index ) {
+                  rowCounter = 0
+                }
 
                 if ( ( order.tokenId == props.token.tokenId ) &&
                      ( !order.isBuy ) ) {
 
-                  //console.log(order)
+                  //console.log("Issell order: ", +order.amount.toFixed(2), +order.coinAmount.toFixed(2) )
+
                   const type = OrderBook.sell
                   const colour = OrderBook.sellColour
+
+                  const amount = +order.amount
+                  const thisAmount = amount.toFixed(2)
 
                   const price = +order.price
                   const thisPrice = price.toFixed(2)
@@ -198,7 +234,8 @@ const display = (props: Props) => {
                   const total = +order.total
                   const thisTotal = total.toFixed(2)
 
-                  //const rowColour = index % 2 ? '#FAFAFF' : '#F5F3F2'
+                  const rowColour = rowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
+                  rowCounter += 1
 
                   return (
 
@@ -209,6 +246,7 @@ const display = (props: Props) => {
                           onClick={() => processTakeOrder(order)}
                           style={{
                             width: "100%",
+                            backgroundColor: rowColour,
                             textTransform: 'none',
                             fontSize: "1em",
                             lineHeight: "1",
@@ -216,13 +254,18 @@ const display = (props: Props) => {
                             padding: 0
                           }}
                         >
-                          <Grid item container justify="flex-end" xs={6}>
-                            <Typography style={{color: `${colour}`}} variant="body2">
+                          <Grid item xs={4}>
+                            <Typography style={{color: colour}} variant="body2">
                                {thisPrice}
                              </Typography>
                           </Grid>
-                          <Grid item container justify="flex-end" xs={6}>
-                           <Typography style={{color: `${colour}`}} variant="body2">
+                          <Grid item xs={4}>
+                            <Typography style={{color: colour}} variant="body2">
+                               {thisAmount}
+                             </Typography>
+                          </Grid>
+                          <Grid item xs={4}>
+                           <Typography style={{color: colour}} variant="body2">
                              {thisTotal}
                            </Typography>
                           </Grid>
