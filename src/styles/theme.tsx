@@ -89,15 +89,15 @@ let theme = createMuiTheme ({
     h4: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1em",
-        fontWeight: 400,
+        fontSize: "1.25em",
+        fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
       },
       [breakpoints.up('lg')]: {
         lineHeight: '1.5',
-        fontSize: "0.9em",
-        fontWeight: 400,
+        fontSize: "1em",
+        fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
       }
@@ -537,6 +537,9 @@ const themeStyles = makeStyles({
   },
   evenRow: {
     backgroundColor: '#FAFAFF'
+  },
+  disabledRow: {
+    backgroundColor: '#C8C8D4'
   },
   activeLink: {
     lineHeight: "2",

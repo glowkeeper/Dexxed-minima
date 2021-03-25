@@ -131,7 +131,10 @@ const display = (props: Props) => {
           const total =  +order.total
           const thisTotal = total.toFixed(2)
 
-          const rowclass = index % 2 ? classes.evenRow : classes.oddRow
+          let rowclass = index % 2 ? classes.evenRow : classes.oddRow
+          if ( isDisabled[index] ) {
+            rowclass = classes.disabledRow
+          }
 
           return (
             <React.Fragment key={index}>

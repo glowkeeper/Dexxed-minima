@@ -88,6 +88,9 @@ const display = (props: Props) => {
   }
 
   let rowCounter = 0
+  let tokenAmount = (new Decimal(0)).toFixed(2)
+  let tokenUnconfirmed = (new Decimal(0)).toFixed(2)
+  let tokenMempool = (new Decimal(0)).toFixed(2)
 
   return (
 
@@ -97,7 +100,7 @@ const display = (props: Props) => {
 
       <Grid container alignItems="flex-start">
 
-        <Grid item container justify="flex-end" xs={3}>
+        <Grid item container justify="flex-start" xs={3}>
           <Typography variant="h3">
             &nbsp;
           </Typography>
@@ -129,52 +132,49 @@ const display = (props: Props) => {
         </Grid>
 
         {
-          props.balanceData.data.map( ( balance: Balance, index: number ) => {
+          <>
+            { props.balanceData.data.map( ( balance: Balance, index: number ) => {
 
-            if ( balance.token == props.token.tokenName ) {
+              if ( balance.token == props.token.tokenName ) {
 
-              //console.log(balance)
-              const amount = +balance.confirmed
-              const unconfirmed = +balance.unconfirmed
-              const mempool = +balance.mempool
-              const thisAmount = amount.toFixed(2)
-              const thisUnconfirmed = unconfirmed.toFixed(2)
-              const thisMempool = mempool.toFixed(2)
+                const amount = +balance.confirmed
+                const unconfirmed = +balance.unconfirmed
+                const mempool = +balance.mempool
 
-              const rowclass = index % 2 ? classes.evenRow : classes.oddRow
+                tokenAmount = amount.toFixed(2)
+                tokenUnconfirmed = unconfirmed.toFixed(2)
+                tokenMempool = mempool.toFixed(2)
+              }
 
-              return (
-                <React.Fragment key={index}>
+              return ( null )
+            })}
 
-                  <Grid className={rowclass} item container xs={12}>
+            <Grid item container xs={12}>
 
-                    <Grid item container justify="flex-start" xs={3}>
-                     <Typography variant="body1">
-                       {balance.token}
-                     </Typography>
-                    </Grid>
-                    <Grid item container justify="flex-end" xs={3}>
-                     <Typography variant="body2">
-                       {thisAmount}
-                     </Typography>
-                    </Grid>
-                    <Grid item container justify="flex-end" xs={3}>
-                      <Typography variant="body2">
-                        {thisUnconfirmed}
-                      </Typography>
-                    </Grid>
-                    <Grid item container justify="flex-end" xs={3}>
-                      <Typography variant="body2">
-                        {thisMempool}
-                      </Typography>
-                    </Grid>
+              <Grid item container justify="flex-start" xs={3}>
+               <Typography variant="h3">
+                 {props.token.tokenName}
+               </Typography>
+              </Grid>
+              <Grid item container justify="flex-end" xs={3}>
+               <Typography variant="body2">
+                 {tokenAmount}
+               </Typography>
+              </Grid>
+              <Grid item container justify="flex-end" xs={3}>
+                <Typography variant="body2">
+                  {tokenUnconfirmed}
+                </Typography>
+              </Grid>
+              <Grid item container justify="flex-end" xs={3}>
+                <Typography variant="body2">
+                  {tokenMempool}
+                </Typography>
+              </Grid>
 
-                  </Grid>
+            </Grid>
 
-                </React.Fragment>
-              )
-            }
-          })
+          </>
         }
 
         {
