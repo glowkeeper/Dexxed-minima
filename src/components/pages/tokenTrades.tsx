@@ -96,22 +96,22 @@ const display = (props: Props) => {
 
                 <Grid item container xs={12}>
 
-                  <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                  <Grid item container justify="flex-end" xs={3}>
                    <Typography style={{color: `${colour}`}} variant="body2">
                      {thisPrice}
                    </Typography>
                   </Grid>
-                  <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                  <Grid item container justify="flex-end" xs={3}>
                    <Typography style={{color: `${colour}`}} variant="body2">
                      {thisAmount}
                    </Typography>
                   </Grid>
-                  <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                  <Grid item container justify="flex-end" xs={3}>
                    <Typography style={{color: `${colour}`}} variant="body2">
                      {thisTotal}
                    </Typography>
                   </Grid>
-                  <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                  <Grid item container justify="flex-end" xs={3}>
                    <Typography  style={{color: `${colour}`}} variant="body2">
                      {trade.block}
                    </Typography>

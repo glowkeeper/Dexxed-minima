@@ -148,7 +148,7 @@ const display = (props: Props) => {
           hasTokenId: hasTokenId,
           wantsTokenId: wantsTokenId
       }
-      
+
       setOrder(orderInfo)
       setOrderDialogue(true)
     },
@@ -190,15 +190,6 @@ const display = (props: Props) => {
         <Typography variant="h2">
           {OrderBookConfig.heading}
         </Typography>
-      </Grid>
-
-      <Grid item container justify="center" xs={12}>
-        <svg
-           xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 2000 4"
-        >
-          <line x2="2000" stroke="#001c32" strokeWidth={4} />
-        </svg>
       </Grid>
 
       <Grid item container className={classes.formLabel} xs={6}>

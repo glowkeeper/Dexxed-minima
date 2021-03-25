@@ -44,15 +44,6 @@ const display = (props: Props) => {
         </Typography>
       </Grid>
 
-      <Grid item container justify="center" xs={12}>
-        <svg
-           xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 2000 4"
-        >
-          <line x2="2000" stroke="#001c32" strokeWidth={4} />
-        </svg>
-      </Grid>
-
       <Grid item container justify="flex-start" xs={2}>
         <Typography variant="h3">
           {TradesConfig.type}
@@ -116,32 +107,32 @@ const display = (props: Props) => {
             <React.Fragment key={index}>
 
               <Grid className={rowclass} item container xs={12}>
-                <Grid className={classes.details} item container justify="flex-start" xs={2}>
+                <Grid item container justify="flex-start" xs={2}>
                  <Typography style={{color: `${colour}`}} variant="body1">
                    {type}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-start" xs={2}>
+                <Grid item container justify="flex-start" xs={2}>
                  <Typography style={{ wordWrap: 'break-word' }} variant="body1">
                    {trade.tokenName}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                <Grid item container justify="flex-end" xs={2}>
                  <Typography variant="body2">
                    {thisPrice}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                <Grid item container justify="flex-end" xs={2}>
                  <Typography variant="body2">
                    {thisAmount}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                <Grid item container justify="flex-end" xs={2}>
                  <Typography variant="body2">
                    {thisTotal}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={2}>
+                <Grid item container justify="flex-end" xs={2}>
                  <Typography variant="body2">
                    {trade.block}
                  </Typography>

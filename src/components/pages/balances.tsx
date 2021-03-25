@@ -44,15 +44,6 @@ const display = (props: Props) => {
         </Typography>
       </Grid>
 
-      <Grid item container justify="flex-start" xs={12}>
-        <svg
-           xmlns="http://www.w3.org/2000/svg"
-           viewBox="0 0 2000 4"
-        >
-          <line x2="2000" stroke="#001c32" strokeWidth={4} />
-        </svg>
-      </Grid>
-
       <Grid item container justify="flex-start" xs={3}>
         <Typography variant="h3">
           {BalancesConfig.token}
@@ -101,22 +92,22 @@ const display = (props: Props) => {
 
               <Grid className={rowclass} item container xs={12}>
 
-                <Grid className={classes.details} item container justify="flex-start" xs={3}>
+                <Grid item container justify="flex-start" xs={3}>
                  <Typography variant="body1">
                    {balance.token}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                <Grid item container justify="flex-end" xs={3}>
                  <Typography variant="body2">
                    {thisAmount}
                  </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                <Grid item container justify="flex-end" xs={3}>
                   <Typography variant="body2">
                     {thisUnconfirmed}
                   </Typography>
                 </Grid>
-                <Grid className={classes.details} item container justify="flex-end" xs={3}>
+                <Grid item container justify="flex-end" xs={3}>
                   <Typography variant="body2">
                     {thisMempool}
                   </Typography>
