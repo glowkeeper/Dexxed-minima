@@ -264,47 +264,62 @@ const display = (props: Props) => {
           </Grid>
 
           <Grid item container xs={12}>
-            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
-              <label htmlFor="amount">{OrderBookConfig.amount}</label>
-            </Grid>
-            <Grid item container xs={11}>
-              <TextField
-                fullWidth
-                size="small"
-                name="amount"
-                type="text"
-                value={formik.values.amount}
-                onChange={formik.handleChange}
-                InputProps={{ disableUnderline: true }}
-              />
-            </Grid>
-            <Grid item container className={classes.formError} xs={12}>
-              {formik.errors.amount && formik.touched.amount ? (
-                <div>{formik.errors.amount}</div>
-              ) : null}
-            </Grid>
-          </Grid>
 
-          <Grid item container xs={12}>
-            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
-              <label htmlFor="price">{OrderBookConfig.price}</label>
+            <Grid item container xs={6}>
+
+              <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={2}>
+                <label htmlFor="amount">{OrderBookConfig.amount}</label>
+              </Grid>
+              <Grid item container xs={10}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  name="amount"
+                  type="text"
+                  value={formik.values.amount}
+                  onChange={formik.handleChange}
+                  InputProps={{ disableUnderline: true }}
+                />
+              </Grid>
+              <Grid item container className={classes.formError} xs={12}>
+                {formik.errors.amount && formik.touched.amount ? (
+                  <div>{formik.errors.amount}</div>
+                ) : null}
+              </Grid>
+
             </Grid>
-            <Grid item container xs={11}>
-              <TextField
-                fullWidth
-                size="small"
-                name="price"
-                type="text"
-                value={formik.values.price}
-                onChange={formik.handleChange}
-                InputProps={{ disableUnderline: true }}
-              />
+
+            <Grid item container xs={6}>
+
+              <Grid item container className={classes.formLabel} justify="flex-end" alignItems="center" xs={2}>
+                <label
+                  htmlFor="price"
+                  style={{
+                    paddingRight: "8px"
+                  }}
+                >
+                  {OrderBookConfig.price}
+                </label>
+              </Grid>
+              <Grid item container xs={10}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  name="price"
+                  type="text"
+                  value={formik.values.price}
+                  onChange={formik.handleChange}
+                  InputProps={{ disableUnderline: true }}
+                />
+              </Grid>
+              <Grid item container className={classes.formError} xs={12}>
+                {formik.errors.price && formik.touched.price ? (
+                  <div>{formik.errors.price}</div>
+                ) : null}
+              </Grid>
+
             </Grid>
-            <Grid item container className={classes.formError} xs={12}>
-              {formik.errors.price && formik.touched.price ? (
-                <div>{formik.errors.price}</div>
-              ) : null}
-            </Grid>
+
           </Grid>
 
           <Grid item container className={classes.formButton} xs={12}>
