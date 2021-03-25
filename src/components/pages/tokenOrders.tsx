@@ -95,47 +95,39 @@ const display = (props: Props) => {
 
       <Grid container alignItems="flex-start">
 
+        <Grid item container justify="flex-end" xs={3}>
+          <Typography variant="h3">
+            &nbsp;
+          </Typography>
+        </Grid>
+
+        <Grid item container justify="flex-end" xs={3}>
+          <Typography variant="h3">
+            {Balances.amount}
+          </Typography>
+        </Grid>
+        <Grid item container justify="flex-end" xs={3}>
+          <Typography variant="h3">
+            {Balances.unconfirmed}
+          </Typography>
+        </Grid>
+        <Grid item container justify="flex-end" xs={3}>
+          <Typography variant="h3">
+            {Balances.mempool}
+          </Typography>
+        </Grid>
+
+        <Grid item container justify="flex-start" xs={12}>
+          <svg
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 2000 4"
+          >
+            <line x2="2000" stroke="#001c32" strokeWidth={4} />
+          </svg>
+        </Grid>
+
         {
           props.balanceData.data.map( ( balance: Balance, index: number ) => {
-
-            let header = (
-              <>
-                <Grid item container justify="flex-end" xs={3}>
-                  <Typography variant="h3">
-                    &nbsp;
-                  </Typography>
-                </Grid>
-
-                <Grid item container justify="flex-end" xs={3}>
-                  <Typography variant="h3">
-                    {Balances.amount}
-                  </Typography>
-                </Grid>
-                <Grid item container justify="flex-end" xs={3}>
-                  <Typography variant="h3">
-                    {Balances.unconfirmed}
-                  </Typography>
-                </Grid>
-                <Grid item container justify="flex-end" xs={3}>
-                  <Typography variant="h3">
-                    {Balances.mempool}
-                  </Typography>
-                </Grid>
-
-                <Grid item container justify="flex-start" xs={12}>
-                  <svg
-                     xmlns="http://www.w3.org/2000/svg"
-                     viewBox="0 0 2000 4"
-                  >
-                    <line x2="2000" stroke="#001c32" strokeWidth={4} />
-                  </svg>
-                </Grid>
-              </>
-            )
-
-            if (index) {
-              header = <div>&nbsp;</div>
-            }
 
             if ( balance.token == props.token.tokenName ) {
 
@@ -151,8 +143,6 @@ const display = (props: Props) => {
 
               return (
                 <React.Fragment key={index}>
-
-                  {header}
 
                   <Grid className={rowclass} item container xs={12}>
 
@@ -187,64 +177,53 @@ const display = (props: Props) => {
 
         {
           <>
+
+            <Grid item container justify="space-evenly" xs={12}>
+              <Grid item container justify="center" xs={2}>
+                <Typography style={{color: OrderBook.buyColour}} variant="h3">
+                  {OrderBook.total}
+                </Typography>
+              </Grid>
+              <Grid item container justify="center" xs={2}>
+                <Typography style={{color: OrderBook.buyColour}} variant="h3">
+                  {OrderBook.amount}
+                </Typography>
+              </Grid>
+              <Grid item container justify="center" xs={2}>
+                <Typography style={{color: OrderBook.buyColour}} variant="h3">
+                  {OrderBook.price}
+                </Typography>
+              </Grid>
+
+              <Grid item container justify="center" xs={2}>
+                <Typography style={{color: OrderBook.sellColour}} variant="h3">
+                  {OrderBook.price}
+                </Typography>
+              </Grid>
+              <Grid item container justify="center" xs={2}>
+                <Typography style={{color: OrderBook.sellColour}} variant="h3">
+                  {OrderBook.amount}
+                </Typography>
+              </Grid>
+              <Grid item container justify="center" xs={2}>
+                <Typography style={{color: OrderBook.sellColour}} variant="h3">
+                  {OrderBook.total}
+                </Typography>
+              </Grid>
+
+              <Grid item container justify="flex-start" xs={12}>
+                <svg
+                   xmlns="http://www.w3.org/2000/svg"
+                   viewBox="0 0 2000 4"
+                >
+                  <line x2="2000" stroke="#001c32" strokeWidth={4} />
+                </svg>
+              </Grid>
+            </Grid>
+
             <Grid item container justify="space-evenly" xs={6}>
 
               {props.orderData.data.map( ( order: Order, index: number ) => {
-
-                let header = (
-
-                  <>
-
-                    <Grid item container justify="space-evenly" xs={12}>
-                      <Grid item container justify="center" xs={2}>
-                        <Typography style={{color: OrderBook.buyColour}} variant="h3">
-                          {OrderBook.total}
-                        </Typography>
-                      </Grid>
-                      <Grid item container justify="center" xs={2}>
-                        <Typography style={{color: OrderBook.buyColour}} variant="h3">
-                          {OrderBook.amount}
-                        </Typography>
-                      </Grid>
-                      <Grid item container justify="center" xs={2}>
-                        <Typography style={{color: OrderBook.buyColour}} variant="h3">
-                          {OrderBook.price}
-                        </Typography>
-                      </Grid>
-
-                      <Grid item container justify="center" xs={2}>
-                        <Typography style={{color: OrderBook.sellColour}} variant="h3">
-                          {OrderBook.price}
-                        </Typography>
-                      </Grid>
-                      <Grid item container justify="center" xs={2}>
-                        <Typography style={{color: OrderBook.sellColour}} variant="h3">
-                          {OrderBook.amount}
-                        </Typography>
-                      </Grid>
-                      <Grid item container justify="center" xs={2}>
-                        <Typography style={{color: OrderBook.sellColour}} variant="h3">
-                          {OrderBook.total}
-                        </Typography>
-                      </Grid>
-
-                    </Grid>
-
-                    <Grid item container justify="flex-start" xs={12}>
-                      <svg
-                         xmlns="http://www.w3.org/2000/svg"
-                         viewBox="0 0 2000 4"
-                      >
-                        <line x2="2000" stroke="#001c32" strokeWidth={4} />
-                      </svg>
-                    </Grid>
-
-                  </>
-                )
-
-                if (index) {
-                  header = <div>&nbsp;</div>
-                }
 
                 if ( ( order.swapTokenId == props.token.tokenId ) &&
                      ( order.isBuy ) ) {
@@ -267,8 +246,6 @@ const display = (props: Props) => {
 
                   return (
                     <React.Fragment key={index}>
-
-                      {header}
 
                       <Grid item container xs={12}>
 
