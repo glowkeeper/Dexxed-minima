@@ -5,10 +5,10 @@ class App {
   static readonly catchLine = `Powered by ${App.title}`
   static readonly tagline = ''
   static readonly copyright = '© Copyright 2021 Minima GmbH'
-  static readonly author = 'Minima'
+  static readonly author = 'Dr Steve Huckle'
   static readonly email = 'info@minima.global'
   static readonly bugEmail = 'minima-global@fire.fundersclub.com'
-  static readonly version = '0.8.10'
+  static readonly version = '0.8.11'
   static readonly release = 'Testnet'
 }
 
@@ -54,7 +54,7 @@ class About {
 
   static readonly heading = `About ${App.appName}`
 
-  static readonly info = [`Version ${App.version}.`,`${App.catchLine}.`,`${App.release}.`,`Created by ${App.author}.`,`${App.copyright}.`]
+  static readonly info = [`Version ${App.version}.`,`${App.catchLine}.`,`${App.release}.`,`Originally created by Spartacusrex. Reskinned by ${App.author}.`,`${App.copyright}.`]
 }
 
 class Help {
