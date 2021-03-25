@@ -253,6 +253,16 @@ const display = (props: Props) => {
                   }}
                   options={tokens}
                   name="token"
+                  styles={{
+                    control: (base, state) => ({
+                      ...base,
+                      '&:hover': {
+                        border: '2px solid #001C32'
+                      },
+                      border: '2px solid #C8C8D4',
+                      boxShadow: 'none'
+                    }),
+                  }}
                 />
               </div>
             </Grid>

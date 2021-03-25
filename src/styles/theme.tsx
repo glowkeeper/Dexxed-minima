@@ -9,7 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 
 import red from '@material-ui/core/colors/red'
 import blue from '@material-ui/core/colors/blue'
-import green from '@material-ui/core/colors/blue'
+import green from '@material-ui/core/colors/green'
 import indigo from '@material-ui/core/colors/indigo'
 import orange from '@material-ui/core/colors/orange'
 import yellow from '@material-ui/core/colors/yellow'

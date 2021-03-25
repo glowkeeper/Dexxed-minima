@@ -93,6 +93,8 @@ const display = (props: Props) => {
 
     <>
 
+    { props.token.tokenName ?
+
       <Grid container alignItems="flex-start">
 
         <Grid item container justify="flex-end" xs={3}>
@@ -357,6 +359,12 @@ const display = (props: Props) => {
         }
 
       </Grid>
+
+      : (
+        null
+      )
+
+    }
 
       <Modal
         aria-labelledby={Help.takeOrderSure}
