@@ -9,10 +9,14 @@ import { Local } from '../../../config'
 import { write } from '../../actions'
 
 export const setActivePage = (page: string) => {
-  return async (dispatch: AppDispatch) => {
+  return async (dispatch: AppDispatch, getState: Function ) => {
+
+    const state = getState()
+    const hasInitialised = state.appData.data.hasInitialised
 
     let appData: AppData = {
-      activePage: page
+      activePage: page,
+      hasInitialised: hasInitialised
     }
 
     if ( ( page === Local.balances ) ||

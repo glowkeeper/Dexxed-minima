@@ -31,6 +31,7 @@ export type AppDispatch = ThunkDispatch<ApplicationState, any, ActionProps>
 // Stuff pertinent to make this app' work
 export interface AppData {
   activePage: string
+  hasInitialised: boolean
 }
 
 export interface AppDataProps extends PayloadProps {

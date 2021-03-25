@@ -355,11 +355,6 @@ const themeStyles = makeStyles({
     paddingBottom: theme.spacing(1),
     margin: "0",
   },
-  spinner: {
-     position: 'relative',
-     top: "50%",
-     bottom: "50%"
-  },
   orderModal: {
     display: 'flex',
     alignItems: 'center',

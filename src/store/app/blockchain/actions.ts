@@ -6,6 +6,8 @@ import {
   AppDispatch,
   ScriptProps,
   ScriptActionTypes,
+  AppDataActionTypes,
+  AppData,
   ChainInfoActionTypes,
   ChainInfoProps,
   TokenProps,
@@ -35,18 +37,31 @@ import { write } from '../../actions'
 export const init = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
+      const state = getState()
+
       Minima.init( function( msg: any ) {
 
         //console.log("init stuff", msg)
 
         if ( msg.event == "connected" ) {
 
+          dispatch(write({data: {}})(AppDataActionTypes.APPDATA_INIT))
           dispatch(initDexxed())
           dispatch(getBalance())
           dispatch(getTokens())
           dispatch(getBlock())
 
   	 		} else if ( msg.event == "newblock" ) {
+
+          if ( !state.appData.data.hasInitialised ) {
+
+            const activePage = state.appData.data.activePage
+            let appData: AppData = {
+              activePage: activePage,
+              hasInitialised: true
+            }
+            dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
+          }
 
           dispatch(getTokens())
           dispatch(getBlock())

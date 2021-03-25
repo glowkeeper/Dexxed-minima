@@ -8,6 +8,8 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 
+import Spinner from 'react-spinner-material'
+
 import { Local } from '../../config'
 import { Orders as OrdersConfig, Help } from '../../config/strings'
 
@@ -22,6 +24,7 @@ import {
 } from '../../store'
 
 interface StateProps {
+  initialised: boolean
   orderData: MyOrdersProps
 }
 
@@ -34,6 +37,7 @@ type Props = StateProps & DispatchProps
 
 const display = (props: Props) => {
 
+  const [isLoading, setIsLoading] = useState(true)
   const [isDisabled, setIsDisabled] = useState([] as boolean[])
 
   const classes = themeStyles()
@@ -41,16 +45,22 @@ const display = (props: Props) => {
 
   useEffect(() => {
 
+    if ( ( props.initialised ) &&
+         ( isLoading ) ) {
+
+      setIsLoading(false)
+    }
+
     if ( ( props.orderData.data ) &&
          ( props.orderData.data.length != isDisabled.length ) ) {
 
-      const isDisabled = []
-      for (let i = 0; i < props.orderData.data.length; i++ ) {
-        isDisabled.push(false)
-      }
+        const isDisabled = []
+        for (let i = 0; i < props.orderData.data.length; i++ ) {
+          isDisabled.push(false)
+        }
     }
 
-  }, [props.orderData])
+  }, [props.orderData, props.initialised])
 
   const cancel = (order: Order, index: number) => {
 
@@ -113,81 +123,89 @@ const display = (props: Props) => {
         </svg>
       </Grid>
 
-      {
-        props.orderData.data.map( ( order: Order, index: number ) => {
+      { isLoading ?
+        <Grid className={classes.details} item container justify="center">
+          <Spinner
+            radius={40}
+            color={"#001C32"}
+            stroke={5}
+            visible={isLoading}
+          />
+        </Grid> : (
+          props.orderData.data.map( ( order: Order, index: number ) => {
 
-          //console.log("Order!", order)
+            //console.log("Order!", order)
 
-          const orderToken = order.isBuy ? order.swapTokenName : order.tokenName
-          const type = order.isBuy ? OrdersConfig.buy : OrdersConfig.sell
-          let colour = order.isBuy ? OrdersConfig.buyColour : OrdersConfig.sellColour
+            const orderToken = order.isBuy ? order.swapTokenName : order.tokenName
+            const type = order.isBuy ? OrdersConfig.buy : OrdersConfig.sell
+            let colour = order.isBuy ? OrdersConfig.buyColour : OrdersConfig.sellColour
 
-          const amount = +order.amount
-          const thisAmount = amount.toFixed(2)
+            const amount = +order.amount
+            const thisAmount = amount.toFixed(2)
 
-          const price = +order.price
-          const thisPrice = price.toFixed(2)
+            const price = +order.price
+            const thisPrice = price.toFixed(2)
 
-          const total =  +order.total
-          const thisTotal = total.toFixed(2)
+            const total =  +order.total
+            const thisTotal = total.toFixed(2)
 
-          let rowclass = index % 2 ? classes.evenRow : classes.oddRow
-          if ( isDisabled[index] ) {
-            rowclass = classes.disabledRow
-          }
+            let rowclass = index % 2 ? classes.evenRow : classes.oddRow
+            if ( isDisabled[index] ) {
+              rowclass = classes.disabledRow
+            }
 
-          return (
-            <React.Fragment key={index}>
+            return (
+              <React.Fragment key={index}>
 
-              <Grid className={rowclass} item container xs={12}>
+                <Grid className={rowclass} item container xs={12}>
 
-                <Grid item container alignItems="center" justify="flex-start" xs={2}>
-                 <Typography style={{color: colour}} variant="body1">
-                   {type}
-                 </Typography>
+                  <Grid item container alignItems="center" justify="flex-start" xs={2}>
+                   <Typography style={{color: colour}} variant="body1">
+                     {type}
+                   </Typography>
+                  </Grid>
+                  <Grid item container alignItems="center" justify="flex-start" xs={2}>
+                   <Typography style={{ wordWrap: 'break-word' }} variant="body1">
+                     {orderToken}
+                   </Typography>
+                  </Grid>
+                  <Grid item container alignItems="center" justify="flex-end" xs={2}>
+                   <Typography variant="body2">
+                     {thisPrice}
+                   </Typography>
+                  </Grid>
+                  <Grid item container alignItems="center" justify="flex-end" xs={2}>
+                   <Typography variant="body2">
+                     {thisAmount}
+                   </Typography>
+                  </Grid>
+                  <Grid item container alignItems="center" justify="flex-end" xs={2}>
+                   <Typography variant="body2">
+                     {thisTotal}
+                   </Typography>
+                  </Grid>
+                  <Grid item container alignItems="center" justify="center" xs={2}>
+                    <Button
+                      onClick={() => cancel(order, index)}
+                      disabled={isDisabled[index]}
+                      style={{
+                        textTransform: 'none',
+                        fontSize: "1em",
+                        lineHeight: "1",
+                        color: `${colour}`
+                      }}
+                    >
+                      {OrdersConfig.cancelButton}
+                    </Button>
+                  </Grid>
+
                 </Grid>
-                <Grid item container alignItems="center" justify="flex-start" xs={2}>
-                 <Typography style={{ wordWrap: 'break-word' }} variant="body1">
-                   {orderToken}
-                 </Typography>
-                </Grid>
-                <Grid item container alignItems="center" justify="flex-end" xs={2}>
-                 <Typography variant="body2">
-                   {thisPrice}
-                 </Typography>
-                </Grid>
-                <Grid item container alignItems="center" justify="flex-end" xs={2}>
-                 <Typography variant="body2">
-                   {thisAmount}
-                 </Typography>
-                </Grid>
-                <Grid item container alignItems="center" justify="flex-end" xs={2}>
-                 <Typography variant="body2">
-                   {thisTotal}
-                 </Typography>
-                </Grid>
-                <Grid item container alignItems="center" justify="center" xs={2}>
-                  <Button
-                    onClick={() => cancel(order, index)}
-                    disabled={isDisabled[index]}
-                    style={{
-                      textTransform: 'none',
-                      fontSize: "1em",
-                      lineHeight: "1",
-                      color: `${colour}`
-                    }}
-                  >
-                    {OrdersConfig.cancelButton}
-                  </Button>
-                </Grid>
 
-              </Grid>
-
-            </React.Fragment>
-          )
-        })
+              </React.Fragment>
+            )
+          })
+        )
       }
-
     </Grid>
   )
 }
@@ -195,7 +213,9 @@ const display = (props: Props) => {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 
   const orders = state.myOrders as MyOrdersProps
+  const hasInitialised = state.appData.data.hasInitialised
   return {
+    initialised: hasInitialised,
     orderData: orders
   }
 }

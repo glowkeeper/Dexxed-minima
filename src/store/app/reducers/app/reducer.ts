@@ -7,7 +7,8 @@ import {
 
 const initialState: AppDataProps = {
     data: {
-      activePage: '/'
+      activePage: '/',
+      hasInitialised: false
     }
 }
 
