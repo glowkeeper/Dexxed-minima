@@ -89,8 +89,8 @@ const display = (props: Props) => {
 
           console.log(trade)
 
-          const type = trade.isBuy ? `${TradesConfig.buy}` : `${TradesConfig.sell}`
-          const colour = trade.isBuy ? `${TradesConfig.buyColour}` : `${TradesConfig.sellColour}`
+          const type = trade.isBuy ? TradesConfig.buy : TradesConfig.sell
+          const colour = trade.isBuy ? TradesConfig.buyColour : TradesConfig.sellColour
 
           const amount = +trade.amount
           const thisAmount = amount.toFixed(2)

@@ -85,10 +85,10 @@ const display = (props: Props) => {
   const [orderDialogue, setOrderDialogue] = useState(false)
 
   const [isBuy, setIsBuy] = useState(true)
-  const [tradeColours, setTradeColours] = useState([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
+  const [tradeColours, setTradeColours] = useState([OrderBookConfig.buyColour, OrderBookConfig.disabledColour])
 
   const [isOrder, setIsOrder] = useState(true)
-  const [bookColours, setBookColours] = useState([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
+  const [bookColours, setBookColours] = useState([OrderBookConfig.liveColour, OrderBookConfig.disabledColour])
 
   const [tokens, setTokens] = useState([] as any[])
   const [token, setToken] = useState({} as any)
@@ -158,9 +158,9 @@ const display = (props: Props) => {
 
     setIsBuy(isBuy)
     if ( isBuy ) {
-      setTradeColours([`${OrderBookConfig.buyColour}`,`${OrderBookConfig.disabledColour}`])
+      setTradeColours([OrderBookConfig.buyColour, OrderBookConfig.disabledColour])
     } else {
-      setTradeColours([`${OrderBookConfig.disabledColour}`,`${OrderBookConfig.sellColour}`])
+      setTradeColours([OrderBookConfig.disabledColour, OrderBookConfig.sellColour])
     }
   }
 
@@ -168,9 +168,9 @@ const display = (props: Props) => {
 
     setIsOrder(book)
     if ( book ) {
-      setBookColours([`${OrderBookConfig.liveColour}`,`${OrderBookConfig.disabledColour}`])
+      setBookColours([OrderBookConfig.liveColour, OrderBookConfig.disabledColour])
     } else {
-      setBookColours([`${OrderBookConfig.disabledColour}`,`${OrderBookConfig.liveColour}`])
+      setBookColours([OrderBookConfig.disabledColour, OrderBookConfig.liveColour])
     }
   }
 

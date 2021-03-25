@@ -106,6 +106,7 @@ class Orders {
   static readonly tokenName = 'Token'
   static readonly buy = 'Buy'
   static readonly buyColour = 'green'
+  static readonly disabledColour = '#C8C8D4'
   static readonly sell = 'Sell'
   static readonly sellColour = 'red'
   static readonly token = 'Token'

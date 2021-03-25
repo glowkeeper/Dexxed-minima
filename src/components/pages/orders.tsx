@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 import { setActivePage } from '../../store/app/appData/actions'
@@ -34,11 +34,27 @@ type Props = StateProps & DispatchProps
 
 const display = (props: Props) => {
 
+  const [isDisabled, setIsDisabled] = useState([] as boolean[])
+
   const classes = themeStyles()
   props.setActivePage()
 
-  const cancel = (order: Order) => {
+  useEffect(() => {
 
+    if ( ( props.orderData.data ) &&
+         ( props.orderData.data.length != isDisabled.length ) ) {
+
+      const isDisabled = []
+      for (let i = 0; i < props.orderData.data.length; i++ ) {
+        isDisabled.push(false)
+      }
+    }
+
+  }, [props.orderData])
+
+  const cancel = (order: Order, index: number) => {
+
+    isDisabled[index] = true;
     const cancelOrder: CancelOrder = {
       coinId: order.coinId,
       owner: order.owner,
@@ -46,7 +62,6 @@ const display = (props: Props) => {
       coinAmount: order.coinAmount,
       tokenId: order.tokenId
     }
-
     props.cancelOrder(cancelOrder)
   }
 
@@ -104,8 +119,8 @@ const display = (props: Props) => {
           //console.log("Order!", order)
 
           const orderToken = order.isBuy ? order.swapTokenName : order.tokenName
-          const type = order.isBuy ? `${OrdersConfig.buy}` : `${OrdersConfig.sell}`
-          const colour = order.isBuy ? `${OrdersConfig.buyColour}` : `${OrdersConfig.sellColour}`
+          const type = order.isBuy ? OrdersConfig.buy : OrdersConfig.sell
+          let colour = order.isBuy ? OrdersConfig.buyColour : OrdersConfig.sellColour
 
           const amount = +order.amount
           const thisAmount = amount.toFixed(2)
@@ -124,7 +139,7 @@ const display = (props: Props) => {
               <Grid className={rowclass} item container xs={12}>
 
                 <Grid item container alignItems="center" justify="flex-start" xs={2}>
-                 <Typography style={{color: `${colour}`}} variant="body1">
+                 <Typography style={{color: colour}} variant="body1">
                    {type}
                  </Typography>
                 </Grid>
@@ -150,7 +165,8 @@ const display = (props: Props) => {
                 </Grid>
                 <Grid item container alignItems="center" justify="center" xs={2}>
                   <Button
-                    onClick={() => cancel(order)}
+                    onClick={() => cancel(order, index)}
+                    disabled={isDisabled[index]}
                     style={{
                       textTransform: 'none',
                       fontSize: "1em",
