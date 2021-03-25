@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
 import { Decimal } from 'decimal.js'
@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
+
+import Spinner from 'react-spinner-material'
 
 import confirmIcon from '../../images/tickIcon.svg'
 import cancelIcon from '../../images/crossIcon.svg'
@@ -41,6 +43,7 @@ interface TokenOrderProps {
 }
 
 interface OrdersStateProps {
+  initialised: boolean
   balanceData: BalanceProps
   orderData: OrderBookProps
 }
@@ -52,6 +55,8 @@ interface OrdersDispatchProps {
 type Props = TokenOrderProps & OrdersStateProps & OrdersDispatchProps
 
 const display = (props: Props) => {
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const [take, setTake] = useState ({
     isBuy: true,
@@ -92,6 +97,16 @@ const display = (props: Props) => {
   let tokenUnconfirmed = (new Decimal(0)).toFixed(2)
   let tokenMempool = (new Decimal(0)).toFixed(2)
 
+  useEffect(() => {
+
+    if ( ( props.initialised ) &&
+         ( isLoading ) ) {
+
+      setIsLoading(false)
+    }
+
+  }, [props.initialised])
+
   return (
 
     <>
@@ -102,7 +117,7 @@ const display = (props: Props) => {
 
         <Grid item container justify="flex-start" xs={3}>
           <Typography variant="h3">
-            &nbsp;
+            {props.token.tokenName}
           </Typography>
         </Grid>
 
@@ -153,7 +168,7 @@ const display = (props: Props) => {
 
               <Grid item container justify="flex-start" xs={3}>
                <Typography variant="h3">
-                 {props.token.tokenName}
+                 &nbsp;
                </Typography>
               </Grid>
               <Grid item container justify="flex-end" xs={3}>
@@ -223,70 +238,83 @@ const display = (props: Props) => {
               </Grid>
             </Grid>
 
-            <Grid item container justify="space-evenly" xs={6}>
+            { isLoading ?
 
-              {props.orderData.data.map( ( order: Order, index: number ) => {
+              <Grid className={classes.details} item container justify="center">
+                <Spinner
+                  radius={40}
+                  color={"#001C32"}
+                  stroke={5}
+                  visible={isLoading}
+                />
+              </Grid> : (
 
-                if ( ( order.swapTokenId == props.token.tokenId ) &&
-                     ( order.isBuy ) ) {
+                <Grid item container justify="space-evenly" xs={6}>
 
-                  //console.log("Isbuy order: ", +order.amount.toFixed(2), +order.coinAmount.toFixed(2) )
-                  const type = OrderBook.buy
-                  const colour = OrderBook.buyColour
+                  {props.orderData.data.map( ( order: Order, index: number ) => {
 
-                  const amount = +order.amount
-                  const thisAmount = amount.toFixed(2)
+                    if ( ( order.swapTokenId == props.token.tokenId ) &&
+                         ( order.isBuy ) ) {
 
-                  const price = +order.price
-                  const thisPrice = price.toFixed(2)
+                      //console.log("Isbuy order: ", +order.amount.toFixed(2), +order.coinAmount.toFixed(2) )
+                      const type = OrderBook.buy
+                      const colour = OrderBook.buyColour
 
-                  const total = +order.total
-                  const thisTotal = total.toFixed(2)
+                      const amount = +order.amount
+                      const thisAmount = amount.toFixed(2)
 
-                  const rowColour = rowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
-                  rowCounter += 1
+                      const price = +order.price
+                      const thisPrice = price.toFixed(2)
 
-                  return (
-                    <React.Fragment key={index}>
+                      const total = +order.total
+                      const thisTotal = total.toFixed(2)
 
-                      <Grid item container xs={12}>
+                      const rowColour = rowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
+                      rowCounter += 1
 
-                        <Button
-                          onClick={() => processTakeOrder(order)}
-                          style={{
-                            width: "100%",
-                            backgroundColor: rowColour,
-                            textTransform: 'none',
-                            fontSize: "1em",
-                            lineHeight: "1",
-                            borderRadius: 0,
-                            padding: 0
-                          }}
-                        >
-                          <Grid item xs={4}>
-                           <Typography style={{color: colour}} variant="body2">
-                             {thisTotal}
-                           </Typography>
+                      return (
+                        <React.Fragment key={index}>
+
+                          <Grid item container xs={12}>
+
+                            <Button
+                              onClick={() => processTakeOrder(order)}
+                              style={{
+                                width: "100%",
+                                backgroundColor: rowColour,
+                                textTransform: 'none',
+                                fontSize: "1em",
+                                lineHeight: "1",
+                                borderRadius: 0,
+                                padding: 0
+                              }}
+                            >
+                              <Grid item xs={4}>
+                               <Typography style={{color: colour}} variant="body2">
+                                 {thisTotal}
+                               </Typography>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <Typography style={{color: colour}} variant="body2">
+                                   {thisAmount}
+                                 </Typography>
+                              </Grid>
+                              <Grid item xs={4}>
+                                <Typography style={{color: colour}} variant="body2">
+                                   {thisPrice}
+                                 </Typography>
+                              </Grid>
+                            </Button>
+
                           </Grid>
-                          <Grid item xs={4}>
-                            <Typography style={{color: colour}} variant="body2">
-                               {thisAmount}
-                             </Typography>
-                          </Grid>
-                          <Grid item xs={4}>
-                            <Typography style={{color: colour}} variant="body2">
-                               {thisPrice}
-                             </Typography>
-                          </Grid>
-                        </Button>
 
-                      </Grid>
-
-                    </React.Fragment>
-                  )
-                }
-              })}
-            </Grid>
+                        </React.Fragment>
+                      )
+                    }
+                  })}
+                </Grid>
+              )
+            }
             <Grid item container justify="space-evenly" xs={6}>
 
               {props.orderData.data.map( ( order: Order, index: number ) => {
@@ -429,7 +457,9 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 
   const orders = state.orderBook as OrderBookProps
   const balances = state.balance as BalanceProps
+  const hasInitialised = state.appData.data.hasInitialised
   return {
+    initialised: hasInitialised,
     orderData: orders,
     balanceData: balances
   }
