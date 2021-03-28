@@ -132,6 +132,14 @@ export interface OrderBookProps extends PayloadProps {
 
 export type OrderProps = MyOrdersProps | OrderBookProps
 
+export const enum OrderStatus {
+  LIVE = "Live",
+  OLD = "Too Old",
+  WAITING = "Waiting",
+  CANCELLED = "Cancelled",
+  TAKEN = "Taken",
+}
+
 // Trades
 export interface Trade {
   isBuy: boolean

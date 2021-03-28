@@ -22,6 +22,7 @@ import {
   OrderBookProps,
   OrderProps,
   Order,
+  OrderStatus,
   AllTradesActionTypes,
   AllTradesProps,
   MyTradesActionTypes,
@@ -273,17 +274,17 @@ export const getOrders = (justMyOrders: boolean) => {
           let amount = stateVar ? new Decimal(stateVar) : new Decimal(0)
 
           // Status
-          let status = OrdersConfig.statusWaiting
+          let status = OrderStatus.WAITING
           const currBlk = new Decimal(Minima.block)
           const inBlk =  new Decimal(coinProof.inblock)
           const diff =  currBlk.sub(inBlk)
 
           if( diff.gte(Misc.MAX_ORDER_AGE) ) {
 
-            status =  OrdersConfig.statusOld
+            status =  OrderStatus.OLD
           } else if( diff.gte(Misc.MIN_ORDER_AGE) ) {
 
-            status =  OrdersConfig.statusLive
+            status =  OrderStatus.LIVE
           }
 
     			// Calculate the (buy or sell) price..
@@ -374,6 +375,8 @@ const getTrades = () => {
         for ( let i=0; i < txPowList.length; i++ ) {
 
           const txpItem = txPowList[i]
+
+          //console.log("tx: ", txpItem)
 
     			//check has more than 1 input..
     			const txPow = txPowList[i].txpow

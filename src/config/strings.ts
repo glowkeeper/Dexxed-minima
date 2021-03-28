@@ -98,10 +98,6 @@ class Orders {
   static readonly heading = 'My Orders'
   static readonly allHeading = 'Order Book'
 
-  static readonly statusLive = 'Live'
-  static readonly statusOld = 'Too Old'
-  static readonly statusWaiting = 'Waiting'
-
   static readonly type = 'Type'
   static readonly tokenName = 'Token'
   static readonly buy = 'Buy'
