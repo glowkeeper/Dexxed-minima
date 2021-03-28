@@ -144,7 +144,7 @@ const display = (props: Props) => {
     if ( ( props.orderData.data ) &&
          ( props.orderData.data.length != ordersLength ) ) {
 
-        console.log("made it here?", props.orderData.data.length, ordersLength)
+        //console.log("made it here?", props.orderData.data.length, ordersLength)
 
         // This is the maximum length buy or sell orders could ever be
         //buyDisabled = []
