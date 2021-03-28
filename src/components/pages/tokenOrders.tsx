@@ -75,23 +75,52 @@ const display = (props: Props) => {
     total: new Decimal(0),
     status: ""
   } as Order)
-  const [takeOrderDialogue, setTakeOrderDialogue] = useState(false)
+  const [takeOrderDialogue, setTakeOrderDialogue] = useState({
+    isOpen: false,
+    isBuy: true,
+    buttonIndex: 0
+  })
 
   const classes = themeStyles()
 
   const processTakeOrder = (order: Order, isBuy: boolean, index: number) => {
     //console.log("Take! ", order)
-    isBuy ? buyDisabled[index] = true : sellDisabled[index] = true
+    if ( isBuy ) {
+
+      buyDisabled[index] = true
+      setTakeOrderDialogue({
+        isOpen: true,
+        isBuy: true,
+        buttonIndex: index
+      })
+
+    } else {
+      sellDisabled[index] = true
+      setTakeOrderDialogue({
+        isOpen: true,
+        isBuy: false,
+        buttonIndex: index
+      })
+    }
     setTake(order)
-    setTakeOrderDialogue(true)
   }
 
   const takeOrderDialogueClose = () => {
-    setTakeOrderDialogue(false)
+
+    takeOrderDialogue.isBuy ? buyDisabled[takeOrderDialogue.buttonIndex] = false : sellDisabled[takeOrderDialogue.buttonIndex] = false
+    setTakeOrderDialogue({
+      isOpen: false,
+      isBuy: true,
+      buttonIndex: 0
+    })
   }
 
   const doTakeOrder = () => {
-    setTakeOrderDialogue(false)
+    setTakeOrderDialogue({
+      isOpen: false,
+      isBuy: true,
+      buttonIndex: 0
+    })
     props.takeOrder(take)
   }
 
@@ -288,8 +317,9 @@ const display = (props: Props) => {
                       const total = +order.total
                       const thisTotal = total.toFixed(2)
 
+                      const thisIndex = buyRowCounter
                       let rowColour = buyRowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
-                      if ( buyDisabled[buyRowCounter] ) {
+                      if ( buyDisabled[thisIndex] ) {
                         rowColour = '#C8C8D4'
                       }
                       buyRowCounter += 1
@@ -300,8 +330,8 @@ const display = (props: Props) => {
                           <Grid item container xs={12}>
 
                             <Button
-                              onClick={() => processTakeOrder(order, true, buyRowCounter - 1)}
-                              disabled={buyDisabled[buyRowCounter - 1]}
+                              onClick={() => processTakeOrder(order, true, thisIndex)}
+                              disabled={buyDisabled[thisIndex]}
                               style={{
                                 width: "100%",
                                 backgroundColor: rowColour,
@@ -360,8 +390,9 @@ const display = (props: Props) => {
                   const total = +order.total
                   const thisTotal = total.toFixed(2)
 
+                  const thisIndex = sellRowCounter
                   let rowColour = sellRowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
-                  if ( sellDisabled[buyRowCounter] ) {
+                  if ( sellDisabled[thisIndex] ) {
                     rowColour = '#C8C8D4'
                   }
                   sellRowCounter += 1
@@ -372,8 +403,8 @@ const display = (props: Props) => {
 
                       <Grid item container xs={12}>
                         <Button
-                          onClick={() => processTakeOrder(order, false, sellRowCounter - 1)}
-                          disabled={sellDisabled[sellRowCounter - 1]}
+                          onClick={() => processTakeOrder(order, false, thisIndex)}
+                          disabled={sellDisabled[thisIndex]}
                           style={{
                             width: "100%",
                             backgroundColor: rowColour,
@@ -422,7 +453,7 @@ const display = (props: Props) => {
         aria-labelledby={Help.takeOrderSure}
         aria-describedby={Help.takeOrderSure}
         className={classes.orderModal}
-        open={takeOrderDialogue}
+        open={takeOrderDialogue.isOpen}
         onClose={takeOrderDialogueClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -430,7 +461,7 @@ const display = (props: Props) => {
           timeout: 500,
         }}
       >
-        <Fade in={takeOrderDialogue}>
+        <Fade in={takeOrderDialogue.isOpen}>
           <div className={classes.orderModalSub}>
               { take.isBuy ?
                 <Typography variant="h3">

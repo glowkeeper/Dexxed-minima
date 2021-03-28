@@ -192,7 +192,7 @@ const display = (props: Props) => {
                         textTransform: 'none',
                         fontSize: "1em",
                         lineHeight: "1",
-                        color: `${colour}`
+                        color: colour
                       }}
                     >
                       {OrdersConfig.cancelButton}
