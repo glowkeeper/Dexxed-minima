@@ -48,38 +48,35 @@ const display = (props: Props) => {
 
   useEffect(() => {
 
+    if ( ( props.initialised ) &&
+         ( isLoading ) ) {
+
+      setIsLoading(false)
+    }
+
     if ( isFirstRun.current ) {
 
       props.setActivePage()
       isFirstRun.current = false
 
-    } else {
+    }
 
-      if ( ( props.initialised ) &&
-           ( isLoading ) ) {
+    //console.log("disabled: ", props.ordersDisabled.length, isDisabled.length)
 
-        setIsLoading(false)
+    if ( ( props.orderData.data ) &&
+         ( props.orderData.data.length ) &&
+         ( props.orderData.data.length == props.ordersDisabled.length ) ) {
+
+       for (let i = 0; i < props.orderData.data.length; i++ ) {
+         isDisabled[i] = props.ordersDisabled[i]
+       }
+
+    } else if ( props.orderData.data.length != isDisabled.length ) {
+
+      for (let i = 0; i < props.orderData.data.length; i++ ) {
+        isDisabled[i] = false
       }
-
-      console.log("disabled: ", props.ordersDisabled.length)
-
-      if ( ( props.orderData.data ) &&
-           ( props.orderData.data.length ) &&
-           ( props.orderData.data.length == props.ordersDisabled.length ) ) {
-
-        console.log("Foo here!", props.orderData.data.length, props.ordersDisabled.length)
-
-        for (let i = 0; i < props.orderData.data.length; i++ ) {
-          isDisabled[i] = props.ordersDisabled[i]
-        }
-      } else if ( props.orderData.data.length != isDisabled.length ) {
-
-        console.log("Bar here!", props.orderData.data.length, isDisabled.length)
-
-        for (let i = 0; i < props.orderData.data.length; i++ ) {
-          isDisabled[i] = false
-        }
-      }
+      props.setOrdersDisabled(isDisabled)
     }
 
   }, [props.orderData, props.initialised, props.ordersDisabled])

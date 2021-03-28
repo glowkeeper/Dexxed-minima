@@ -231,9 +231,3 @@ export const enum AllTradesActionTypes {
 export const enum MyTradesActionTypes {
   ADD_MYTRADES = '@@MyTradesActionTypes/ADD_MYTRADES'
 }
-
-export const enum GetActionTypes {
-  GET_INIT = '@@GetActionTypes/GET_INIT',
-  GET_SUCCESS = '@@GetActionTypes/GET_SUCCESS',
-  GET_FAILURE = '@@GetActionTypes/GET_FAILURE'
-}

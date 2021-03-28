@@ -13,9 +13,9 @@ export const setActivePage = (page: string) => {
 
     const state = getState()
     const hasInitialised = state.appData.data.hasInitialised
-    const orderDisabled = [...state.appData.data.orderDisabled]
-    const buyOrderDisabled = [...state.appData.data.buyOrderDisabled]
-    const sellOrderDisabled =  [...state.appData.data.sellOrderDisabled]
+    const orderDisabled = state.appData.data.orderDisabled
+    const buyOrderDisabled = state.appData.data.buyOrderDisabled
+    const sellOrderDisabled =  state.appData.data.sellOrderDisabled
 
     let appData: AppData = {
       activePage: page,
@@ -25,7 +25,7 @@ export const setActivePage = (page: string) => {
       hasInitialised: hasInitialised
     }
 
-    console.log("setPage", appData)
+    //console.log("setPage", appData)
 
     if ( ( page === Local.balances ) ||
          ( page === Local.about ) ||
@@ -53,14 +53,14 @@ export const setOrdersDisabled = (orders: boolean[]) => {
     const state = getState()
     const activePage = state.appData.data.activePage
     const hasInitialised = state.appData.data.hasInitialised
-    const buyOrderDisabled = [...state.appData.data.buyOrderDisabled]
-    const sellOrderDisabled =  [...state.appData.data.sellOrderDisabled]
+    const buyOrderDisabled = state.appData.data.buyOrderDisabled
+    const sellOrderDisabled =  state.appData.data.sellOrderDisabled
 
-    console.log("setOrdersDisabled", orders)
+    //console.log("setOrdersDisabled", orders)
 
     let appData: AppData = {
       activePage: activePage,
-      orderDisabled: [...orders],
+      orderDisabled: orders,
       buyOrderDisabled: buyOrderDisabled,
       sellOrderDisabled: sellOrderDisabled,
       hasInitialised: hasInitialised

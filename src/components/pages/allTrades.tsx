@@ -109,7 +109,7 @@ const display = (props: Props) => {
 
           props.tradeData.data.map( ( trade: Trade, index: number ) => {
 
-            console.log(trade)
+            //console.log(trade)
 
             const type = trade.isBuy ? TradesConfig.buy : TradesConfig.sell
             const colour = trade.isBuy ? TradesConfig.buyColour : TradesConfig.sellColour

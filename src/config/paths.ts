@@ -1,7 +1,3 @@
-class Config {
-
-}
-
 class Local {
 
   static readonly home = '/'
@@ -25,4 +21,4 @@ class Remote {
     static readonly insecure = 'http://'
 }
 
-export { Config, Local, Remote }
+export { Local, Remote }

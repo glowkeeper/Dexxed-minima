@@ -5,8 +5,6 @@ import { Decimal } from 'decimal.js'
 import {
   AppDispatch,
   ScriptProps,
-  TransactionActionTypes,
-  TxData,
   ScriptActionTypes,
   AppDataActionTypes,
   AppData,
@@ -33,7 +31,7 @@ import {
   Trade
 } from '../../types'
 
-import { Misc, Config, Orders as OrdersConfig } from '../../../config'
+import { Misc, Orders as OrdersConfig } from '../../../config'
 
 import { write } from '../../actions'
 
@@ -41,13 +39,6 @@ export const init = () => {
   return async (dispatch: AppDispatch, getState: Function) => {
 
       const state = getState()
-
-      const initData: TxData = {
-          txId: 0,
-          summary: "Blockchain initialising",
-          time: ""
-      }
-      dispatch(write({data: initData})(TransactionActionTypes.TRANSACTION_SUCCESS))
 
       Minima.init( function( msg: any ) {
 
@@ -65,10 +56,11 @@ export const init = () => {
 
           if ( !state.appData.data.hasInitialised ) {
 
+            const state = getState()
             const activePage = state.appData.data.activePage
-            const orderDisabled = [...state.appData.data.orderDisabled]
-            const buyOrderDisabled = [...state.appData.data.buyOrderDisabled]
-            const sellOrderDisabled =  [...state.appData.data.sellOrderDisabled]
+            const orderDisabled = state.appData.data.orderDisabled
+            const buyOrderDisabled = state.appData.data.buyOrderDisabled
+            const sellOrderDisabled =  state.appData.data.sellOrderDisabled
 
             let appData: AppData = {
               activePage: activePage,

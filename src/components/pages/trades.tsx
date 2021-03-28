@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography'
 
 import Spinner from 'react-spinner-material'
 
+import { setActivePage } from '../../store/app/appData/actions'
+
 import { Local } from '../../config'
 import { Trades as TradesConfig } from '../../config/strings'
 
@@ -23,13 +25,18 @@ interface TradesStateProps {
   tradeData: MyTradesProps
 }
 
-type Props = TradesStateProps
+interface TradesDispatchProps {
+  setActivePage: () => void
+}
+
+type Props = TradesStateProps & TradesDispatchProps
 
 const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
 
   const classes = themeStyles()
+  props.setActivePage()
 
   useEffect(() => {
 
@@ -174,6 +181,13 @@ const mapStateToProps = (state: ApplicationState): TradesStateProps => {
   }
 }
 
-export const Trades = connect<TradesStateProps, {}, {}, ApplicationState>(
-  mapStateToProps
+const mapDispatchToProps = (dispatch: AppDispatch): TradesDispatchProps => {
+ return {
+   setActivePage: () => dispatch(setActivePage(Local.trades))
+ }
+}
+
+export const Trades = connect<TradesStateProps, TradesDispatchProps, {}, ApplicationState>(
+  mapStateToProps,
+  mapDispatchToProps
 )(display)
