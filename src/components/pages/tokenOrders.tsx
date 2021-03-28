@@ -57,6 +57,8 @@ type Props = TokenOrderProps & OrdersStateProps & OrdersDispatchProps
 const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
+  let [buyDisabled, setBuyDisabled] = useState([] as boolean[])
+  let [sellDisabled, setSellDisabled] = useState([] as boolean[])
 
   const [take, setTake] = useState ({
     isBuy: true,
@@ -77,8 +79,9 @@ const display = (props: Props) => {
 
   const classes = themeStyles()
 
-  const processTakeOrder = (order: Order) => {
+  const processTakeOrder = (order: Order, isBuy: boolean, index: number) => {
     //console.log("Take! ", order)
+    isBuy ? buyDisabled[index] = true : sellDisabled[index] = true
     setTake(order)
     setTakeOrderDialogue(true)
   }
@@ -92,7 +95,9 @@ const display = (props: Props) => {
     props.takeOrder(take)
   }
 
-  let rowCounter = 0
+  let ordersLength = 0
+  let buyRowCounter = 0
+  let sellRowCounter = 0
   let tokenAmount = (new Decimal(0)).toFixed(2)
   let tokenUnconfirmed = (new Decimal(0)).toFixed(2)
   let tokenMempool = (new Decimal(0)).toFixed(2)
@@ -103,6 +108,20 @@ const display = (props: Props) => {
          ( isLoading ) ) {
 
       setIsLoading(false)
+    }
+
+    if ( ( props.orderData.data ) &&
+         ( props.orderData.data.length != ordersLength ) ) {
+
+        ordersLength = props.orderData.data.length
+
+        // This is the maximum length buy or sell orders could ever be
+        buyDisabled = []
+        sellDisabled = []
+        for (let i = 0; i < ordersLength; i++ ) {
+          buyDisabled.push(false)
+          sellDisabled.push(false)
+        }
     }
 
   }, [props.initialised])
@@ -269,8 +288,11 @@ const display = (props: Props) => {
                       const total = +order.total
                       const thisTotal = total.toFixed(2)
 
-                      const rowColour = rowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
-                      rowCounter += 1
+                      let rowColour = buyRowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
+                      if ( buyDisabled[buyRowCounter] ) {
+                        rowColour = '#C8C8D4'
+                      }
+                      buyRowCounter += 1
 
                       return (
                         <React.Fragment key={index}>
@@ -278,7 +300,8 @@ const display = (props: Props) => {
                           <Grid item container xs={12}>
 
                             <Button
-                              onClick={() => processTakeOrder(order)}
+                              onClick={() => processTakeOrder(order, true, buyRowCounter - 1)}
+                              disabled={buyDisabled[buyRowCounter - 1]}
                               style={{
                                 width: "100%",
                                 backgroundColor: rowColour,
@@ -319,9 +342,6 @@ const display = (props: Props) => {
 
               {props.orderData.data.map( ( order: Order, index: number ) => {
 
-                if ( !index ) {
-                  rowCounter = 0
-                }
 
                 if ( ( order.tokenId == props.token.tokenId ) &&
                      ( !order.isBuy ) ) {
@@ -340,8 +360,11 @@ const display = (props: Props) => {
                   const total = +order.total
                   const thisTotal = total.toFixed(2)
 
-                  const rowColour = rowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
-                  rowCounter += 1
+                  let rowColour = sellRowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
+                  if ( sellDisabled[buyRowCounter] ) {
+                    rowColour = '#C8C8D4'
+                  }
+                  sellRowCounter += 1
 
                   return (
 
@@ -349,7 +372,8 @@ const display = (props: Props) => {
 
                       <Grid item container xs={12}>
                         <Button
-                          onClick={() => processTakeOrder(order)}
+                          onClick={() => processTakeOrder(order, false, sellRowCounter - 1)}
+                          disabled={sellDisabled[sellRowCounter - 1]}
                           style={{
                             width: "100%",
                             backgroundColor: rowColour,

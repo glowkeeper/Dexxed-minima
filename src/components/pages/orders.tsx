@@ -38,7 +38,7 @@ type Props = StateProps & DispatchProps
 const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
-  const [isDisabled, setIsDisabled] = useState([] as boolean[])
+  let [isDisabled, setIsDisabled] = useState([] as boolean[])
 
   const classes = themeStyles()
   props.setActivePage()
@@ -54,7 +54,7 @@ const display = (props: Props) => {
     if ( ( props.orderData.data ) &&
          ( props.orderData.data.length != isDisabled.length ) ) {
 
-        const isDisabled = []
+        isDisabled = []
         for (let i = 0; i < props.orderData.data.length; i++ ) {
           isDisabled.push(false)
         }
