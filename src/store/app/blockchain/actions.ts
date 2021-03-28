@@ -5,6 +5,8 @@ import { Decimal } from 'decimal.js'
 import {
   AppDispatch,
   ScriptProps,
+  TransactionActionTypes,
+  TxData,
   ScriptActionTypes,
   AppDataActionTypes,
   AppData,
@@ -40,6 +42,13 @@ export const init = () => {
 
       const state = getState()
 
+      const initData: TxData = {
+          txId: 0,
+          summary: "Blockchain initialising",
+          time: ""
+      }
+      dispatch(write({data: initData})(TransactionActionTypes.TRANSACTION_SUCCESS))
+
       Minima.init( function( msg: any ) {
 
         //console.log("init stuff", msg)
@@ -57,8 +66,15 @@ export const init = () => {
           if ( !state.appData.data.hasInitialised ) {
 
             const activePage = state.appData.data.activePage
+            const orderDisabled = [...state.appData.data.orderDisabled]
+            const buyOrderDisabled = [...state.appData.data.buyOrderDisabled]
+            const sellOrderDisabled =  [...state.appData.data.sellOrderDisabled]
+
             let appData: AppData = {
               activePage: activePage,
+              orderDisabled: orderDisabled,
+              buyOrderDisabled: buyOrderDisabled,
+              sellOrderDisabled: sellOrderDisabled,
               hasInitialised: true
             }
             dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))

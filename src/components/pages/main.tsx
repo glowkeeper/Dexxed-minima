@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, Redirect } from 'react-router-dom'
 
@@ -66,6 +66,7 @@ const display = (props: Props) => {
   const [isLoading, setLoading] = useState(true)
   const [summary, setSummary] = useState("")
   const [block, setBlock] = useState(1)
+  let isFirstRun = useRef(true)
 
   const [icons, setIcons] = useState([myBalancesActiveIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactIcon])
 
@@ -74,18 +75,6 @@ const display = (props: Props) => {
   useEffect(() => {
 
     let summaryTimeout: any
-    //console.log("new summary! ", props.tx.summary)
-    if ( props.tx.summary.length ) {
-      setSummary(props.tx.summary)
-      summaryTimeout = setTimeout(() => {
-        props.initialise()
-        setSummary("")
-     }, 3000)
-    }
-
-    if ( props.block != block ) {
-      setBlock(props.block)
-    }
 
     if ( props.appData.activePage === Local.balances ) {
 
@@ -126,6 +115,19 @@ const display = (props: Props) => {
 
       setLoading(false)
       setIcons([myBalancesIcon, myOrdersIcon, myTradesIcon, allTradesIcon, orderBookIcon, helpIcon, infoIcon, contactActiveIcon])
+    }
+
+    if ( props.tx.summary.length ) {
+
+      setSummary(props.tx.summary)
+      summaryTimeout = setTimeout(() => {
+        props.initialise()
+        setSummary("")
+     }, 3000)
+    }
+
+    if ( props.block != block ) {
+      setBlock(props.block)
     }
 
     return () => {

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 
-import { setActivePage } from '../../store/app/appData/actions'
-
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
@@ -25,18 +23,13 @@ interface TradesStateProps {
   tradeData: MyTradesProps
 }
 
-interface TradesDispatchProps {
-  setActivePage: () => void
-}
-
-type Props = TradesStateProps & TradesDispatchProps
+type Props = TradesStateProps
 
 const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
 
   const classes = themeStyles()
-  props.setActivePage()
 
   useEffect(() => {
 
@@ -181,13 +174,6 @@ const mapStateToProps = (state: ApplicationState): TradesStateProps => {
   }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatch): TradesDispatchProps => {
- return {
-   setActivePage: () => dispatch(setActivePage(Local.trades))
- }
-}
-
-export const Trades = connect<TradesStateProps, TradesDispatchProps, {}, ApplicationState>(
-  mapStateToProps,
-  mapDispatchToProps
+export const Trades = connect<TradesStateProps, {}, {}, ApplicationState>(
+  mapStateToProps
 )(display)

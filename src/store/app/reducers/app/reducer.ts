@@ -8,6 +8,9 @@ import {
 const initialState: AppDataProps = {
     data: {
       activePage: '/',
+      orderDisabled: [],
+      buyOrderDisabled: [],
+      sellOrderDisabled: [],
       hasInitialised: false
     }
 }
@@ -23,7 +26,7 @@ export const reducer = (state: AppDataProps = initialState, action: ActionProps)
       return state
     }
     case AppDataActionTypes.APPDATA_SUCCESS: {
-      //console.log("here with: ", action.payload.data)
+      console.log("here with: ", action.payload.data)
       const data = (action.payload as AppDataProps)
       return {...state, ...data}
     }

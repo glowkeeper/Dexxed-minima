@@ -31,6 +31,9 @@ export type AppDispatch = ThunkDispatch<ApplicationState, any, ActionProps>
 // Stuff pertinent to make this app' work
 export interface AppData {
   activePage: string
+  orderDisabled: boolean[],
+  buyOrderDisabled: boolean[],
+  sellOrderDisabled: boolean[],
   hasInitialised: boolean
 }
 

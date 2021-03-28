@@ -13,11 +13,19 @@ export const setActivePage = (page: string) => {
 
     const state = getState()
     const hasInitialised = state.appData.data.hasInitialised
+    const orderDisabled = [...state.appData.data.orderDisabled]
+    const buyOrderDisabled = [...state.appData.data.buyOrderDisabled]
+    const sellOrderDisabled =  [...state.appData.data.sellOrderDisabled]
 
     let appData: AppData = {
       activePage: page,
+      orderDisabled: orderDisabled,
+      buyOrderDisabled: buyOrderDisabled,
+      sellOrderDisabled: sellOrderDisabled,
       hasInitialised: hasInitialised
     }
+
+    console.log("setPage", appData)
 
     if ( ( page === Local.balances ) ||
          ( page === Local.about ) ||
@@ -36,5 +44,28 @@ export const setActivePage = (page: string) => {
       appData.activePage = Local.home
       dispatch(write({data: appData})(AppDataActionTypes.APPDATA_FAILURE))
     }
+  }
+}
+
+export const setOrdersDisabled = (orders: boolean[]) => {
+  return async (dispatch: AppDispatch, getState: Function ) => {
+
+    const state = getState()
+    const activePage = state.appData.data.activePage
+    const hasInitialised = state.appData.data.hasInitialised
+    const buyOrderDisabled = [...state.appData.data.buyOrderDisabled]
+    const sellOrderDisabled =  [...state.appData.data.sellOrderDisabled]
+
+    console.log("setOrdersDisabled", orders)
+
+    let appData: AppData = {
+      activePage: activePage,
+      orderDisabled: [...orders],
+      buyOrderDisabled: buyOrderDisabled,
+      sellOrderDisabled: sellOrderDisabled,
+      hasInitialised: hasInitialised
+    }
+
+    dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
   }
 }

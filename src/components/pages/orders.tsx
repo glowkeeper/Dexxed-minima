@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
-import { setActivePage } from '../../store/app/appData/actions'
+import { setActivePage, setOrdersDisabled } from '../../store/app/appData/actions'
 import { cancelOrder } from '../../store/app/blockchain/tx/actions'
 
 import Grid from '@material-ui/core/Grid'
@@ -18,18 +18,21 @@ import { themeStyles } from '../../styles'
 import {
   ApplicationState,
   AppDispatch,
+  AppData,
   MyOrdersProps,
   Order,
   CancelOrder
 } from '../../store'
 
 interface StateProps {
-  initialised: boolean
+  initialised: boolean,
+  ordersDisabled: boolean[],
   orderData: MyOrdersProps
 }
 
 interface DispatchProps {
   setActivePage: () => void
+  setOrdersDisabled: (orders: boolean[]) => void
   cancelOrder: (order: CancelOrder) => void
 }
 
@@ -39,27 +42,47 @@ const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
   let [isDisabled, setIsDisabled] = useState([] as boolean[])
+  let isFirstRun = useRef(true)
 
   const classes = themeStyles()
-  props.setActivePage()
 
   useEffect(() => {
 
-    if ( ( props.initialised ) &&
-         ( isLoading ) ) {
+    if ( isFirstRun.current ) {
 
-      setIsLoading(false)
-    }
+      props.setActivePage()
+      isFirstRun.current = false
 
-    if ( ( props.orderData.data ) &&
-         ( props.orderData.data.length != isDisabled.length ) ) {
+    } else {
+
+      if ( ( props.initialised ) &&
+           ( isLoading ) ) {
+
+        setIsLoading(false)
+      }
+
+      console.log("disabled: ", props.ordersDisabled.length)
+
+      if ( ( props.orderData.data ) &&
+           ( props.orderData.data.length ) &&
+           ( props.orderData.data.length == props.ordersDisabled.length ) ) {
+
+        console.log("Foo here!", props.orderData.data.length, props.ordersDisabled.length)
+
+        for (let i = 0; i < props.orderData.data.length; i++ ) {
+          isDisabled[i] = props.ordersDisabled[i]
+        }
+      } else if ( props.orderData.data.length != isDisabled.length ) {
+
+        console.log("Bar here!", props.orderData.data.length, isDisabled.length)
 
         for (let i = 0; i < props.orderData.data.length; i++ ) {
           isDisabled[i] = false
         }
+      }
     }
 
-  }, [props.orderData, props.initialised])
+  }, [props.orderData, props.initialised, props.ordersDisabled])
 
   const cancel = (order: Order, index: number) => {
 
@@ -71,6 +94,7 @@ const display = (props: Props) => {
       coinAmount: order.coinAmount,
       tokenId: order.tokenId
     }
+    props.setOrdersDisabled(isDisabled)
     props.cancelOrder(cancelOrder)
   }
 
@@ -212,9 +236,11 @@ const display = (props: Props) => {
 const mapStateToProps = (state: ApplicationState): StateProps => {
 
   const orders = state.myOrders as MyOrdersProps
-  const hasInitialised = state.appData.data.hasInitialised
+  const initialised = state.appData.data.hasInitialised
+  const ordersDisabled = state.appData.data.orderDisabled
   return {
-    initialised: hasInitialised,
+    initialised: initialised,
+    ordersDisabled: ordersDisabled,
     orderData: orders
   }
 }
@@ -222,6 +248,7 @@ const mapStateToProps = (state: ApplicationState): StateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): DispatchProps => {
  return {
    setActivePage: () => dispatch(setActivePage(Local.orders)),
+   setOrdersDisabled: (orders: boolean[]) => dispatch(setOrdersDisabled(orders)),
    cancelOrder: (order: CancelOrder) => dispatch(cancelOrder(order))
  }
 }
