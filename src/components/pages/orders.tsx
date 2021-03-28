@@ -54,9 +54,8 @@ const display = (props: Props) => {
     if ( ( props.orderData.data ) &&
          ( props.orderData.data.length != isDisabled.length ) ) {
 
-        isDisabled = []
         for (let i = 0; i < props.orderData.data.length; i++ ) {
-          isDisabled.push(false)
+          isDisabled[i] = false
         }
     }
 

@@ -57,6 +57,7 @@ type Props = TokenOrderProps & OrdersStateProps & OrdersDispatchProps
 const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
+  const [ordersLength, setOrdersLength] = useState(0)
   let [buyDisabled, setBuyDisabled] = useState([] as boolean[])
   let [sellDisabled, setSellDisabled] = useState([] as boolean[])
 
@@ -124,7 +125,6 @@ const display = (props: Props) => {
     props.takeOrder(take)
   }
 
-  let ordersLength = 0
   let buyRowCounter = 0
   let sellRowCounter = 0
   let tokenAmount = (new Decimal(0)).toFixed(2)
@@ -139,21 +139,27 @@ const display = (props: Props) => {
       setIsLoading(false)
     }
 
+    //console.log("WTF?", props.orderData.data.length, ordersLength)
+
     if ( ( props.orderData.data ) &&
          ( props.orderData.data.length != ordersLength ) ) {
 
-        ordersLength = props.orderData.data.length
+        console.log("made it here?", props.orderData.data.length, ordersLength)
 
         // This is the maximum length buy or sell orders could ever be
-        buyDisabled = []
-        sellDisabled = []
-        for (let i = 0; i < ordersLength; i++ ) {
-          buyDisabled.push(false)
-          sellDisabled.push(false)
+        //buyDisabled = []
+        //sellDisabled = []
+
+        const length = ordersLength > props.orderData.data.length ? ordersLength : props.orderData.data.length
+        for (let i = 0; i < length; i++ ) {
+          buyDisabled[i] = false
+          sellDisabled[i] = false
         }
+
+        setOrdersLength(props.orderData.data.length)
     }
 
-  }, [props.initialised])
+  }, [props.orderData, props.initialised])
 
   return (
 

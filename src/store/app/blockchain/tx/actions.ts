@@ -72,7 +72,7 @@ export const submitOrder = ( order: NewOrder ) => {
     			"txnpost " + txnId + ";" +
     			"txndelete " + txnId + ";"
 
-        console.log("Place order: ", txnCreator)
+        //console.log("Place order: ", txnCreator)
 
     		//And Run it..
         //txnData.summary = Transaction.failure
@@ -166,7 +166,7 @@ export const takeOrder = ( order: Order ) => {
   				//Delete..
   				"txndelete " + txnId + ";" ;
 
-        console.log("Take order: ", txnCreator)
+        //console.log("Take order: ", txnCreator)
 
   			//Create this first stage
   			Minima.cmd(txnCreator, function( respJSON: any ) {
