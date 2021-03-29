@@ -69,3 +69,45 @@ export const setOrdersDisabled = (orders: boolean[]) => {
     dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
   }
 }
+
+export const setBuyOrdersDisabled = (orders: boolean[]) => {
+  return async (dispatch: AppDispatch, getState: Function ) => {
+
+    const state = getState()
+    const activePage = state.appData.data.activePage
+    const hasInitialised = state.appData.data.hasInitialised
+    const orderDisabled = state.appData.data.orderDisabled
+    const sellOrderDisabled =  state.appData.data.sellOrderDisabled
+
+    let appData: AppData = {
+      activePage: activePage,
+      orderDisabled: orderDisabled,
+      buyOrderDisabled: orders,
+      sellOrderDisabled: sellOrderDisabled,
+      hasInitialised: hasInitialised
+    }
+
+    dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
+  }
+}
+
+export const setSellOrdersDisabled = (orders: boolean[]) => {
+  return async (dispatch: AppDispatch, getState: Function ) => {
+
+    const state = getState()
+    const activePage = state.appData.data.activePage
+    const hasInitialised = state.appData.data.hasInitialised
+    const orderDisabled = state.appData.data.orderDisabled
+    const buyOrderDisabled =  state.appData.data.buyOrderDisabled
+
+    let appData: AppData = {
+      activePage: activePage,
+      orderDisabled: orderDisabled,
+      buyOrderDisabled: buyOrderDisabled,
+      sellOrderDisabled: orders,
+      hasInitialised: hasInitialised
+    }
+
+    dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
+  }
+}

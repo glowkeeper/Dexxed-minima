@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import { Decimal } from 'decimal.js'
 
+import { setBuyOrdersDisabled, setSellOrdersDisabled } from '../../store/app/appData/actions'
 import { takeOrder } from '../../store/app/blockchain/tx/actions'
 
 import Grid from '@material-ui/core/Grid'
@@ -46,9 +47,13 @@ interface OrdersStateProps {
   initialised: boolean
   balanceData: BalanceProps
   orderData: OrderBookProps
+  buyOrdersDisabled: boolean[],
+  sellOrdersDisabled: boolean[]
 }
 
 interface OrdersDispatchProps {
+  setSellOrdersDisabled: (orders: boolean[]) => void
+  setBuyOrdersDisabled: (orders: boolean[]) => void
   takeOrder: (order: Order) => void
 }
 
@@ -57,7 +62,7 @@ type Props = TokenOrderProps & OrdersStateProps & OrdersDispatchProps
 const display = (props: Props) => {
 
   const [isLoading, setIsLoading] = useState(true)
-  const [ordersLength, setOrdersLength] = useState(0)
+  let [ordersLength, setOrdersLength] = useState(0)
   let [buyDisabled, setBuyDisabled] = useState([] as boolean[])
   let [sellDisabled, setSellDisabled] = useState([] as boolean[])
 
@@ -96,6 +101,7 @@ const display = (props: Props) => {
       })
 
     } else {
+
       sellDisabled[index] = true
       setTakeOrderDialogue({
         isOpen: true,
@@ -103,6 +109,7 @@ const display = (props: Props) => {
         buttonIndex: index
       })
     }
+
     setTake(order)
   }
 
@@ -122,6 +129,9 @@ const display = (props: Props) => {
       isBuy: true,
       buttonIndex: 0
     })
+
+    props.setSellOrdersDisabled(sellDisabled)
+    props.setBuyOrdersDisabled(buyDisabled)
     props.takeOrder(take)
   }
 
@@ -139,27 +149,50 @@ const display = (props: Props) => {
       setIsLoading(false)
     }
 
-    //console.log("WTF?", props.orderData.data.length, ordersLength)
+    //console.log("buy and sell", props.buyOrdersDisabled.length, props.sellOrdersDisabled.length)
+    //console.log("Orders length", props.orderData.data.length, ordersLength)
+
+    //console.log("buys", props.buyOrdersDisabled)
+    //console.log("sells", props.sellOrdersDisabled)
+
+    const disabledLength = props.buyOrdersDisabled.length + props.sellOrdersDisabled.length
 
     if ( ( props.orderData.data ) &&
-         ( props.orderData.data.length != ordersLength ) ) {
+         ( props.orderData.data.length ) &&
+         ( props.orderData.data.length == disabledLength ) ) {
 
-        //console.log("made it here?", props.orderData.data.length, ordersLength)
+       //console.log("Am I here?")
 
-        // This is the maximum length buy or sell orders could ever be
-        //buyDisabled = []
-        //sellDisabled = []
+       for (let i = 0; i < props.buyOrdersDisabled.length; i++ ) {
+         buyDisabled[i] = props.buyOrdersDisabled[i]
+       }
 
-        const length = ordersLength > props.orderData.data.length ? ordersLength : props.orderData.data.length
-        for (let i = 0; i < length; i++ ) {
-          buyDisabled[i] = false
-          sellDisabled[i] = false
+       for (let i = 0; i < props.sellOrdersDisabled.length; i++ ) {
+         sellDisabled[i] = props.sellOrdersDisabled[i]
+       }
+
+    } else {
+
+      //console.log("Or am I here?")
+      let buyCounter = 0
+      let sellCounter = 0
+      for (let i = 0; i < props.orderData.data.length; i++ ) {
+        if ( props.orderData.data[i].isBuy ) {
+          buyDisabled[buyCounter] = false
+          buyCounter += 1
+        } else {
+          sellDisabled[sellCounter] = false
+          sellCounter += 1
         }
+      }
 
-        setOrdersLength(props.orderData.data.length)
+      props.setBuyOrdersDisabled(buyDisabled)
+      props.setSellOrdersDisabled(sellDisabled)
     }
 
-  }, [props.orderData, props.initialised])
+    ordersLength = props.orderData.data.length
+
+  }, [props.orderData, props.initialised, props.buyOrdersDisabled, props.sellOrdersDisabled])
 
   return (
 
@@ -519,15 +552,21 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
   const orders = state.orderBook as OrderBookProps
   const balances = state.balance as BalanceProps
   const hasInitialised = state.appData.data.hasInitialised
+  const buyOrdersDisabled = state.appData.data.buyOrderDisabled
+  const sellOrdersDisabled = state.appData.data.sellOrderDisabled
   return {
     initialised: hasInitialised,
     orderData: orders,
-    balanceData: balances
+    balanceData: balances,
+    buyOrdersDisabled: buyOrdersDisabled,
+    sellOrdersDisabled: sellOrdersDisabled
   }
 }
 
 const mapDispatchToProps = (dispatch: AppDispatch): OrdersDispatchProps => {
  return {
+   setSellOrdersDisabled: (orders: boolean[]) => dispatch(setSellOrdersDisabled(orders)),
+   setBuyOrdersDisabled: (orders: boolean[]) => dispatch(setBuyOrdersDisabled(orders)),
    takeOrder: (order: Order) => dispatch(takeOrder(order))
  }
 }
