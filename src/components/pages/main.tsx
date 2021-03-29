@@ -173,9 +173,7 @@ const display = (props: Props) => {
 
                     <NavLink to={Local.help} className={classes.link}>
                       <IconButton
-                        color="primary"
                         aria-label="Help"
-                        component="span"
                         size="small">
                         <img
                           src={icons[5]}
@@ -186,9 +184,7 @@ const display = (props: Props) => {
 
                     <NavLink to={Local.contact} className={classes.link}>
                       <IconButton
-                        color="primary"
                         aria-label="Contact"
-                        component="span"
                         size="small">
                         <img
                           src={icons[7]}
@@ -199,9 +195,7 @@ const display = (props: Props) => {
 
                     <NavLink to={Local.about} className={classes.link}>
                       <IconButton
-                        color="primary"
                         aria-label="Info"
-                        component="span"
                         size="small">
                         <img
                           src={icons[6]}
@@ -229,9 +223,7 @@ const display = (props: Props) => {
 
                    <NavLink to={Local.balances}>
                       <IconButton
-                       color="primary"
                        aria-label={Help.balancesTip}
-                       component="span"
                        size="small">
                        <img
                         src={icons[0]}
@@ -246,9 +238,7 @@ const display = (props: Props) => {
 
                      <NavLink to={Local.orders}>
                        <IconButton
-                         color="primary"
                          aria-label={Help.ordersTip}
-                         component="span"
                          size="small">
                          <img
                           src={icons[1]}
@@ -263,9 +253,7 @@ const display = (props: Props) => {
 
                     <NavLink to={Local.trades}>
                       <IconButton
-                        color="primary"
                         aria-label={Help.tradesTip}
-                        component="span"
                         size="small">
                         <img
                          src={icons[2]}
@@ -280,9 +268,7 @@ const display = (props: Props) => {
 
                     <NavLink to={Local.allTrades}>
                       <IconButton
-                        color="primary"
                         aria-label={Help.allTradesTip}
-                        component="span"
                         size="small">
                         <img
                          src={icons[3]}
@@ -297,9 +283,7 @@ const display = (props: Props) => {
 
                     <NavLink to={Local.orderBook}>
                       <IconButton
-                        color="primary"
                         aria-label={Help.orderBookTip}
-                        component="span"
                         size="small">
                         <img
                          src={icons[4]}
