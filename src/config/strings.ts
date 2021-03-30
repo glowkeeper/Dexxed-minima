@@ -90,7 +90,7 @@ class Contact {
 
   static readonly heading = 'Contact'
 
-  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.author} at ${App.email}.`]
+  static readonly info = [`To report a technical problem, please email a brief description of the issue to ${App.bugEmail}.`,`For all other enquires, please email ${App.title} at ${App.email}.`]
 }
 
 class Orders {

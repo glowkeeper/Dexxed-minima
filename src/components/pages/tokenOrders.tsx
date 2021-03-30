@@ -20,7 +20,7 @@ import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 
-import { Help, Balances } from '../../config'
+import { Help, Balances, Misc } from '../../config'
 
 import {
   OrderBook
@@ -137,9 +137,9 @@ const display = (props: Props) => {
 
   let buyRowCounter = 0
   let sellRowCounter = 0
-  let tokenAmount = (new Decimal(0)).toFixed(2)
-  let tokenUnconfirmed = (new Decimal(0)).toFixed(2)
-  let tokenMempool = (new Decimal(0)).toFixed(2)
+  let tokenAmount = (new Decimal(0)).toFixed(Misc.balanceDecimals)
+  let tokenUnconfirmed = (new Decimal(0)).toFixed(Misc.balanceDecimals)
+  let tokenMempool = (new Decimal(0)).toFixed(Misc.balanceDecimals)
 
   useEffect(() => {
 
@@ -243,9 +243,9 @@ const display = (props: Props) => {
                 const unconfirmed = +balance.unconfirmed
                 const mempool = +balance.mempool
 
-                tokenAmount = amount.toFixed(2)
-                tokenUnconfirmed = unconfirmed.toFixed(2)
-                tokenMempool = mempool.toFixed(2)
+                tokenAmount = amount.toFixed(Misc.balanceDecimals)
+                tokenUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
+                tokenMempool = mempool.toFixed(Misc.balanceDecimals)
               }
 
               return ( null )
@@ -348,13 +348,13 @@ const display = (props: Props) => {
                       const colour = OrderBook.buyColour
 
                       const amount = +order.amount
-                      const thisAmount = amount.toFixed(2)
+                      const thisAmount = amount.toFixed(Misc.amountDecimals)
 
                       const price = +order.price
-                      const thisPrice = price.toFixed(2)
+                      const thisPrice = price.toFixed(Misc.priceDecimals)
 
                       const total = +order.total
-                      const thisTotal = total.toFixed(2)
+                      const thisTotal = total.toFixed(Misc.totalDecimals)
 
                       const thisIndex = buyRowCounter
                       let rowColour = buyRowCounter % 2 ? '#FAFAFF' : '#F5F3F2'
@@ -421,13 +421,13 @@ const display = (props: Props) => {
                   const colour = OrderBook.sellColour
 
                   const amount = +order.amount
-                  const thisAmount = amount.toFixed(2)
+                  const thisAmount = amount.toFixed(Misc.amountDecimals)
 
                   const price = +order.price
-                  const thisPrice = price.toFixed(2)
+                  const thisPrice = price.toFixed(Misc.priceDecimals)
 
                   const total = +order.total
-                  const thisTotal = total.toFixed(2)
+                  const thisTotal = total.toFixed(Misc.totalDecimals)
 
                   const thisIndex = sellRowCounter
                   let rowColour = sellRowCounter % 2 ? '#FAFAFF' : '#F5F3F2'

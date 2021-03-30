@@ -9,8 +9,9 @@ import Spinner from 'react-spinner-material'
 import { TokenOrders } from './TokenOrders'
 
 import {
-  Trades as TradesConfig
-} from '../../config/strings'
+  Trades as TradesConfig,
+  Misc
+} from '../../config'
 
 import { themeStyles } from '../../styles'
 
@@ -104,13 +105,13 @@ const display = (props: Props) => {
               const colour = trade.isBuy ? TradesConfig.buyColour : TradesConfig.sellColour
 
               const amount = +trade.amount
-              const thisAmount = amount.toFixed(2)
+              const thisAmount = amount.toFixed(Misc.amountDecimals)
 
               const price = +trade.price
-              const thisPrice = price.toFixed(2)
+              const thisPrice = price.toFixed(Misc.priceDecimals)
 
               const total = +trade.total
-              const thisTotal = total.toFixed(2)
+              const thisTotal = total.toFixed(Misc.totalDecimals)
 
               //const rowclass = index % 2 ? classes.evenRow : classes.oddRow
               //<Grid className={rowclass} item container xs={12}>

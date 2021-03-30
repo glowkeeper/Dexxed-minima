@@ -6,8 +6,7 @@ import { setActivePage } from '../../store/app/appData/actions'
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
 
-import { Local } from '../../config'
-import { Balances as BalancesConfig } from '../../config/strings'
+import { Local, Misc, Balances as BalancesConfig } from '../../config'
 
 import { themeStyles } from '../../styles'
 
@@ -81,9 +80,9 @@ const display = (props: Props) => {
           const amount = +balance.confirmed
           const unconfirmed = +balance.unconfirmed
           const mempool = +balance.mempool
-          const thisAmount = amount.toFixed(2)
-          const thisUnconfirmed = unconfirmed.toFixed(2)
-          const thisMempool = mempool.toFixed(2)
+          const thisAmount = amount.toFixed(Misc.balanceDecimals)
+          const thisUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
+          const thisMempool = mempool.toFixed(Misc.balanceDecimals)
 
           const rowclass = index % 2 ? classes.evenRow : classes.oddRow
 

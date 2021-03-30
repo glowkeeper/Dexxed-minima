@@ -10,8 +10,7 @@ import Button from '@material-ui/core/Button'
 
 import Spinner from 'react-spinner-material'
 
-import { Local } from '../../config'
-import { Orders as OrdersConfig, Help } from '../../config/strings'
+import { Local, Misc, Orders as OrdersConfig, Help } from '../../config'
 
 import { themeStyles } from '../../styles'
 
@@ -161,13 +160,13 @@ const display = (props: Props) => {
             let colour = order.isBuy ? OrdersConfig.buyColour : OrdersConfig.sellColour
 
             const amount = +order.amount
-            const thisAmount = amount.toFixed(2)
+            const thisAmount = amount.toFixed(Misc.amountDecimals)
 
             const price = +order.price
-            const thisPrice = price.toFixed(2)
+            const thisPrice = price.toFixed(Misc.priceDecimals)
 
             const total =  +order.total
-            const thisTotal = total.toFixed(2)
+            const thisTotal = total.toFixed(Misc.totalDecimals)
 
             let rowclass = index % 2 ? classes.evenRow : classes.oddRow
             if ( isDisabled[index] ) {
