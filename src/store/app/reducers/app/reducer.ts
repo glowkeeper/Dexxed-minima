@@ -8,6 +8,11 @@ import {
 const initialState: AppDataProps = {
     data: {
       activePage: '/',
+      activeToken: {
+        value: "",
+        name: "",
+        label: ""
+      },
       orderDisabled: [],
       buyOrderDisabled: [],
       sellOrderDisabled: [],

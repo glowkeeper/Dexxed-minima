@@ -58,12 +58,14 @@ export const init = () => {
 
             const state = getState()
             const activePage = state.appData.data.activePage
+            const activeToken = state.appData.data.activeToken
             const orderDisabled = state.appData.data.orderDisabled
             const buyOrderDisabled = state.appData.data.buyOrderDisabled
             const sellOrderDisabled =  state.appData.data.sellOrderDisabled
 
             let appData: AppData = {
               activePage: activePage,
+              activeToken: activeToken,
               orderDisabled: orderDisabled,
               buyOrderDisabled: buyOrderDisabled,
               sellOrderDisabled: sellOrderDisabled,

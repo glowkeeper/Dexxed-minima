@@ -52,7 +52,7 @@ const display = (props: Props) => {
           break
 
         default:
-        
+
           props.setActivePage(Local.home)
       }
 

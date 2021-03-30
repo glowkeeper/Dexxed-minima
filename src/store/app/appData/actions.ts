@@ -1,7 +1,8 @@
 import {
   AppDispatch,
   AppDataActionTypes,
-  AppData
+  AppData,
+  ActiveToken
 } from '../../types'
 
 import { Local } from '../../../config'
@@ -12,13 +13,15 @@ export const setActivePage = (page: string) => {
   return async (dispatch: AppDispatch, getState: Function ) => {
 
     const state = getState()
-    const hasInitialised = state.appData.data.hasInitialised
+    const activeToken = state.appData.data.activeToken
     const orderDisabled = state.appData.data.orderDisabled
     const buyOrderDisabled = state.appData.data.buyOrderDisabled
     const sellOrderDisabled =  state.appData.data.sellOrderDisabled
+    const hasInitialised = state.appData.data.hasInitialised
 
     let appData: AppData = {
       activePage: page,
+      activeToken: activeToken,
       orderDisabled: orderDisabled,
       buyOrderDisabled: buyOrderDisabled,
       sellOrderDisabled: sellOrderDisabled,
@@ -52,6 +55,7 @@ export const setOrdersDisabled = (orders: boolean[]) => {
 
     const state = getState()
     const activePage = state.appData.data.activePage
+    const activeToken = state.appData.data.activeToken
     const hasInitialised = state.appData.data.hasInitialised
     const buyOrderDisabled = state.appData.data.buyOrderDisabled
     const sellOrderDisabled =  state.appData.data.sellOrderDisabled
@@ -60,6 +64,7 @@ export const setOrdersDisabled = (orders: boolean[]) => {
 
     let appData: AppData = {
       activePage: activePage,
+      activeToken: activeToken,
       orderDisabled: orders,
       buyOrderDisabled: buyOrderDisabled,
       sellOrderDisabled: sellOrderDisabled,
@@ -75,12 +80,14 @@ export const setBuyOrdersDisabled = (orders: boolean[]) => {
 
     const state = getState()
     const activePage = state.appData.data.activePage
+    const activeToken = state.appData.data.activeToken
     const hasInitialised = state.appData.data.hasInitialised
     const orderDisabled = state.appData.data.orderDisabled
     const sellOrderDisabled =  state.appData.data.sellOrderDisabled
 
     let appData: AppData = {
       activePage: activePage,
+      activeToken: activeToken,
       orderDisabled: orderDisabled,
       buyOrderDisabled: orders,
       sellOrderDisabled: sellOrderDisabled,
@@ -96,15 +103,40 @@ export const setSellOrdersDisabled = (orders: boolean[]) => {
 
     const state = getState()
     const activePage = state.appData.data.activePage
+    const activeToken = state.appData.data.activeToken
     const hasInitialised = state.appData.data.hasInitialised
     const orderDisabled = state.appData.data.orderDisabled
     const buyOrderDisabled =  state.appData.data.buyOrderDisabled
 
     let appData: AppData = {
       activePage: activePage,
+      activeToken: activeToken,
       orderDisabled: orderDisabled,
       buyOrderDisabled: buyOrderDisabled,
       sellOrderDisabled: orders,
+      hasInitialised: hasInitialised
+    }
+
+    dispatch(write({data: appData})(AppDataActionTypes.APPDATA_SUCCESS))
+  }
+}
+
+export const setActiveToken = (token: ActiveToken) => {
+  return async (dispatch: AppDispatch, getState: Function ) => {
+
+    const state = getState()
+    const activePage = state.appData.data.activePage
+    const hasInitialised = state.appData.data.hasInitialised
+    const orderDisabled = state.appData.data.orderDisabled
+    const buyOrderDisabled =  state.appData.data.buyOrderDisabled
+    const sellOrderDisabled =  state.appData.data.sellOrderDisabled
+
+    let appData: AppData = {
+      activePage: activePage,
+      activeToken: token,
+      orderDisabled: orderDisabled,
+      buyOrderDisabled: buyOrderDisabled,
+      sellOrderDisabled: sellOrderDisabled,
       hasInitialised: hasInitialised
     }
 

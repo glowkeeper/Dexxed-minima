@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Decimal } from 'decimal.js'
 
 import { submitOrder } from '../../store/app/blockchain/tx/actions'
-import { setActivePage } from '../../store/app/appData/actions'
+import { setActivePage, setActiveToken } from '../../store/app/appData/actions'
 
 import Grid from '@material-ui/core/Grid'
 import Typography from '@material-ui/core/Typography'
@@ -43,16 +43,19 @@ import {
   NewOrder,
   TokenProps,
   Token,
+  ActiveToken,
   AllTradesProps,
   Trade
 } from '../../store'
 
 interface OrdersStateProps {
+  activeToken: ActiveToken
   tokenData: TokenProps
 }
 
 interface OrdersDispatchProps {
   setActivePage: () => void
+  setActiveToken: (token: ActiveToken) => void
   submitOrder: (order: NewOrder) => void
 }
 
@@ -90,8 +93,8 @@ const display = (props: Props) => {
   const [isOrder, setIsOrder] = useState(true)
   const [bookColours, setBookColours] = useState([OrderBookConfig.liveColour, OrderBookConfig.disabledColour])
 
-  const [tokens, setTokens] = useState([] as any[])
-  const [token, setToken] = useState({} as any)
+  const [tokens, setTokens] = useState([] as ActiveToken[])
+  const [token, setToken] = useState({} as ActiveToken)
 
   const classes = themeStyles()
   props.setActivePage()
@@ -106,20 +109,35 @@ const display = (props: Props) => {
         const thisOption = {
           value: element.tokenId,
           name: element.tokenName,
-          label: `${element.tokenName} (${element.tokenId})` }
+          label: `${element.tokenName} (${element.tokenId})`
+        }
         options.push(thisOption)
+
+        if ( props.activeToken ) {
+          if ( thisOption.value === props.activeToken.value ) {
+            setToken(thisOption)
+          }
+        }
       })
       setTokens(options)
     }
 
-  }, [props.tokenData])
+  }, [props.tokenData, props.activeToken])
 
-  //console.log("ORDERS!: ", props.orderData)
+  const doSetToken = (token: ActiveToken | null) => {
+    if ( token ) {
+      setToken(token)
+      props.setActiveToken(token)
+    }
+  }
+
+  const getToken = () => token
+
   const formik = useFormik({
     initialValues: {
-      token: null,
-      amount: null,
-      price: null
+      token: token,
+      amount: 0,
+      price: 0
     },
     enableReinitialize: true,
     validationSchema: tradeSchema,
@@ -246,10 +264,11 @@ const display = (props: Props) => {
               <div style={{width: '100%'}}>
                 <Select
                   size="small"
-                  defaultValue={token}
+                  value={token}
                   onChange={selectedOption => {
-                    setToken(selectedOption)
-                    formik.setFieldValue("token", selectedOption.value)
+                    doSetToken(selectedOption)
+                    const thisValue = selectedOption ? selectedOption.value : ""
+                    formik.setFieldValue("token", thisValue)
                   }}
                   options={tokens}
                   name="token"
@@ -481,7 +500,9 @@ const display = (props: Props) => {
 const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 
   const tokens = state.tokens as TokenProps
+  const token = state.appData.data.activeToken
   return {
+    activeToken: token,
     tokenData: tokens
   }
 }
@@ -489,6 +510,7 @@ const mapStateToProps = (state: ApplicationState): OrdersStateProps => {
 const mapDispatchToProps = (dispatch: AppDispatch): OrdersDispatchProps => {
  return {
    setActivePage: () => dispatch(setActivePage(Local.orderBook)),
+   setActiveToken: (token: ActiveToken) => dispatch(setActiveToken(token)),
    submitOrder: (order: NewOrder) => dispatch(submitOrder(order))
  }
 }
