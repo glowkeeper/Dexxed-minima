@@ -21,7 +21,7 @@ import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 
 import * as Yup from 'yup'
-import { useFormik, useField } from 'formik'
+import { useFormik } from 'formik'
 
 import { Local, GeneralError, Help } from '../../config'
 
@@ -148,10 +148,10 @@ const display = (props: Props) => {
       let decAmount = new Decimal(values.amount)
       let decTotal = decAmount.mul(decPrice)
       let hasTokenId = minimaTokenId
-      let wantsTokenId = values.token
+      let wantsTokenId = values.token.value
       if ( !isBuy ) {
         // swap everything :)
-        hasTokenId = values.token
+        hasTokenId = values.token.value
         wantsTokenId = minimaTokenId
         /*const swap  = decTotal
         decTotal  = decAmount
