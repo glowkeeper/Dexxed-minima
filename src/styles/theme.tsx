@@ -41,14 +41,14 @@ let theme = createMuiTheme ({
     h1: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
-        fontSize:  "2.5em",
+        fontSize:  "3em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32',
       },
       [breakpoints.up('lg')]: {
         lineHeight: "1.5",
-        fontSize:  "2em",
+        fontSize:  "1.5em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
@@ -57,14 +57,14 @@ let theme = createMuiTheme ({
     h2: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
-        fontSize: "2em",
+        fontSize: "2.2em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
       },
       [breakpoints.up('lg')]: {
         lineHeight: "1.5",
-        fontSize:  "1.5em",
+        fontSize:  "1.4em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -73,14 +73,14 @@ let theme = createMuiTheme ({
     h3: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1.25em",
+        fontSize: "1.4em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
       },
       [breakpoints.up('lg')]: {
         lineHeight: '1.5',
-        fontSize: "1em",
+        fontSize: "1.2em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -89,7 +89,7 @@ let theme = createMuiTheme ({
     h4: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1.25em",
+        fontSize: "1.3em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -105,7 +105,7 @@ let theme = createMuiTheme ({
     h5: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
-        fontSize: "0.9em",
+        fontSize: "1.2em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#FFFFFF'
@@ -120,8 +120,8 @@ let theme = createMuiTheme ({
     },
     h6: {
       [breakpoints.up('xs')]: {
-        lineHeight: "1.2",
-        fontSize: "0.9em",
+        lineHeight: "1.5",
+        fontSize: "1.1em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#FFFFFF'
@@ -150,7 +150,7 @@ let theme = createMuiTheme ({
     body1: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1em",
+        fontSize: "1.1em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
@@ -166,7 +166,7 @@ let theme = createMuiTheme ({
     body2: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1em",
+        fontSize: "1.1em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         fontFeatureSettings: `'tnum' on`,
@@ -537,8 +537,13 @@ const themeStyles = makeStyles({
     backgroundColor: '#C8C8D4'
   },
   activeLink: {
+    [breakpoints.up('xs')]: {
+      fontSize: "2em"
+    },
+    [breakpoints.up('md')]: {
+      fontSize: "1.6ßem"
+    },
     lineHeight: "2",
-    fontSize: "1.6em",
     fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
     color: '#001C32',
     textDecoration: 'none',
@@ -552,8 +557,13 @@ const themeStyles = makeStyles({
     }
   },
   inactiveLink: {
+    [breakpoints.up('xs')]: {
+      fontSize: "2em"
+    },
+    [breakpoints.up('md')]: {
+      fontSize: "1.6ßem"
+    },
     lineHeight: "2",
-    fontSize: "1.6em",
     fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
     color: '#c7cdd7',
     textDecoration: 'none',
