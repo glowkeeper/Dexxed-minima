@@ -82,6 +82,9 @@ class Help {
   static readonly placeBuyTip = 'Place a Buy Order'
   static readonly placeSellTip = 'Place a Sell Order'
 
+  static readonly selectToken = "Please ensure you have selected a token"
+  static readonly amountToken = "Please set an amount"
+  static readonly priceToken = "Please set an amount"
   static readonly orderSure = "You are about to make an order"
   static readonly takeOrderSure = "You are about to take an order"
 }

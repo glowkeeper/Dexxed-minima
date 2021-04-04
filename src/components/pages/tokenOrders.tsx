@@ -211,10 +211,10 @@ const display = (props: Props) => {
             const unconfirmed = +balance.unconfirmed
             const mempool = +balance.mempool
 
-            const tokenSendable = sendable.toFixed(Misc.balanceDecimals)
-            const tokenAmount = amount.toFixed(Misc.balanceDecimals)
-            const tokenUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
-            const tokenMempool = mempool.toFixed(Misc.balanceDecimals)
+            const tokenSendable = sendable.toFixed(Misc.sendableDecimals)
+            const tokenAmount = amount.toFixed(Misc.confirmedDecimals)
+            const tokenUnconfirmed = unconfirmed.toFixed(Misc.unconfirmedDecimals)
+            const tokenMempool = mempool.toFixed(Misc.mempoolDecimals)
 
             return (
 
@@ -355,7 +355,6 @@ const display = (props: Props) => {
                     if ( ( order.swapTokenId == props.token.tokenId ) &&
                          ( order.isBuy ) ) {
 
-                      //console.log("Isbuy order: ", +order.amount.toFixed(2), +order.coinAmount.toFixed(2) )
                       const type = OrderBook.buy
                       const colour = OrderBook.buyColour
 
@@ -538,7 +537,7 @@ const display = (props: Props) => {
                   className={classes.cancelIcon}
                 />
               </IconButton>
-              &nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <IconButton
                 onClick={() => doTakeOrder()}
                 color="primary"

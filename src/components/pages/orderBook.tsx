@@ -62,9 +62,11 @@ interface OrdersDispatchProps {
 type Props = OrdersStateProps & OrdersDispatchProps
 
 const tradeSchema = Yup.object().shape({
-  token: Yup.string()
-    .typeError(`${OrderBookConfig.validToken}`)
-    .required(`${GeneralError.required}`),
+  token: Yup.object()
+    .shape({
+      value: Yup.string()
+        .required(`${OrderBookConfig.validToken}`)
+    }),
   amount: Yup.number()
     .typeError(`${GeneralError.number}`)
     .positive(`${OrderBookConfig.validAmount}`),
@@ -86,6 +88,9 @@ const display = (props: Props) => {
     wantsTokenId: minimaTokenId
   } as NewOrder)
   const [orderDialogue, setOrderDialogue] = useState(false)
+  const [tokenDialogue, setTokenDialogue] = useState(false)
+  const [amountDialogue, setAmountDialogue] = useState(false)
+  const [priceDialogue, setPriceDialogue] = useState(false)
 
   const [isBuy, setIsBuy] = useState(true)
   const [tradeColours, setTradeColours] = useState([OrderBookConfig.buyColour, OrderBookConfig.disabledColour])
@@ -115,6 +120,7 @@ const display = (props: Props) => {
 
         if ( props.activeToken ) {
           if ( thisOption.value === props.activeToken.value ) {
+            //console.log("thisOption", thisOption)
             setToken(thisOption)
           }
         }
@@ -125,7 +131,9 @@ const display = (props: Props) => {
   }, [props.tokenData, props.activeToken])
 
   const doSetToken = (token: ActiveToken | null) => {
+
     if ( token ) {
+      console.log("dosettokte", token)
       setToken(token)
       props.setActiveToken(token)
     }
@@ -143,15 +151,16 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
-      //console.log("Values: ", values)
+      console.log("values: ", values)
+
       const decPrice = new Decimal(values.price)
       let decAmount = new Decimal(values.amount)
       let decTotal = decAmount.mul(decPrice)
       let hasTokenId = minimaTokenId
-      let wantsTokenId = values.token.value
+      let wantsTokenId = token.value
       if ( !isBuy ) {
         // swap everything :)
-        hasTokenId = values.token.value
+        hasTokenId = wantsTokenId
         wantsTokenId = minimaTokenId
         /*const swap  = decTotal
         decTotal  = decAmount
@@ -167,6 +176,7 @@ const display = (props: Props) => {
           wantsTokenId: wantsTokenId
       }
 
+      console.log("orderinfo: ", orderInfo)
       setOrder(orderInfo)
       setOrderDialogue(true)
     },
@@ -198,6 +208,7 @@ const display = (props: Props) => {
 
   const doOrder = () => {
     setOrderDialogue(false)
+    console.log("setting order!", order, token)
     props.submitOrder(order)
   }
 
@@ -267,7 +278,7 @@ const display = (props: Props) => {
                   value={token}
                   onChange={selectedOption => {
                     doSetToken(selectedOption)
-                    const thisValue = selectedOption ? selectedOption.value : ""
+                    const thisValue = selectedOption ? selectedOption : {}
                     formik.setFieldValue("token", thisValue)
                   }}
                   options={tokens}
@@ -287,7 +298,7 @@ const display = (props: Props) => {
             </Grid>
             <Grid item container className={classes.formError} xs={12}>
               {formik.errors.token && formik.touched.token ? (
-                <div>{formik.errors.token}</div>
+                <div>{formik.errors.token.value}</div>
               ) : null}
             </Grid>
           </Grid>
@@ -476,7 +487,7 @@ const display = (props: Props) => {
                   className={classes.cancelIcon}
                 />
               </IconButton>
-              &nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <IconButton
                 onClick={() => doOrder()}
                 color="primary"

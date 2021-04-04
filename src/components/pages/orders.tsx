@@ -153,11 +153,11 @@ const display = (props: Props) => {
         </Grid> : (
           props.orderData.data.map( ( order: Order, index: number ) => {
 
-            //console.log("Order!", order)
-
             const orderToken = order.isBuy ? order.swapTokenName : order.tokenName
             const type = order.isBuy ? OrdersConfig.buy : OrdersConfig.sell
             let colour = order.isBuy ? OrdersConfig.buyColour : OrdersConfig.sellColour
+
+            //console.log("Order!", order, orderToken ? orderToken: "blah")
 
             const amount = +order.amount
             const thisAmount = amount.toFixed(Misc.amountDecimals)

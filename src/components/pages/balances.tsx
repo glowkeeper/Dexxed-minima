@@ -87,10 +87,10 @@ const display = (props: Props) => {
           const unconfirmed = +balance.unconfirmed
           const mempool = +balance.mempool
 
-          const thisSendable = sendable.toFixed(Misc.balanceDecimals)
-          const thisAmount = amount.toFixed(Misc.balanceDecimals)
-          const thisUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
-          const thisMempool = mempool.toFixed(Misc.balanceDecimals)
+          const thisSendable = sendable.toFixed(Misc.sendableDecimals)
+          const thisAmount = amount.toFixed(Misc.confirmedDecimals)
+          const thisUnconfirmed = unconfirmed.toFixed(Misc.unconfirmedDecimals)
+          const thisMempool = mempool.toFixed(Misc.mempoolDecimals)
 
           const rowclass = index % 2 ? classes.evenRow : classes.oddRow
 

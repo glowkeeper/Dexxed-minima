@@ -9,7 +9,10 @@ class Misc {
      static readonly totalDecimals = 4
      static readonly amountDecimals = 4
      static readonly priceDecimals = 4
-     static readonly balanceDecimals = 4
+     static readonly mempoolDecimals = 2
+     static readonly unconfirmedDecimals = 2
+     static readonly confirmedDecimals = 4
+     static readonly sendableDecimals = 4
 }
 
 export { Misc }
