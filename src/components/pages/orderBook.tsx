@@ -133,7 +133,7 @@ const display = (props: Props) => {
   const doSetToken = (token: ActiveToken | null) => {
 
     if ( token ) {
-      console.log("dosettokte", token)
+      //console.log("dosettoken", token)
       setToken(token)
       props.setActiveToken(token)
     }
@@ -151,7 +151,7 @@ const display = (props: Props) => {
     validationSchema: tradeSchema,
     onSubmit: (values: any) => {
 
-      console.log("values: ", values)
+      //console.log("values: ", values)
 
       const decPrice = new Decimal(values.price)
       let decAmount = new Decimal(values.amount)
@@ -176,7 +176,7 @@ const display = (props: Props) => {
           wantsTokenId: wantsTokenId
       }
 
-      console.log("orderinfo: ", orderInfo)
+      //console.log("orderinfo: ", orderInfo)
       setOrder(orderInfo)
       setOrderDialogue(true)
     },
