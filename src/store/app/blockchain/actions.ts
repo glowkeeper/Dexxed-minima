@@ -231,7 +231,7 @@ const getTokenScale = ( tokenId: string, tokens: TokenProps ): Decimal => {
 }
 
 const sortOrderBook = (ordersData: OrderProps): Order[]  => {
-  return ordersData.data.sort((a: Order, b: Order) => b.price.cmp(a.price))
+  return ordersData.data.sort((a: Order, b: Order) => (a.isBuy === b.isBuy) ? (a.isBuy ? b.price.cmp(a.price) : a.price.cmp(b.price)) : 1 )
 }
 
 const sortMyOrders = (ordersData: OrderProps): Order[] => {
