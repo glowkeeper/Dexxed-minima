@@ -1,6 +1,6 @@
 {
   "name": "Dexxed",
-  "version": "0.8.0",
+  "version": "0.8.15",
   "description": "On-chain DEX",
   "main": "index.tsx",
   "repository": {
