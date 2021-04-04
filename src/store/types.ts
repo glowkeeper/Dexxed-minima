@@ -90,6 +90,7 @@ export interface TokenProps extends PayloadProps {
 // Balance
 export interface Balance {
   token: string
+  sendable: string
   confirmed: string
   unconfirmed: string
   mempool: string

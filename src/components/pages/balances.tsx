@@ -43,9 +43,14 @@ const display = (props: Props) => {
         </Typography>
       </Grid>
 
-      <Grid item container justify="flex-start" xs={3}>
+      <Grid item container justify="flex-start" xs={2}>
         <Typography variant="h3">
-          {BalancesConfig.token}
+          &nbsp;
+        </Typography>
+      </Grid>
+      <Grid item container justify="flex-end" xs={3}>
+        <Typography variant="h3">
+          {BalancesConfig.sendable}
         </Typography>
       </Grid>
       <Grid item container justify="flex-end" xs={3}>
@@ -53,12 +58,12 @@ const display = (props: Props) => {
           {BalancesConfig.amount}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={3}>
+      <Grid item container justify="flex-end" xs={2}>
         <Typography variant="h3">
           {BalancesConfig.unconfirmed}
         </Typography>
       </Grid>
-      <Grid item container justify="flex-end" xs={3}>
+      <Grid item container justify="flex-end" xs={2}>
         <Typography variant="h3">
           {BalancesConfig.mempool}
         </Typography>
@@ -77,9 +82,12 @@ const display = (props: Props) => {
         props.balanceData.data.map( ( balance: Balance, index: number ) => {
 
           //console.log(balance)
+          const sendable = +balance.sendable
           const amount = +balance.confirmed
           const unconfirmed = +balance.unconfirmed
           const mempool = +balance.mempool
+
+          const thisSendable = sendable.toFixed(Misc.balanceDecimals)
           const thisAmount = amount.toFixed(Misc.balanceDecimals)
           const thisUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
           const thisMempool = mempool.toFixed(Misc.balanceDecimals)
@@ -91,9 +99,14 @@ const display = (props: Props) => {
 
               <Grid className={rowclass} item container xs={12}>
 
-                <Grid item container justify="flex-start" xs={3}>
+                <Grid item container justify="flex-start" xs={2}>
                  <Typography variant="body1">
                    {balance.token}
+                 </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={3}>
+                 <Typography variant="body2">
+                   {thisSendable}
                  </Typography>
                 </Grid>
                 <Grid item container justify="flex-end" xs={3}>
@@ -101,12 +114,12 @@ const display = (props: Props) => {
                    {thisAmount}
                  </Typography>
                 </Grid>
-                <Grid item container justify="flex-end" xs={3}>
+                <Grid item container justify="flex-end" xs={2}>
                   <Typography variant="body2">
                     {thisUnconfirmed}
                   </Typography>
                 </Grid>
-                <Grid item container justify="flex-end" xs={3}>
+                <Grid item container justify="flex-end" xs={2}>
                   <Typography variant="body2">
                     {thisMempool}
                   </Typography>

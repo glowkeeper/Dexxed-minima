@@ -135,11 +135,10 @@ const display = (props: Props) => {
     props.takeOrder(take)
   }
 
+  const minima = "Minima"
+
   let buyRowCounter = 0
   let sellRowCounter = 0
-  let tokenAmount = (new Decimal(0)).toFixed(Misc.balanceDecimals)
-  let tokenUnconfirmed = (new Decimal(0)).toFixed(Misc.balanceDecimals)
-  let tokenMempool = (new Decimal(0)).toFixed(Misc.balanceDecimals)
 
   useEffect(() => {
 
@@ -202,82 +201,95 @@ const display = (props: Props) => {
 
       <Grid container alignItems="flex-start">
 
-        <Grid item container justify="flex-start" xs={3}>
-          <Typography variant="h3">
-            {props.token.tokenName}
-          </Typography>
-        </Grid>
+        { props.balanceData.data.map( ( balance: Balance, index: number ) => {
 
-        <Grid item container justify="flex-end" xs={3}>
-          <Typography variant="h3">
-            {Balances.amount}
-          </Typography>
-        </Grid>
-        <Grid item container justify="flex-end" xs={3}>
-          <Typography variant="h3">
-            {Balances.unconfirmed}
-          </Typography>
-        </Grid>
-        <Grid item container justify="flex-end" xs={3}>
-          <Typography variant="h3">
-            {Balances.mempool}
-          </Typography>
-        </Grid>
+          if ( ( balance.token == props.token.tokenName ) ||
+               ( balance.token ==  minima ) ) {
 
-        <Grid item container justify="flex-start" xs={12}>
-          <svg
-             xmlns="http://www.w3.org/2000/svg"
-             viewBox="0 0 2000 4"
-          >
-            <line x2="2000" stroke="#001c32" strokeWidth={4} />
-          </svg>
-        </Grid>
+            const sendable = +balance.sendable
+            const amount = +balance.confirmed
+            const unconfirmed = +balance.unconfirmed
+            const mempool = +balance.mempool
 
-        {
-          <>
-            { props.balanceData.data.map( ( balance: Balance, index: number ) => {
+            const tokenSendable = sendable.toFixed(Misc.balanceDecimals)
+            const tokenAmount = amount.toFixed(Misc.balanceDecimals)
+            const tokenUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
+            const tokenMempool = mempool.toFixed(Misc.balanceDecimals)
 
-              if ( balance.token == props.token.tokenName ) {
+            return (
 
-                const amount = +balance.confirmed
-                const unconfirmed = +balance.unconfirmed
-                const mempool = +balance.mempool
+              <>
 
-                tokenAmount = amount.toFixed(Misc.balanceDecimals)
-                tokenUnconfirmed = unconfirmed.toFixed(Misc.balanceDecimals)
-                tokenMempool = mempool.toFixed(Misc.balanceDecimals)
-              }
+                <Grid item container justify="flex-start" xs={2}>
+                  <Typography variant="h3">
+                    {balance.token}
+                  </Typography>
+                </Grid>
 
-              return ( null )
-            })}
+                <Grid item container justify="flex-end" xs={3}>
+                  <Typography variant="h3">
+                    {Balances.sendable}
+                  </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={3}>
+                  <Typography variant="h3">
+                    {Balances.amount}
+                  </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={2}>
+                  <Typography variant="h3">
+                    {Balances.unconfirmed}
+                  </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={2}>
+                  <Typography variant="h3">
+                    {Balances.mempool}
+                  </Typography>
+                </Grid>
 
-            <Grid item container xs={12}>
+                <Grid item container justify="flex-start" xs={12}>
+                  <svg
+                     xmlns="http://www.w3.org/2000/svg"
+                     viewBox="0 0 2000 4"
+                  >
+                    <line x2="2000" stroke="#001c32" strokeWidth={4} />
+                  </svg>
+                </Grid>
 
-              <Grid item container justify="flex-start" xs={3}>
-               <Typography variant="h3">
-                 &nbsp;
-               </Typography>
-              </Grid>
-              <Grid item container justify="flex-end" xs={3}>
-               <Typography variant="body2">
-                 {tokenAmount}
-               </Typography>
-              </Grid>
-              <Grid item container justify="flex-end" xs={3}>
-                <Typography variant="body2">
-                  {tokenUnconfirmed}
-                </Typography>
-              </Grid>
-              <Grid item container justify="flex-end" xs={3}>
-                <Typography variant="body2">
-                  {tokenMempool}
-                </Typography>
-              </Grid>
+                <Grid item container justify="flex-start" xs={2}>
+                 <Typography variant="h3">
+                   &nbsp;
+                 </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={3}>
+                 <Typography variant="body2">
+                   {tokenSendable}
+                 </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={3}>
+                 <Typography variant="body2">
+                   {tokenAmount}
+                 </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={2}>
+                  <Typography variant="body2">
+                    {tokenUnconfirmed}
+                  </Typography>
+                </Grid>
+                <Grid item container justify="flex-end" xs={2}>
+                  <Typography variant="body2">
+                    {tokenMempool}
+                  </Typography>
+                </Grid>
+              </>
+            )
 
-            </Grid>
+          } else {
 
-          </>
-        }
+            return ( null )
+
+          }
+        })}
 
         {
           <>

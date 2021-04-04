@@ -118,8 +118,9 @@ class Balances {
   static readonly heading = 'My Balances'
 
   static readonly token = 'Token'
+  static readonly sendable = 'Sendable'
   static readonly amount = 'Confirmed'
-  static readonly unconfirmed = 'Unconfirmed'
+  static readonly unconfirmed = "Transient"
   static readonly mempool = 'Mempool'
 }
 
