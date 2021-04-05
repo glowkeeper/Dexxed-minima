@@ -447,23 +447,28 @@ const getTrades = () => {
             // my trades
             if( txpItem.relevant ) {
 
+              const myTrade = {...thisTrade}
               const value = new Decimal(txpItem.values[0].value)
-              let myTrade = thisTrade
-        			if( tokenId == "0x00" ) {
+        			if( txpItem.values[0].token == "0x00" ) {
 
-                if( value.lte(0) ) {
+                if( value.lt(0) ) {
 
                   myTrade.isBuy = true
+                } else {
+                  myTrade.isBuy = false
                 }
 
         			} else {
 
-                if ( value.lte(0) ) {
+                if ( value.lt(0) ) {
 
                   myTrade.isBuy = false
+                } else {
+
+                  myTrade.isBuy = true
                 }
         			}
-              myTradesData.data.push(thisTrade)
+              myTradesData.data.push(myTrade)
             }
           }
         }
