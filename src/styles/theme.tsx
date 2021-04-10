@@ -188,12 +188,18 @@ let theme = createMuiTheme ({
       color: '#F0F0FA',
     },
     button: {
-      fontSize: "1.8em",
-      lineHeight: "1.5",
       textTransform: "none",
       fontWeight: 500,
       fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
-      color: '#001C32'
+      color: '#001C32',
+      [breakpoints.up('xs')]: {
+        fontSize: "1.8em",
+        lineHeight: "1.5",
+      },
+      [breakpoints.up('lg')]: {
+        fontSize: "1em",
+        lineHeight: "1",
+      }
     }
   },
   palette: {
@@ -408,6 +414,7 @@ const themeStyles = makeStyles({
     display: 'flex',
     justifyContent: 'flex-start',
     fill: '#FFFFFF',
+    padding: theme.spacing(1),
     '&:active': {
       fill: 'red',
     },
@@ -416,8 +423,8 @@ const themeStyles = makeStyles({
       width: '60px'
     },
     [breakpoints.up('lg')]: {
-      height: "26px",
-      width: '26px'
+      height: "35px",
+      width: '35px'
     }
   },
   headerActiveIcon: {
