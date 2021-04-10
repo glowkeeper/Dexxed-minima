@@ -213,7 +213,7 @@ const display = (props: Props) => {
                      {thisTotal}
                    </Typography>
                   </Grid>
-                  <Grid item container alignItems="center" justify="center" xs={2}>
+                  <Grid item container alignItems="flex-start" justify="center" xs={2}>
                     <Button
                       onClick={() => cancel(order, index)}
                       disabled={isDisabled[index]}
