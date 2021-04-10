@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 
+import { useTheme } from '@material-ui/core/styles'
+import useMediaQuery from '@material-ui/core/useMediaQuery'
+
 import { setActivePage, setOrdersDisabled } from '../../store/app/appData/actions'
 import { cancelOrder } from '../../store/app/blockchain/tx/actions'
 
@@ -43,6 +46,13 @@ const display = (props: Props) => {
   let [isDisabled, setIsDisabled] = useState([] as boolean[])
   let isFirstRun = useRef(true)
 
+  const theme = useTheme()
+  const largeScreenFontSize = "1em"
+  const smallScreenFontSize = "1.3em"
+  const largeScreenLineHeight = "1"
+  const smallScreenLineHeight = "1.5em"
+  const fontSize = useMediaQuery(theme.breakpoints.up('lg')) ? largeScreenFontSize : smallScreenFontSize
+  const lineHeight = useMediaQuery(theme.breakpoints.up('lg')) ? largeScreenLineHeight : smallScreenLineHeight
   const classes = themeStyles()
 
   useEffect(() => {
@@ -209,7 +219,9 @@ const display = (props: Props) => {
                       disabled={isDisabled[index]}
                       style={{
                         textTransform: 'none',
-                        color: colour
+                        color: colour,
+                        fontSize: fontSize,
+                        lineHeight: lineHeight
                       }}
                     >
                       {OrdersConfig.cancelButton}

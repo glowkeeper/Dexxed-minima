@@ -264,12 +264,17 @@ const display = (props: Props) => {
         <form onSubmit={formik.handleSubmit} className={classes.formSubmit}>
 
           <Grid item container xs={12}>
-            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={1}>
-              <label htmlFor="token">{OrderBookConfig.token}</label>
+            <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={2}>
+              <label htmlFor="token">
+                <Typography variant="body1">
+                  {OrderBookConfig.token}
+                </Typography>
+              </label>
             </Grid>
-            <Grid item container xs={11}>
+            <Grid item container xs={10}>
               <div style={{width: '100%'}}>
                 <Select
+                  className={classes.select}
                   size="small"
                   value={token}
                   onChange={selectedOption => {
@@ -279,16 +284,6 @@ const display = (props: Props) => {
                   }}
                   options={tokens}
                   name="token"
-                  styles={{
-                    control: (base, state) => ({
-                      ...base,
-                      '&:hover': {
-                        border: '2px solid #001C32'
-                      },
-                      border: '2px solid #C8C8D4',
-                      boxShadow: 'none'
-                    }),
-                  }}
                 />
               </div>
             </Grid>
@@ -303,10 +298,14 @@ const display = (props: Props) => {
 
             <Grid item container xs={6}>
 
-              <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={2}>
-                <label htmlFor="amount">{OrderBookConfig.amount}</label>
+              <Grid item container className={classes.formLabel} justify="flex-start" alignItems="center" xs={4}>
+                <label htmlFor="amount">
+                  <Typography variant="body1">
+                    {OrderBookConfig.amount}
+                  </Typography>
+                </label>
               </Grid>
-              <Grid item container xs={10}>
+              <Grid item container xs={8}>
                 <TextField
                   fullWidth
                   size="small"
@@ -327,17 +326,19 @@ const display = (props: Props) => {
 
             <Grid item container xs={6}>
 
-              <Grid item container className={classes.formLabel} justify="flex-end" alignItems="center" xs={2}>
+              <Grid item container className={classes.formLabel} justify="center" alignItems="center" xs={4}>
                 <label
                   htmlFor="price"
                   style={{
                     paddingRight: "8px"
                   }}
                 >
-                  {OrderBookConfig.price}
+                  <Typography variant="body1">
+                    {OrderBookConfig.price}
+                  </Typography>
                 </label>
               </Grid>
-              <Grid item container xs={10}>
+              <Grid item container xs={8}>
                 <TextField
                   fullWidth
                   size="small"

@@ -150,7 +150,7 @@ let theme = createMuiTheme ({
     body1: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1.3em",
+        fontSize: "1.5em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
@@ -279,7 +279,17 @@ const themeStyles = makeStyles({
       borderRadius: '5px',
       background: 'linear-gradient(#FFFFFF, #FFFFFF)',
       color: "#001C32",
-      padding: theme.spacing(0.5)
+      padding: theme.spacing(0.5),
+      fontWeight: 400,
+      fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
+      [breakpoints.up('xs')]: {
+        lineHeight: '1.5',
+        fontSize: "1.2em"
+      },
+      [breakpoints.up('lg')]: {
+        lineHeight: '1.5',
+        fontSize: "1em"
+      }
     },
     "& .MuiInputBase-input:focus": {
       border: '2px solid #001C32',
@@ -354,6 +364,21 @@ const themeStyles = makeStyles({
       width: "100%",
       position: 'absolute',
       bottom: '0'
+    }
+  },
+  select: {
+    border: '2px solid #C8C8D4',
+    boxShadow: 'none',
+    '&:hover': {
+      border: '2px solid #001C32'
+    },
+    [breakpoints.up('xs')]: {
+      lineHeight: '1.6',
+      fontSize: "1.4em"
+    },
+    [breakpoints.up('lg')]: {
+      lineHeight: '1.5',
+      fontSize: "1em"
     }
   },
   details: {
