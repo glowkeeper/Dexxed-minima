@@ -57,7 +57,7 @@ let theme = createMuiTheme ({
     h2: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
-        fontSize: "2.2em",
+        fontSize: "2em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -89,7 +89,7 @@ let theme = createMuiTheme ({
     h4: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1.3em",
+        fontSize: "1.9em",
         fontWeight: 700,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#91919D'
@@ -106,7 +106,7 @@ let theme = createMuiTheme ({
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
         fontSize: "1.2em",
-        fontWeight: 700,
+        fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#FFFFFF'
       },
@@ -121,7 +121,7 @@ let theme = createMuiTheme ({
     h6: {
       [breakpoints.up('xs')]: {
         lineHeight: "1.5",
-        fontSize: "1.1em",
+        fontSize: "1.7em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#FFFFFF'
@@ -150,7 +150,7 @@ let theme = createMuiTheme ({
     body1: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1.1em",
+        fontSize: "1.3em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         color: '#001C32'
@@ -166,7 +166,7 @@ let theme = createMuiTheme ({
     body2: {
       [breakpoints.up('xs')]: {
         lineHeight: '1.5',
-        fontSize: "1.1em",
+        fontSize: "1.3em",
         fontWeight: 400,
         fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
         fontFeatureSettings: `'tnum' on`,
@@ -286,7 +286,7 @@ const themeStyles = makeStyles({
       paddingRight: theme.spacing(2),
       paddingLeft: theme.spacing(2),
       margin: "0",
-      height: "60px",
+      height: "100px",
       width: "100%",
       position: 'absolute',
       top: '0'
@@ -311,8 +311,8 @@ const themeStyles = makeStyles({
       overflow: 'auto',
       width: "100%",
       position: 'absolute',
-      bottom: '107px',
-      top: '60px'
+      bottom: '160px',
+      top: '100px'
     },
     [breakpoints.up('lg')]: {
       background: 'linear-gradient(#FAFAFF, #FAFAFF)',
@@ -333,7 +333,7 @@ const themeStyles = makeStyles({
       paddingLeft: theme.spacing(2),
       paddingTop: theme.spacing(1),
       margin: "0",
-      height: "107px",
+      height: "160px",
       width: "100%",
       position: 'absolute',
       bottom: '0'
@@ -378,20 +378,22 @@ const themeStyles = makeStyles({
       width: '50px'
     }
   },
-  downloadIcon: {
-    [breakpoints.up('xs')]: {
-      height: "25px",
-      width: '20px'
-    }
-  },
   cancelIcon: {
     [breakpoints.up('xs')]: {
+      height: "40px",
+      width: '50px'
+    },
+    [breakpoints.up('lg')]: {
       height: "20px",
-      width: '20px'
+      width: '25px'
     }
   },
   confirmIcon: {
     [breakpoints.up('xs')]: {
+      height: "40px",
+      width: '50px'
+    },
+    [breakpoints.up('lg')]: {
       height: "20px",
       width: '25px'
     }
@@ -402,48 +404,31 @@ const themeStyles = makeStyles({
       height: "100%"
     }
   },
-  helpIcon: {
+  headerIcon: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    fill: '#FFFFFF',
+    '&:active': {
+      fill: 'red',
+    },
     [breakpoints.up('xs')]: {
-      display: 'flex',
-      justifyContent: 'flex-start',
-      height: "40px",
-      width: '40px'
+      height: "60px",
+      width: '60px'
     },
     [breakpoints.up('lg')]: {
-      display: 'flex',
-      justifyContent: 'flex-start',
       height: "26px",
       width: '26px'
     }
   },
-  contactIcon: {
+  headerActiveIcon: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    fill: 'red',
     [breakpoints.up('xs')]: {
-      marginRight: theme.spacing(2),
-      marginLeft: theme.spacing(2),
-      display: 'flex',
-      justifyContent: 'center',
-      height: "40px",
-      width: '40px'
+      height: "60px",
+      width: '60px'
     },
     [breakpoints.up('lg')]: {
-      marginRight: theme.spacing(2),
-      marginLeft: theme.spacing(2),
-      display: 'flex',
-      justifyContent: 'center',
-      height: "26px",
-      width: '26px'
-    }
-  },
-  aboutIcon: {
-    [breakpoints.up('xs')]: {
-      display: 'flex',
-      justifyContent: 'flex-end',
-      height: "40px",
-      width: '40px'
-    },
-    [breakpoints.up('lg')]: {
-      display: 'flex',
-      justifyContent: 'flex-end',
       height: "26px",
       width: '26px'
     }
@@ -455,19 +440,38 @@ const themeStyles = makeStyles({
     }
   },
   footerIcon: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    fill: '#FFFFFF',
+    '&:active': {
+      fill: 'red',
+    },
     [breakpoints.up('xs')]: {
-      height: "45px",
-      width: '45px'
+      height: "60px",
+      width: '60px'
     },
     [breakpoints.up('lg')]: {
       height: "30px",
       width: '30px'
     }
   },
-  headerIcon: {
+  footerActiveIcon: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    fill: 'red',
     [breakpoints.up('xs')]: {
-      height: "15px",
-      width: '120px'
+      height: "60px",
+      width: '60px'
+    },
+    [breakpoints.up('lg')]: {
+      height: "26px",
+      width: '26px'
+    }
+  },
+  appNameIcon: {
+    [breakpoints.up('xs')]: {
+      height: "30px",
+      width: '250px'
     },
     [breakpoints.up('lg')]: {
       height: "10px",
@@ -478,24 +482,6 @@ const themeStyles = makeStyles({
     [breakpoints.up('xs')]: {
       height: "25px",
       width: '25px'
-    }
-  },
-  appNameIconContainer: {
-    [breakpoints.up('xs')]: {
-      position: "relative",
-      top: "0",
-      left: "0",
-      height: "50px",
-      width: '208px'
-    }
-  },
-  appNameIcon: {
-    [breakpoints.up('xs')]: {
-      position: "absolute",
-      bottom: "0",
-      left: "0",
-      height: "25px",
-      width: '168px'
     }
   },
   linkIcon: {

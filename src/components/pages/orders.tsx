@@ -209,8 +209,6 @@ const display = (props: Props) => {
                       disabled={isDisabled[index]}
                       style={{
                         textTransform: 'none',
-                        fontSize: "1em",
-                        lineHeight: "1",
                         color: colour
                       }}
                     >

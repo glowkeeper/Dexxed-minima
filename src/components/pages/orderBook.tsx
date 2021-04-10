@@ -230,8 +230,6 @@ const display = (props: Props) => {
           disableElevation={true}
           style={{
             textTransform: 'none',
-            fontSize: "1em",
-            lineHeight: "1",
             backgroundColor: `${tradeColours[0]}`,
             width: "100%",
             borderRadius: 0,
@@ -251,8 +249,6 @@ const display = (props: Props) => {
           disableElevation={true}
           style={{
             textTransform: 'none',
-            fontSize: "1em",
-            lineHeight: "1",
             backgroundColor: `${tradeColours[1]}`,
             width: "100%",
             borderRadius: 0,
@@ -370,8 +366,6 @@ const display = (props: Props) => {
               variant="contained"
               style={{
                 textTransform: 'none',
-                fontSize: "1em",
-                lineHeight: "1",
                 backgroundColor: isBuy ? `${OrderBookConfig.buyColour}` : `${OrderBookConfig.sellColour}`,
                 width: "100%",
                 borderRadius: 0,
@@ -393,8 +387,6 @@ const display = (props: Props) => {
           disableElevation={true}
           style={{
             textTransform: 'none',
-            fontSize: "1em",
-            lineHeight: "1",
             backgroundColor: `${bookColours[0]}`,
             width: "100%",
             borderRadius: 0,
@@ -414,8 +406,6 @@ const display = (props: Props) => {
           disableElevation={true}
           style={{
             textTransform: 'none',
-            fontSize: "1em",
-            lineHeight: "1",
             backgroundColor: `${bookColours[1]}`,
             width: "100%",
             borderRadius: 0,
@@ -487,7 +477,7 @@ const display = (props: Props) => {
                   className={classes.cancelIcon}
                 />
               </IconButton>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <IconButton
                 onClick={() => doOrder()}
                 color="primary"

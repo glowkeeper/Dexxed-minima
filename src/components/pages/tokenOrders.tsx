@@ -386,8 +386,6 @@ const display = (props: Props) => {
                                 width: "100%",
                                 backgroundColor: rowColour,
                                 textTransform: 'none',
-                                fontSize: "1em",
-                                lineHeight: "1",
                                 borderRadius: 0,
                                 padding: 0
                               }}
@@ -459,8 +457,6 @@ const display = (props: Props) => {
                             width: "100%",
                             backgroundColor: rowColour,
                             textTransform: 'none',
-                            fontSize: "1em",
-                            lineHeight: "1",
                             borderRadius: 0,
                             padding: 0
                           }}
@@ -537,7 +533,7 @@ const display = (props: Props) => {
                   className={classes.cancelIcon}
                 />
               </IconButton>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <IconButton
                 onClick={() => doTakeOrder()}
                 color="primary"
