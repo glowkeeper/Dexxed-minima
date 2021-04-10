@@ -368,7 +368,11 @@ const themeStyles = makeStyles({
   },
   select: {
     border: '2px solid #C8C8D4',
-    boxShadow: 'none',
+    borderRadius: '5px',
+    background: 'linear-gradient(#FFFFFF, #FFFFFF)',
+    color: "#001C32",
+    fontWeight: 400,
+    fontFamily: "\"Manrope\", \"Roboto\", \"Arial\", \"sans-serif\"",
     '&:hover': {
       border: '2px solid #001C32'
     },
