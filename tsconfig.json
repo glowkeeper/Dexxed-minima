@@ -2,7 +2,7 @@
   "compilerOptions": {
     "sourceMap": true,
     "target": "ES6",
-    "jsx": "Preserve",
+    "jsx": "preserve",
     "module": "ES6",
     "moduleResolution": "node",
     "experimentalDecorators": true,

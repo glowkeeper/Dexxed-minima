@@ -6,8 +6,6 @@ import Typography from '@material-ui/core/Typography'
 
 import Spinner from 'react-spinner-material'
 
-import { TokenOrders } from './TokenOrders'
-
 import {
   Trades as TradesConfig,
   Misc

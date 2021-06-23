@@ -2,6 +2,8 @@ const path = require('path')
 const fs = require('fs')
 const webpack = require('webpack')
 const htmlWebpackPlugin = require('html-webpack-plugin')
+
+const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const htmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const { CheckerPlugin } = require('awesome-typescript-loader')
